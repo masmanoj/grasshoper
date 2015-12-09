@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dashboard">
+	<head>
+	    <title>Dashboard</title>
+	    <link rel="shortcut icon" href="images/favicon.ico" />
+	    <!-- Bootstrap -->
+	    <link href="styles/bootstrap.min.css" rel="stylesheet">
+		<link href="styles/custom.css" rel="stylesheet">
+		<link href="styles/fa/css/font-awesome-4.4.0.min.css" rel="stylesheet">
+		<link href='styles/fonts.css' rel='stylesheet' type='text/css'>
+	</head>
+	<body data-ng-controller="DashBoardMainController" style="font-family:'Raleway';">
+	 <!--Loader -->
+		<div id = "loaderDiv" data-ng-hide="domReady" style="position: absolute;  background:#4C6B4D; top:0; left:0; bottom:0; right:0; height:100%; width:100%;">
+		    <div style="width:100%; color:#fff; text-align: center;  height:100%; font-family:'Raleway';">
+		        <div class="text-center" style="margin:auto; margin-top:14%;">
+	            <span class="fa fa-cog fa-spin fa-3x"></span>
+	          	<p style="font-size:16px; font-weight:300;">Please wait ... </p></div>
+	    	</div>
+		</div>
+
+		<div data-ng-show="domReady" class="container-fluid login-container">
+			<div class="jumbotron"><h1>Welcome to the Dashboard!</h1>
+			<div style="padding-top: 4%;">
+        	<div calss="row">
+        		<div class="col-md-8"> </div>
+        		<div class="jumbotron col-md-4" style="box-shadow: 0 0 15px #eee;">
+        			<div class="alert alert-success">Login here to proceed..</div>
+        			<form role="form" class="login-form" name="loginform" >
+	        			<div class="form-group">
+                            <input ng-autofocus="true" type="text" data-ng-model="authCredentials.username" placeholder="User Name" class="form-control" required id="uid" ng-on-enter="authenticate()" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" data-ng-model="authCredentials.password" placeholder="Password" class="input form-control"  required id="pwd" ng-on-enter="authenticate()">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block" data-ng-click="authenticate()" id="login-button">Log In</button>
+        			</form>
+        			<br><br>
+        		</div>
+        	</div>
+        	</div>
+        	</div>
+		</div>
+
+		<div class='container' style="font-family:'Raleway';">
+			<div ng-view></div>
+		</div>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		
+		<script src="bower_components/angular/angular.min.js"></script>
+	    <script src="bower_components/angularjs-file-upload/angular-file-upload.min.js"></script>
+		<script src="bower_components/angular-route/angular-route.min.js"></script>
+		<script src="bower_components/underscore/underscore-min.js"></script>
+	    <script src="bower_components/restangular/dist/restangular.min.js"></script>
+	    <script src="scripts/dashboard.js"></script>
+	    <script src="scripts/controllers/controllers.js"></script>
+	    <script type='text/javascript' data-main="scripts/loader.js" src='bower_components/requirejs/require.js'></script>
+	    <script src="scripts/controllers/DashBoardMainController.js"></script>
+	    <script src="scripts/services/services.js"></script>
+	    <script src="scripts/services/SessionMgr.js"></script>
+	    <script type="text/javascript">
+			$(document).ready(function(){
+				$('#loaderDiv').fadeOut();
+			});
+		</script>
+	 </body>
+</html>
