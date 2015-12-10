@@ -9,12 +9,22 @@ html, body, form{ width:100%; height: 100%; min-height: 100%;}
     position: absolute;
     top: 0;    
 }
-
+.fullscreen {
+   height: 100%;
+ }
 .login-container{
 	position: absolute;
     left:0;
+    top:0;
     background: #4C6B4D;
     width: 100%;
     height: 100%;
     margin: 0;
+}
+.login-footer{
+        position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    COLOR: #FFF;
 }

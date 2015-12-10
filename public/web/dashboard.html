@@ -19,13 +19,13 @@
 	    	</div>
 		</div>
 
-		<div data-ng-show="domReady" class="container-fluid login-container">
+		<div data-ng-hide="(!domReady || currentSession.user != null)" class="container-fluid login-container">
 			<div class="jumbotron"><h1>Welcome to the Dashboard!</h1>
 			<div style="padding-top: 4%;">
         	<div calss="row">
         		<div class="col-md-8"> </div>
         		<div class="jumbotron col-md-4" style="box-shadow: 0 0 15px #eee;">
-        			<div class="alert alert-success">Login here to proceed..</div>
+        			<div class="alert alert-primary">Login here to proceed..</div>
         			<form role="form" class="login-form" name="loginform" >
 	        			<div class="form-group">
                             <input ng-autofocus="true" type="text" data-ng-model="authCredentials.username" placeholder="User Name" class="form-control" required id="uid" ng-on-enter="authenticate()" autocomplete="off">
@@ -40,11 +40,49 @@
         	</div>
         	</div>
         	</div>
+        	<div class= "login-footer">&copy; Masmatrics, All Rights are reserved</div>
 		</div>
 
-		<div class='container' style="font-family:'Raleway';">
-			<div ng-view></div>
+		<div style="position: fixed; top:0; left:0; bottom:0; right:0; height:100%; width:100%;" id="main" data-ng-hide="currentSession.user == null">
+			<nav class="navbar navbar-default ">
+  				<div class="container-fluid">
+  					<div class="navbar-header">
+				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					        <span class="sr-only">Toggle navigation</span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+				      </button>
+				      <a class="navbar-brand" href="#">Dashboard</a>
+				    </div>
+
+				    <ul class="nav navbar-nav navbar-right">
+				        <li ><a class="center-block" href="#" style=""><strong><i class="fa fa-flag"></i> Orders <span class="badge">0</span></strong></a></li>
+				        <li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="#">Products</a></li>
+				            <li><a href="#">Past Orders</a></li>
+				          </ul>
+				        </li>
+				        <li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> {{currentSession.user.name}} <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="#"><i class="fa fa-question"></i> Help</a></li>
+				            <li><a href="#"><i class="fa fa-cog"></i> User Settings</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a ng-click="logout();"><i class="fa fa-sign-out"></i> Log out</a></li>
+				          </ul>
+				        </li>
+				    </ul>
+  				</div>
+  			</nav>
+			<div style="font-family:'Raleway';">
+				<div ng-view></div>
+			</div>
 		</div>
+
+		
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		
@@ -59,6 +97,7 @@
 	    <script src="scripts/controllers/DashBoardMainController.js"></script>
 	    <script src="scripts/services/services.js"></script>
 	    <script src="scripts/services/SessionMgr.js"></script>
+	    <script src="scripts/controllers/HomeController.js"></script>
 	    <script type="text/javascript">
 			$(document).ready(function(){
 				$('#loaderDiv').fadeOut();

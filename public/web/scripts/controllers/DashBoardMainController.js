@@ -2,6 +2,11 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
 	function(scope, $http,  $rootScope, Restangular, SessionMgr){
 		scope.domReady = true;
 
+		scope.authCredentials = {
+			username : 'masmatrics',
+			password : 'asd123'
+		}
+
 		scope.authenticate = function(){
 			console.log(scope.authCredentials);
 			Restangular.all("authentication").post(scope.authCredentials)
@@ -14,6 +19,10 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
 				  	console.log(data);
 				  	console.log(scope.currentSession);
 				});
+		};
+		scope.logout = function(){
+			scope.currentSession = null;
+			SessionMgr.get(null);
 		}
 
 	}

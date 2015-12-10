@@ -16,7 +16,7 @@ angular.module('dashboard.services', []).service('SessionMgr',[ '$rootScope', 'R
                 name: data.name
             }
             Restangular.setDefaultHeaders({'Authorization': 'Custom '+data.sessionKey});
-            return user;
+            return {user: user};
         };
     }
     this.clear = function () {
