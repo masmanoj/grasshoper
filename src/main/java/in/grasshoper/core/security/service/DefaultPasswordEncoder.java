@@ -1,6 +1,6 @@
 package in.grasshoper.core.security.service;
 
-import in.grasshoper.user.domain.User;
+import in.grasshoper.core.security.domain.PublicUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -23,7 +23,7 @@ public class DefaultPasswordEncoder implements PlatformPasswordEncoder {
 	    }
 
 	    @Override
-	    public String encode(final User user) {
+	    public String encode(final PublicUser user) {
 	        return this.passwordEncoder.encodePassword(user.getPassword(), this.saltSource.getSalt(user));
 	    }
 }

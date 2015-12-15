@@ -9,9 +9,14 @@ import in.grasshoper.core.infra.JsonCommand;
 import in.grasshoper.core.security.domain.PublicUser;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -48,6 +53,9 @@ public class User extends AbstractPersistable<Long> implements PublicUser{
 	@Column(name = "is_public_user", nullable = false)
 	private boolean isPublicUser;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "g_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 	
 	public static User fromJson( final JsonCommand command) {
 		final String name = command.stringValueOfParameterNamed(NameParamName);

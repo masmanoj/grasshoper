@@ -5,6 +5,7 @@ angular.module('dashboard', [
 	'ngRoute',
  	'restangular',
  	'angularFileUpload',
+  'pascalprecht.translate',
  	'dashboard.controllers',
  	'dashboard.services'
 
@@ -30,4 +31,12 @@ angular.module('dashboard', [
         }
         return elem;
       });
+  }]).config(['$translateProvider', function($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+            prefix: 'global-translations/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.fallbackLanguage('en');
   }]);

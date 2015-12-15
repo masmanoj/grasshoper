@@ -1,7 +1,7 @@
 package in.grasshoper.core.exceptionmappers;
 
-import in.grasshoper.core.exception.AbstractResourceNotFoundException;
 import in.grasshoper.core.exception.PlatformException;
+import in.grasshoper.core.exception.ResourceNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     ResponseEntity<Object> handleControllerException(HttpServletRequest req, Throwable ex) {
 		Map<String,String> errorResponse = new HashMap<>();
-        if(ex instanceof AbstractResourceNotFoundException) {
+        if(ex instanceof ResourceNotFoundException) {
         	populateErrorResponseMessage(errorResponse,(PlatformException) ex);
             return new ResponseEntity<Object>(errorResponse, HttpStatus.NOT_FOUND);
         } else if(ex instanceof DataAccessException) {

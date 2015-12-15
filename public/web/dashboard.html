@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="dashboard">
 	<head>
-	    <title>Dashboard</title>
+	    <title>{{'title.dashboard' | translate}}</title>
 	    <link rel="shortcut icon" href="images/favicon.ico" />
 	    <!-- Bootstrap -->
 	    <link href="styles/bootstrap.min.css" rel="stylesheet">
@@ -15,17 +15,17 @@
 		    <div style="width:100%; color:#fff; text-align: center;  height:100%; font-family:'Raleway';">
 		        <div class="text-center" style="margin:auto; margin-top:14%;">
 	            <span class="fa fa-cog fa-spin fa-3x"></span>
-	          	<p style="font-size:16px; font-weight:300;">Please wait ... </p></div>
+	          	<p style="font-size:16px; font-weight:300;">{{'msg.please.wait' | translate}} ... </p></div>
 	    	</div>
 		</div>
 
 		<div data-ng-hide="(!domReady || currentSession.user != null)" class="container-fluid login-container">
-			<div class="jumbotron"><h1>Welcome to the Dashboard!</h1>
+			<div class="jumbotron"><h1>{{'heading.login.welcome.to.dash.board' | translate}}</h1>
 			<div style="padding-top: 4%;">
         	<div calss="row">
         		<div class="col-md-8"> </div>
         		<div class="jumbotron col-md-4" style="box-shadow: 0 0 15px #eee;">
-        			<div class="alert alert-primary">Login here to proceed..</div>
+        			<div class="alert alert-success">Login here to proceed..</div>
         			<form role="form" class="login-form" name="loginform" >
 	        			<div class="form-group">
                             <input ng-autofocus="true" type="text" data-ng-model="authCredentials.username" placeholder="User Name" class="form-control" required id="uid" ng-on-enter="authenticate()" autocomplete="off">
@@ -40,6 +40,7 @@
         	</div>
         	</div>
         	</div>
+
         	<div class= "login-footer">&copy; Masmatrics, All Rights are reserved</div>
 		</div>
 
@@ -58,6 +59,12 @@
 
 				    <ul class="nav navbar-nav navbar-right">
 				        <li ><a class="center-block" href="#" style=""><strong><i class="fa fa-flag"></i> Orders <span class="badge">0</span></strong></a></li>
+				    	<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admin <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="#">User</a></li>
+				          </ul>
+				        </li>
 				        <li class="dropdown">
 				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage <span class="caret"></span></a>
 				          <ul class="dropdown-menu">
@@ -91,6 +98,8 @@
 		<script src="bower_components/angular-route/angular-route.min.js"></script>
 		<script src="bower_components/underscore/underscore-min.js"></script>
 	    <script src="bower_components/restangular/dist/restangular.min.js"></script>
+	    <script src="bower_components/angular-translate/angular-translate.min.js"></script>
+	    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 	    <script src="scripts/dashboard.js"></script>
 	    <script src="scripts/controllers/controllers.js"></script>
 	    <script type='text/javascript' data-main="scripts/loader.js" src='bower_components/requirejs/require.js'></script>
@@ -100,7 +109,7 @@
 	    <script src="scripts/controllers/HomeController.js"></script>
 	    <script type="text/javascript">
 			$(document).ready(function(){
-				$('#loaderDiv').fadeOut();
+				//$('#loaderDiv').fadeOut();
 			});
 		</script>
 	 </body>

@@ -74,7 +74,7 @@ public class Address extends AbstractPersistable<Long>{
 	
 	
 	
-	public static Address fromJson(final JsonCommand command){
+	public static Address fromJson(final User user, final JsonCommand command){
 		final String name = command.stringValueOfParameterNamed(NameParamName);
 		final String addressLine1 = command.stringValueOfParameterNamed(AddressLine1ParamName);
 		final String addressLine2 = command.stringValueOfParameterNamed(AddressLine2ParamName);
@@ -88,7 +88,7 @@ public class Address extends AbstractPersistable<Long>{
 		final BigDecimal latitude = command.bigDecimalValueOfParameterNamed(LatitudeParamName);
 		final BigDecimal longitude = command.bigDecimalValueOfParameterNamed(LongitudeParamName);
 		final Integer addressType = command.integerValueOfParameterNamed(AddressTypeParamName);
-		final User ownerUser = null;
+		final User ownerUser = user;
 		
 		return new Address(name, addressLine1, addressLine2, addressLine3, area, 
 				landmark, city, pin, contactNumber, extraInfo, latitude, 

@@ -33,11 +33,9 @@ public class AddressWriteServiceImpl implements AddressWriteService {
 	public CommandProcessingResult createAddress(final JsonCommand command){
 		this.dataValidator.validateForCreate(command.getJsonCommand());
 		
-		final Address address =  Address.fromJson(command);
-		
 		final User thisUser = this.context.authenticatedUser();
-		
-		address.updateOwnerUser(thisUser);
+		final Address address =  Address.fromJson(thisUser, command);
+
 		this.addressRepository.save(address);
 		
 		return new CommandProcessingResultBuilder().withResourceIdAsString(

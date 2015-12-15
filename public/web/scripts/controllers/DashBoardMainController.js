@@ -1,5 +1,5 @@
-angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', 
-	function(scope, $http,  $rootScope, Restangular, SessionMgr){
+angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', '$translate',
+	function(scope, $http,  $rootScope, Restangular, SessionMgr, $translate){
 		scope.domReady = true;
 
 		scope.authCredentials = {
@@ -22,7 +22,12 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
 		};
 		scope.logout = function(){
 			scope.currentSession = null;
-			SessionMgr.get(null);
+			Restangular.all("authentication/logout").post()
+			    .then(function(data) {
+			  		//scope.currentSession = null;
+					SessionMgr.get(data);
+				});
+			
 		}
 
 	}

@@ -1,9 +1,9 @@
 package in.grasshoper.core.security.service;
 
-import in.grasshoper.user.domain.User;
+import in.grasshoper.core.security.domain.PublicUser;
 
 public interface PlatformPasswordEncoder {
 
-	String encode(User user);
+	String encode(PublicUser user);
 
 }
