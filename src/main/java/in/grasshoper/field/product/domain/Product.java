@@ -9,13 +9,18 @@ import static in.grasshoper.field.product.productConstants.NameParamName;
 import static in.grasshoper.field.product.productConstants.QuantityParamName;
 import static in.grasshoper.field.product.productConstants.QuantityUnitParamName;
 import in.grasshoper.core.infra.JsonCommand;
+import in.grasshoper.field.tag.domain.SubTag;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,11 +46,15 @@ public class Product extends AbstractPersistable<Long>{
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
 	
+	@ManyToMany
+	@JoinTable(name = "g_product_packing_styles", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "style_id"))
+	private Set<SubTag> packingStyles;  
+	
 	protected Product(){}
 
-	private Product(String name, String desc0, String desc1, String desc2,
-			BigDecimal quantity, String quantityUnit, Boolean isSoldOut,
-			Boolean isActive) {
+	private Product(final String name, final String desc0, final String desc1, final String desc2,
+			final BigDecimal quantity, final String quantityUnit, final Boolean isSoldOut,
+			final Boolean isActive, final Set<SubTag> packingStyles) {
 		super();
 		this.name = name;
 		this.desc0 = desc0;
@@ -55,10 +64,11 @@ public class Product extends AbstractPersistable<Long>{
 		this.quantityUnit = quantityUnit;
 		this.isSoldOut = isSoldOut;
 		this.isActive = isActive;
+		this.packingStyles = packingStyles;
 	}
 	
 	
-	public static Product fromJson(final JsonCommand command) {
+	public static Product fromJson(final JsonCommand command, final Set<SubTag> packingStyles) {
         final String name = command.stringValueOfParameterNamed(NameParamName);
         final String desc0 = command.stringValueOfParameterNamed(Desc0ParamName);
         final String desc1 = command.stringValueOfParameterNamed(Desc1ParamName);
@@ -67,7 +77,7 @@ public class Product extends AbstractPersistable<Long>{
         final String quantityUnit = command.stringValueOfParameterNamed(QuantityUnitParamName);
         final Boolean isSoldOut = command.booleanValueOfParameterNamed(IsSoldOutParamName);
         final Boolean isActive = command.booleanValueOfParameterNamed(IsActiveParamName);
-        return new Product(name, desc0, desc1, desc2, quantity, quantityUnit, isSoldOut, isActive);
+        return new Product(name, desc0, desc1, desc2, quantity, quantityUnit, isSoldOut, isActive, packingStyles);
     }
 	
 
@@ -75,28 +85,28 @@ public class Product extends AbstractPersistable<Long>{
 
         final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
         if (command.isChangeInStringParameterNamed(NameParamName, this.name)) {
-        	final String newValue = command.stringValueOfParameterNamed(NameParamName);
+            final String newValue = command.stringValueOfParameterNamed(NameParamName);
             actualChanges.put(NameParamName, newValue);
             actualChanges.put(NameParamName + "_old", this.name);
             this.name = StringUtils.defaultIfEmpty(newValue, null);
         }
         
         if (command.isChangeInStringParameterNamed(Desc0ParamName, this.desc0)) {
-        	final String newValue = command.stringValueOfParameterNamed(Desc0ParamName);
+            final String newValue = command.stringValueOfParameterNamed(Desc0ParamName);
             actualChanges.put(Desc0ParamName, newValue);
             actualChanges.put(Desc0ParamName + "_old", this.desc0);
             this.desc0 = StringUtils.defaultIfEmpty(newValue, null);
         }
         
         if (command.isChangeInStringParameterNamed(Desc1ParamName, this.desc1)) {
-        	final String newValue = command.stringValueOfParameterNamed(Desc1ParamName);
+            final String newValue = command.stringValueOfParameterNamed(Desc1ParamName);
             actualChanges.put(Desc1ParamName, newValue);
             actualChanges.put(Desc1ParamName + "_old", this.desc1);
             this.desc1 = StringUtils.defaultIfEmpty(newValue, null);
         }
         
         if (command.isChangeInStringParameterNamed(Desc2ParamName, this.desc2)) {
-        	final String newValue = command.stringValueOfParameterNamed(Desc2ParamName);
+            final String newValue = command.stringValueOfParameterNamed(Desc2ParamName);
             actualChanges.put(Desc2ParamName, newValue);
             actualChanges.put(Desc2ParamName + "_old", this.desc2);
             this.desc2 = StringUtils.defaultIfEmpty(newValue, null);
@@ -110,7 +120,7 @@ public class Product extends AbstractPersistable<Long>{
         }
         
         if (command.isChangeInStringParameterNamed(QuantityUnitParamName, this.quantityUnit)) {
-        	final String newValue = command.stringValueOfParameterNamed(QuantityUnitParamName);
+            final String newValue = command.stringValueOfParameterNamed(QuantityUnitParamName);
             actualChanges.put(QuantityUnitParamName, newValue);
             actualChanges.put(QuantityUnitParamName + "_old", this.quantityUnit);
             this.quantityUnit = StringUtils.defaultIfEmpty(newValue, null);
@@ -124,7 +134,7 @@ public class Product extends AbstractPersistable<Long>{
         }
         
         if (command.isChangeInBooleanParameterNamed(IsActiveParamName, this.isActive)) {
-        	final Boolean newValue = command.booleanValueOfParameterNamed(IsActiveParamName);
+            final Boolean newValue = command.booleanValueOfParameterNamed(IsActiveParamName);
             actualChanges.put(IsActiveParamName, newValue);
             actualChanges.put(IsActiveParamName + "_old", this.isActive);
             this.isActive = newValue;

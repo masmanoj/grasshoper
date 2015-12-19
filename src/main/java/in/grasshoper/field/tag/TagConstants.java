@@ -7,8 +7,8 @@ public interface TagConstants {
 	
 	
 	/*subtag*/
-	String SubTagParamName = "subtag";
-	String DisplayOrderParamName = "displayorder";
+	String SubTagParamName = "subTag";
+	String DisplayOrderParamName = "displayOrder";
 	
 	
 }

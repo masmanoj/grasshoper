@@ -1,5 +1,5 @@
-angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', '$translate',
-	function(scope, $http,  $rootScope, Restangular, SessionMgr, $translate){
+angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', '$translate','$location',
+	function(scope, $http,  $rootScope, Restangular, SessionMgr, $translate, location){
 		scope.domReady = true;
 
 		scope.authCredentials = {
@@ -14,6 +14,7 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
 			  		if(data.authenticated){
 			  			if (SessionMgr.get(data)) {
                         	scope.currentSession = SessionMgr.get(data);
+                        	location.path( "/main" );
                         }
 			  		}
 				  	console.log(data);

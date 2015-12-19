@@ -1,0 +1,76 @@
+<div class="content" ng-controller="TagsController">
+	<ol class="breadcrumb" style= "margin-bottom:0px; background-color:none;">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.tags'|translate}}</li>
+	</ol>
+	<div class="page-header">
+	  <h2>{{'heading.page.admin.tags'|translate}} <small></small></h2>
+	</div>
+
+	<div class="row page-row">
+		<div class="col-md-5" style="border-right:1px dotted #ccc;">
+	        <h4><strong>{{'heading.page.admin.tags'|translate}}</strong> <div class="pull-right"> <i class="btn fa fa-plus" ng-click="addNew(tags)"></i></div></h4>
+			<table class="table table-hover" >
+		    <thead>
+		      <tr>
+		        <th>{{'heading.table.tag'|translate}}</th>
+		        <th>{{'heading.table.label'|translate}}</th>
+		        <th></th>
+		        <th></th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat = "tagObj in tags track by $index" ng-class="{active : tagObj.active}">
+		        <td ng-hide="tagObj.edit" class = "pointer" ng-click ="showSubtag($index)">{{tagObj.tag}}</td>
+		        <td ng-hide="tagObj.edit" class = "pointer" ng-click ="showSubtag($index)">{{tagObj.label}}</td>
+		        <td ng-hide="tagObj.edit"><i class="btn fa fa-pencil" ng-click = "tagObj.edit = true;"></i></td>
+		        <td ng-hide="tagObj.edit"><i class="btn fa fa-trash" ng-click = "deleteTag($index)"></i></td>
+		        <td ng-show="tagObj.edit">
+		        	<input class="form-control" type="text" name="tag" ng-model="tagObj.tag" required>
+		        </td>
+		        <td ng-show="tagObj.edit">
+		        	<input class="form-control" type="text" name="tag" ng-model="tagObj.label" required>
+		        </td>
+		        <td ng-show="tagObj.edit"><button class="btn btn-primary" ng-click="saveTag($index)">Save </button></td>
+		        <td ng-show="tagObj.edit"> <i class="btn fa fa-close" ng-click = "cancelOrRemove(tags,$index)"></i></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+		<div class="col-md-7">
+			<h4><strong>{{'heading.page.subtags'|translate}}</strong> <div class="pull-right"> <i class="btn fa fa-plus" ng-click="addNew(subtags)"></i></div></h4>
+			<table class="table table-stripped">
+		    <thead>
+		      <tr>
+		        <th>{{'heading.table.subtag'|translate}}</th>
+		        <th>{{'heading.table.label'|translate}}</th>
+		        <th>{{'heading.table.subtag.display.order'|translate}}</th>
+		        <th></th>
+		        <th></th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat = "subagObj in subtags">
+		        <td ng-hide="subagObj.edit">{{subagObj.subTag}}</td>
+		        <td ng-hide="subagObj.edit">{{subagObj.label}}</td>
+		        <td ng-hide="subagObj.edit">{{subagObj.displayOrder}}</td>
+		        <td ng-hide="subagObj.edit"><i class="fa fa-pencil" ng-click= "subagObj.edit = true;"></i></td>
+		        <td ng-hide="subagObj.edit"><i class="btn fa fa-trash" ng-click = "deleteSubTag($index)"></i></td>
+		        <td ng-show="subagObj.edit">
+		        	<input class="form-control" type="text" name="subTag" ng-model="subagObj.subTag" required>
+		        </td>
+		        <td ng-show="subagObj.edit">
+		        	<input class="form-control" type="text" name="label" ng-model="subagObj.label" required>
+		        </td>
+		        <td ng-show="subagObj.edit">
+		        	<input class="form-control" type="text" name="displayOrder" ng-model="subagObj.displayOrder" required>
+		        </td>
+		        <td ng-show="subagObj.edit"><button class="btn btn-primary" ng-click="saveSubTag($index)">Save</button></td>
+		        <td ng-show="subagObj.edit"> <i class="btn fa fa-close" ng-click = "cancelOrRemove(subtags,$index)"></i></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+		</div>
+	</div>
+</div>

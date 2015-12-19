@@ -6,19 +6,23 @@ public class SubTagData {
 	private final String subTag;
 	private final String label;
 	private final Integer displayOrder;
+	private final String tag;
+	private final String taglabel;
 	private  SubTagData(final Long id, final Long tagId, final String subTag, final String label,
-			final Integer displayOrder) {
+			final Integer displayOrder, final String tag, final String tagLabel) {
 		super();
 		this.id = id;
 		this.tagId = tagId;
 		this.subTag = subTag;
 		this.label = label;
 		this.displayOrder = displayOrder;
+		this.tag = tag;
+		this.taglabel = tagLabel;
 	}
 	
-	public SubTagData createNew(final Long id, final Long tagId, final String subTag, final String label,
-			final Integer displayOrder){
-		return new SubTagData(id, tagId, subTag, label, displayOrder);
+	public static SubTagData createNew(final Long id, final Long tagId, final String subTag, final String label,
+			final Integer displayOrder, final String tag, final String tagLabel){
+		return new SubTagData(id, tagId, subTag, label, displayOrder, tag, tagLabel);
 	}
 
 	public Long getId() {
@@ -39,6 +43,14 @@ public class SubTagData {
 
 	public Integer getDisplayOrder() {
 		return this.displayOrder;
+	}
+
+	public String getTag() {
+		return this.tag;
+	}
+
+	public String getTaglabel() {
+		return this.taglabel;
 	}
 	
 	

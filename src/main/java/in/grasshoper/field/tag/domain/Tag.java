@@ -61,5 +61,7 @@ public class Tag extends AbstractPersistable<Long>{
         }       
         return actualChanges;
     }
-	
+	public boolean removeSubtag(final SubTag subTag){
+		return this.subTags.remove(subTag);
+	}
 }

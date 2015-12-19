@@ -76,4 +76,30 @@ public class TagWriteServiceImpl implements TagWriteService {
 							+ realCause.getMessage());
 		}
 	}
+	@Override
+	@Transactional
+	public CommandProcessingResult removeTag(final Long tagId) {
+		try {
+			// this.dataValidator.validateForUpdate(command.getJsonCommand());
+			final Tag tag = this.tagRepository.findOne(tagId);
+			if (tag == null) {
+				throw new ResourceNotFoundException(
+						"error.entity.tag.not.found", "Tag with id " + tagId
+								+ "not found", tagId);
+			}
+			
+			this.tagRepository.delete(tag);
+			
+
+			return new CommandProcessingResultBuilder() //
+					.withResourceIdAsString(tagId) //
+					.build();
+		} catch (DataIntegrityViolationException ex) {
+			final Throwable realCause = ex.getMostSpecificCause();
+			throw new PlatformDataIntegrityException(
+					"error.msg.unknown.data.integrity.issue",
+					"Unknown data integrity issue with resource: "
+							+ realCause.getMessage());
+		}
+	}
 }

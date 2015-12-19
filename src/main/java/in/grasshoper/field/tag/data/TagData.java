@@ -18,8 +18,9 @@ public class TagData {
 		this.subTags = subTags;
 	}
 	
-	public static TagData createNew(final Long id, final String tag, final String label){
-		return new TagData(id, tag, label, null);
+	public static TagData createNew(final Long id, final String tag, final String label,
+			final Collection<SubTagData> subTags){
+		return new TagData(id, tag, label, subTags);
 	}
 
 	public Long getId() {

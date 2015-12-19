@@ -80,4 +80,7 @@ public class SubTag extends AbstractPersistable<Long>{
         return actualChanges;
     }
 	
+	public Tag getTag(){
+		return this.tag;
+	}
 }

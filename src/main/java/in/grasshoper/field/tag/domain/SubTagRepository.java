@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface SubTagRepository  extends JpaRepository<SubTag, Long>, JpaSpecificationExecutor<SubTag> {
 
-	SubTag findByTagTagAndId(String tagTag, Long id);
+	//SubTag findByTagTagAndId(String tagTag, Long id);
 
 }

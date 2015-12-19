@@ -1,8 +1,36 @@
 {
+	"---titles----":"",
     "title.dashboard": "Dashboard",
-    "heading.login.welcome.to.dash.board":"Welcome to the Dashboard!",
 
+    "---headings----":"",
+    "heading.login.welcome.to.dash.board":"Welcome to the Dashboard!",
+    "heading.panel.main.dashboard": "Dashboard",
+    "heading.page.admin.tags" : "Tags",
+    "heading.page.subtags" : "Subtags",
+    "heading.table.tag" : "Tag",
+    "heading.table.label" : "Label",
+    "heading.table.subtag": "Subtag",
+    "heading.table.subtag.display.order":"Display Order",
+    "heading.page.admin.products":"Products",
+    "heading.page.admin.products.create":"Create New Product",
+    
+
+    "---anchors----":"",
+    "anchor.main":"Dashboard",
+    "anchor.main.users" : "Users",
+    "anchor.main.tags" : "Tags",
+    "anchor.main.products" : "Products",
+    "anchor.main.create.products":"Create Product",
+
+    "---mgs----":"",
     "msg.please.wait":"Please wait",
 
-    "heading.panel.main.dashboard": "Dashboard"
+    "---errors----":"",
+
+    "---label.button----":"",
+    "label.button.subtags" : "Subtags"
+
+    
+
+
 }

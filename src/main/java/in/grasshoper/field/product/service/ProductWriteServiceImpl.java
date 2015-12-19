@@ -7,8 +7,11 @@ import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.JsonCommand;
 import in.grasshoper.field.product.domain.Product;
 import in.grasshoper.field.product.domain.ProductRepository;
+import in.grasshoper.field.tag.domain.SubTag;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,8 +32,11 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 	@Transactional
 	public CommandProcessingResult createProduct(final JsonCommand command) {
 		try {
+			final Set<SubTag> packingStyles = new HashSet<>();
+			//get packing styles from command.
+			
 			// this.dataValidator.validateForCreate(command.getJsonCommand());
-			final Product product = Product.fromJson(command);
+			final Product product = Product.fromJson(command, packingStyles);
 			this.productRepository.save(product);
 
 			return new CommandProcessingResultBuilder().withResourceIdAsString(

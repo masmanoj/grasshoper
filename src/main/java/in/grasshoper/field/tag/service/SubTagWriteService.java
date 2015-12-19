@@ -7,6 +7,8 @@ public interface SubTagWriteService {
 
 	CommandProcessingResult createSubTag(JsonCommand command);
 
-	CommandProcessingResult updateTag(Long subTagId, JsonCommand command);
+	CommandProcessingResult updateSubTag(Long subTagId, JsonCommand command);
+
+	CommandProcessingResult removeSubTag(Long subTagId);
 
 }

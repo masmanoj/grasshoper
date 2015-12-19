@@ -58,7 +58,7 @@ public class SubTagWriteServiceImpl implements SubTagWriteService {
 	
 	@Override
 	@Transactional
-	public CommandProcessingResult updateTag(final Long subTagId,
+	public CommandProcessingResult updateSubTag(final Long subTagId,
 			final JsonCommand command) {
 		try {
 			// this.dataValidator.validateForUpdate(command.getJsonCommand());
@@ -78,6 +78,35 @@ public class SubTagWriteServiceImpl implements SubTagWriteService {
 					.withResourceIdAsString(subTagId) //
 					.withChanges(changes) //
 					.build();
+		} catch (DataIntegrityViolationException ex) {
+			final Throwable realCause = ex.getMostSpecificCause();
+			throw new PlatformDataIntegrityException(
+					"error.msg.unknown.data.integrity.issue",
+					"Unknown data integrity issue with resource: "
+							+ realCause.getMessage());
+		}
+	}
+	
+	@Override
+	@Transactional
+	public CommandProcessingResult removeSubTag(final Long subTagId) {
+		try {
+			// this.dataValidator.validateForUpdate(command.getJsonCommand());
+			final SubTag subTag = this.subTagRepository.findOne(subTagId);
+			if (subTag == null) {
+				throw new ResourceNotFoundException(
+						"error.entity.subtag.not.found", "Sub tag with id " + subTag
+								+ "not found", subTag);
+			}
+			
+			subTag.getTag().removeSubtag(subTag);
+			
+			this.tagRepository.saveAndFlush(subTag.getTag());
+			
+			
+			return new CommandProcessingResultBuilder() //
+			.withResourceIdAsString(subTagId) //
+			.build();
 		} catch (DataIntegrityViolationException ex) {
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(

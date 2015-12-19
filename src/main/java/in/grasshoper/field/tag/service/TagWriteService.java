@@ -9,4 +9,6 @@ public interface TagWriteService {
 
 	CommandProcessingResult updateTag(Long tagId, JsonCommand command);
 
+	CommandProcessingResult removeTag(Long tagId);
+
 }
