@@ -19,7 +19,7 @@
 	    	</div>
 		</div>
 
-		<div data-ng-hide="(!domReady || currentSession.user != null)" class="container-fluid login-container">
+		<div data-ng-hide="true||(!domReady || currentSession.user != null)" class="container-fluid login-container">
 			<div class="jumbotron"><h1>{{'heading.login.welcome.to.dash.board' | translate}}</h1>
 			<div style="padding-top: 4%;">
         	<div calss="row">
@@ -44,7 +44,7 @@
         	<div class= "login-footer">&copy; Masmatrics, All Rights are reserved</div>
 		</div>
 
-		<div style="position: fixed; top:0; left:0; bottom:0; right:0; height:100%; width:100%;" id="main" data-ng-hide="currentSession.user == null">
+		<div style="position: absolute; top:0; left:0; bottom:0; right:0; height:100%; width:100%; " id="main" data-ng-hide="false&&currentSession.user == null">
 			<nav class="navbar navbar-default " style= "margin-bottom:0px;">
   				<div class="container-fluid">
   					<div class="navbar-header">
@@ -111,6 +111,7 @@
 	    <script src="scripts/controllers/HomeController.js"></script>
 	    <script src="scripts/controllers/TagsController.js"></script>
 	    <script src="scripts/controllers/ProductsController.js"></script>
+	    <script src="scripts/controllers/CreateProductController.js"></script>
 	    <script type="text/javascript">
 			$(document).ready(function(){
 				$('#loaderDiv').fadeOut();

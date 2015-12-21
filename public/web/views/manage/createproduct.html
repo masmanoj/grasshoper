@@ -1,0 +1,98 @@
+<div class="content" ng-controller="CreateProductController">
+	<ol class="breadcrumb" style= "margin-bottom:0px; background-color:none;">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li><a href="#/manage/products" >{{'anchor.main.products'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.create.products'|translate}}</li>
+	   
+	</ol>
+	<section style="overflow:scroll">  
+		<div class="page-header">
+			<h2>{{'heading.page.admin.products.create' |translate}} <small></small></h2>
+		</div>
+		<form>
+			<fieldset>
+				<div class="row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-uniq.name' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "text" maxlength="15" ng-model="product.name" ng-disabled ="!isedit" required/>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.name' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "text" maxlength="150" ng-model="product.uniqueId" ng-disabled ="!isedit" required/>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.main.description' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "text" maxlength="350" ng-model="product.desc1" ng-disabled ="!isedit" required/>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.sub.description' |translate}}: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "text"  maxlength="350" ng-model="product.desc2" ng-disabled ="!isedit" />
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.line.description' |translate}}: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "text" maxlength="350" ng-model="product.desc3" ng-disabled ="!isedit" />
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.quantity.available' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "Number" required ng-model="product.quantity" ng-disabled ="!isedit" />
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.quantity.unit' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "text" maxlength="3" required  ng-model="product.unit" />
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.sold.out' |translate}}: </label>
+					<div class = "col-md-3">
+						<input class="pointer" title="{{'label.chk-create.product-product.is.active' |translate}}" type = "checkbox" ng-model="product.isSoldOut" ng-disabled ="!isedit" />
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.active' |translate}}: </label>
+					<div class = "col-md-3">
+						<input class="pointer" title="{{'label.chk-create.product-product.is.active' |translate}}" type = "checkbox" ng-model="product.isActive" ng-disabled ="!isedit"/>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<div class = "col-md-3"> </div>
+					<div class = "col-md-3">
+						<button class="btn btn-primary" ng-disabled ="!isedit" type="submit"> {{'label.button.submit' | translate}}</button>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+			</fieldset>
+			</form>
+	
+	</section>
+</div>

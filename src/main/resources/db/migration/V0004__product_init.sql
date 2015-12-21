@@ -31,6 +31,7 @@ VALUES
 -- g_product :  the products master table
 CREATE TABLE `g_product` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `product_uid` varchar(15) NOT NULL,
   `name` varchar(150) NOT NULL,
   `desc0` varchar(350) NOT NULL,
   `desc1` varchar(350) DEFAULT NULL,
@@ -40,7 +41,8 @@ CREATE TABLE `g_product` (
   `is_sold_out`  tinyint(1) NOT NULL DEFAULT '0',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
 
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+   UNIQUE KEY `uid` (`product_uid`)
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

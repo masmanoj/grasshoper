@@ -28,9 +28,22 @@
     "---errors----":"",
 
     "---label.button----":"",
-    "label.button.subtags" : "Subtags"
+    "label.button.subtags" : "Subtags",
+    "label.button.submit" : "Submit",
+
+    "---label.input----":"",
+    "label.txt-create.product-uniq.name":"Unique Number",
+    "label.txt-create.product-product.name":"Display Name",
+    "label.txt-create.product-product.main.description":"Main description",
+    "label.txt-create.product-product.sub.description":"Sub description",
+    "label.txt-create.product-product.line.description":"More description",
+    "label.txt-create.product-product.quantity.available":"Quantity available",
+    "label.txt-create.product-product.quantity.unit":"Quantity unit",
+    "label.chk-create.product-product.is.sold.out":"Is sold out",
+    "label.chk-create.product-product.is.active":"Is active",
+
 
     
 
-
+"-----":"----"
 }

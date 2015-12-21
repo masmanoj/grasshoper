@@ -29,6 +29,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 @Table(name = "g_product")
 public class Product extends AbstractPersistable<Long>{
+	@Column(name = "product_uid", nullable = false, length = 150)
+	private String productUid;
 	@Column(name = "name", nullable = false, length = 150)
 	private String name;
 	@Column(name = "desc0", nullable = false, length = 350)
