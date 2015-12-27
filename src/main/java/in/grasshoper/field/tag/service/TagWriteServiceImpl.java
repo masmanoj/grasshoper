@@ -38,6 +38,7 @@ public class TagWriteServiceImpl implements TagWriteService {
 					tag.getId()).build();
 
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",
@@ -69,6 +70,7 @@ public class TagWriteServiceImpl implements TagWriteService {
 					.withChanges(changes) //
 					.build();
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",
@@ -95,6 +97,7 @@ public class TagWriteServiceImpl implements TagWriteService {
 					.withResourceIdAsString(tagId) //
 					.build();
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",

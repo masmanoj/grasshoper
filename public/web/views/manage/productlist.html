@@ -9,4 +9,28 @@
 	  	 	<a class="btn btn-primary" href="#/product/createnew" >Create New</a>
 	  	 </div></h2>
 	</div>
+	<section>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Quantity</th>
+				<th>Is Active</th>
+				<th>Is Sold Out</th>
+				<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="pointer" ng-repeat="product in products" ng-click="viewProduct(product)">
+				<td>{{product.productUid}}</td>
+				<td>{{product.name}}</td>
+				<td>{{product.quantity}}</td>
+				<td><div ng-class ="{'active-indicator': product.isActive , 'inactive-indicator': !product.isActive}"> </div></td>
+				<td><div ng-class ="{'fa fa-battery-empty red': product.isSoldOut , 'fa fa-battery-full green': !product.isSoldOut}"> </div></td>
+				<td><i class="fa fa-play"></i></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
 </div>

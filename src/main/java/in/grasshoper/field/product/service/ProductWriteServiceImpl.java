@@ -43,6 +43,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 					product.getId()).build();
 
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",
@@ -74,6 +75,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 					.withChanges(changes) //
 					.build();
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",

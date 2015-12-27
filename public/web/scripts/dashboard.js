@@ -10,7 +10,8 @@ angular.module('dashboard', [
   'pascalprecht.translate',
   'router',
  	'dashboard.controllers',
- 	'dashboard.services'
+ 	'dashboard.services',
+  'ui.bootstrap'
 
   ])
   .config(['RestangularProvider', '$httpProvider', function(RestangularProvider, $httpProvider) {

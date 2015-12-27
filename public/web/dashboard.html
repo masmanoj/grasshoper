@@ -19,7 +19,7 @@
 	    	</div>
 		</div>
 
-		<div data-ng-hide="true||(!domReady || currentSession.user != null)" class="container-fluid login-container">
+		<div data-ng-hide="isTestMode||(!domReady || currentSession.user != null)" class="container-fluid login-container">
 			<div class="jumbotron"><h1>{{'heading.login.welcome.to.dash.board' | translate}}</h1>
 			<div style="padding-top: 4%;">
         	<div calss="row">
@@ -44,7 +44,7 @@
         	<div class= "login-footer">&copy; Masmatrics, All Rights are reserved</div>
 		</div>
 
-		<div style="position: absolute; top:0; left:0; bottom:0; right:0; height:100%; width:100%; " id="main" data-ng-hide="false&&currentSession.user == null">
+		<div style="position: absolute; top:0; left:0; bottom:0; right:0; height:100%; width:100%;  " id="main" data-ng-hide="!isTestMode&&currentSession.user == null">
 			<nav class="navbar navbar-default " style= "margin-bottom:0px;">
   				<div class="container-fluid">
   					<div class="navbar-header">
@@ -85,7 +85,7 @@
 				    </ul>
   				</div>
   			</nav>
-			<div style="font-family:'Raleway';">
+			<div style="font-family:'Raleway'; padding-left:10px; padding-right:10px;">
 				<div ng-view></div>
 			</div>
 		</div>
@@ -101,6 +101,7 @@
 	    <script src="bower_components/restangular/dist/restangular.min.js"></script>
 	    <script src="bower_components/angular-translate/angular-translate.min.js"></script>
 	    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+	    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 	    <script src="scripts/dashboard.js"></script>
 	    <script src="scripts/router.js"></script>
 	    <script src="scripts/controllers/controllers.js"></script>

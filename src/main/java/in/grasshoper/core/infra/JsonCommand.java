@@ -57,6 +57,11 @@ public final class JsonCommand {
 	public Boolean booleanValueOfParameterNamed(final String parameterName) {
 		return this.fromApiJsonHelper.extractBooleanNamed(parameterName, this.parsedCommand);
 	}
+	public Boolean booleanValueOfParameterNamedFalseIfNull(final String parameterName) {
+		return (null == this.fromApiJsonHelper.extractBooleanNamed(parameterName, this.parsedCommand)? false :
+			this.fromApiJsonHelper.extractBooleanNamed(parameterName, this.parsedCommand));
+			
+	}
 	
 	
 	private boolean differenceExists(final String baseValue, final String workingCopyValue) {
@@ -142,6 +147,13 @@ public final class JsonCommand {
         return isChanged;
     }
 
+    private static BigDecimal defaultToZeroIfNull(final BigDecimal value) {
+        BigDecimal result = value;
+        if (value == null) {
+            result = BigDecimal.ZERO;
+        }
+        return result;
+    }
     private static BigDecimal defaultToNullIfZero(final BigDecimal value) {
         BigDecimal result = value;
         if (value != null && BigDecimal.ZERO.compareTo(value) == 0) {
@@ -161,7 +173,10 @@ public final class JsonCommand {
     public BigDecimal bigDecimalValueOfParameterNamed(final String parameterName) {
         return this.fromApiJsonHelper.extractBigDecimalWithLocaleNamed(parameterName, this.parsedCommand);
     }
-
+    public BigDecimal bigDecimalValueOfParameterNamedZeroIfNull(final String parameterName) {
+        return defaultToZeroIfNull(this.fromApiJsonHelper.extractBigDecimalWithLocaleNamed(parameterName, this.parsedCommand));
+    }
+    
     public BigDecimal bigDecimalValueOfParameterNamed(final String parameterName, final Locale locale) {
         return this.fromApiJsonHelper.extractBigDecimalNamed(parameterName, this.parsedCommand, locale);
     }

@@ -36,8 +36,10 @@ CREATE TABLE `g_product` (
   `desc0` varchar(350) NOT NULL,
   `desc1` varchar(350) DEFAULT NULL,
   `desc2` varchar(350) DEFAULT NULL,
-  `quantity` decimal(19,6) NOT NULL DEFAULT '0.000000',
-  `quantity_unit` varchar(10) not NULL,
+  `quantity` decimal(19,6) DEFAULT '0.000000',
+  `quantity_unit` varchar(10) DEFAULT NULL,
+  `min_quantity` decimal(19,6) DEFAULT '0.000000',
+  `price_per_unit` decimal(19,6)  DEFAULT '0.000000',
   `is_sold_out`  tinyint(1) NOT NULL DEFAULT '0',
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
 

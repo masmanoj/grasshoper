@@ -13,6 +13,8 @@
     "heading.table.subtag.display.order":"Display Order",
     "heading.page.admin.products":"Products",
     "heading.page.admin.products.create":"Create New Product",
+    "heading.page.admin.products.view":"View Product",
+    "heading.page.admin.products.edit":"Edit Product",
     
 
     "---anchors----":"",
@@ -38,6 +40,8 @@
     "label.txt-create.product-product.sub.description":"Sub description",
     "label.txt-create.product-product.line.description":"More description",
     "label.txt-create.product-product.quantity.available":"Quantity available",
+    "label.txt-create.product-product.minimum.quantity":"Minimum quantity",
+    "label.txt-create.product-product.price.per.unit":"Price per unit",
     "label.txt-create.product-product.quantity.unit":"Quantity unit",
     "label.chk-create.product-product.is.sold.out":"Is sold out",
     "label.chk-create.product-product.is.active":"Is active",

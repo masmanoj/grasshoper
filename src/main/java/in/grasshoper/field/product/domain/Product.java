@@ -5,7 +5,10 @@ import static in.grasshoper.field.product.productConstants.Desc1ParamName;
 import static in.grasshoper.field.product.productConstants.Desc2ParamName;
 import static in.grasshoper.field.product.productConstants.IsActiveParamName;
 import static in.grasshoper.field.product.productConstants.IsSoldOutParamName;
+import static in.grasshoper.field.product.productConstants.MinimumQuantityParamName;
 import static in.grasshoper.field.product.productConstants.NameParamName;
+import static in.grasshoper.field.product.productConstants.PricePerUnitParamName;
+import static in.grasshoper.field.product.productConstants.ProductUidParamName;
 import static in.grasshoper.field.product.productConstants.QuantityParamName;
 import static in.grasshoper.field.product.productConstants.QuantityUnitParamName;
 import in.grasshoper.core.infra.JsonCommand;
@@ -39,10 +42,14 @@ public class Product extends AbstractPersistable<Long>{
 	private String desc1;
 	@Column(name = "desc2", length = 350)
 	private String desc2;
-	@Column(name = "quantity", nullable = false)
+	@Column(name = "quantity", nullable = true)
 	private BigDecimal quantity;
-	@Column(name = "quantity_unit", nullable = false, length = 10)
+	@Column(name = "quantity_unit", nullable = true, length = 10)
 	private String quantityUnit;
+	@Column(name = "price_per_unit", nullable = true)
+	private BigDecimal pricePerUnit;
+	@Column(name="min_quantity", nullable= true)
+	private BigDecimal minimumQuantity;
 	@Column(name = "is_sold_out", nullable = false)
 	private Boolean isSoldOut;
 	@Column(name = "is_active", nullable = false)
@@ -54,10 +61,12 @@ public class Product extends AbstractPersistable<Long>{
 	
 	protected Product(){}
 
-	private Product(final String name, final String desc0, final String desc1, final String desc2,
-			final BigDecimal quantity, final String quantityUnit, final Boolean isSoldOut,
-			final Boolean isActive, final Set<SubTag> packingStyles) {
+	private Product(final String productUid, final String name, final String desc0, final String desc1, 
+			final String desc2, final BigDecimal quantity, final String quantityUnit, final Boolean isSoldOut,
+			final Boolean isActive,final BigDecimal pricePerUnit, final BigDecimal minimumQuantity,
+			final Set<SubTag> packingStyles) {
 		super();
+		this.productUid = productUid;
 		this.name = name;
 		this.desc0 = desc0;
 		this.desc1 = desc1;
@@ -67,19 +76,25 @@ public class Product extends AbstractPersistable<Long>{
 		this.isSoldOut = isSoldOut;
 		this.isActive = isActive;
 		this.packingStyles = packingStyles;
+		this.pricePerUnit = pricePerUnit;
+		this.minimumQuantity = minimumQuantity;
 	}
 	
 	
 	public static Product fromJson(final JsonCommand command, final Set<SubTag> packingStyles) {
         final String name = command.stringValueOfParameterNamed(NameParamName);
+        final String productUid = command.stringValueOfParameterNamed(ProductUidParamName);
         final String desc0 = command.stringValueOfParameterNamed(Desc0ParamName);
         final String desc1 = command.stringValueOfParameterNamed(Desc1ParamName);
         final String desc2 = command.stringValueOfParameterNamed(Desc2ParamName);
-        final BigDecimal quantity = command.bigDecimalValueOfParameterNamed(QuantityParamName);
+        final BigDecimal quantity = command.bigDecimalValueOfParameterNamedZeroIfNull(QuantityParamName);
         final String quantityUnit = command.stringValueOfParameterNamed(QuantityUnitParamName);
-        final Boolean isSoldOut = command.booleanValueOfParameterNamed(IsSoldOutParamName);
-        final Boolean isActive = command.booleanValueOfParameterNamed(IsActiveParamName);
-        return new Product(name, desc0, desc1, desc2, quantity, quantityUnit, isSoldOut, isActive, packingStyles);
+        final Boolean isSoldOut = command.booleanValueOfParameterNamedFalseIfNull(IsSoldOutParamName);
+        final Boolean isActive = command.booleanValueOfParameterNamedFalseIfNull(IsActiveParamName);
+        final BigDecimal pricePerUnit = command.bigDecimalValueOfParameterNamedZeroIfNull(PricePerUnitParamName);
+        final BigDecimal minimumQuantity = command.bigDecimalValueOfParameterNamedZeroIfNull(MinimumQuantityParamName);
+        return new Product(productUid, name, desc0, desc1, desc2, quantity, quantityUnit, 
+        		isSoldOut, isActive, pricePerUnit, minimumQuantity, packingStyles);
     }
 	
 
@@ -140,6 +155,20 @@ public class Product extends AbstractPersistable<Long>{
             actualChanges.put(IsActiveParamName, newValue);
             actualChanges.put(IsActiveParamName + "_old", this.isActive);
             this.isActive = newValue;
+        }
+        
+        if (command.isChangeInBigDecimalParameterNamed(PricePerUnitParamName, this.pricePerUnit)) {
+        	final BigDecimal newValue = command.bigDecimalValueOfParameterNamed(PricePerUnitParamName);
+            actualChanges.put(PricePerUnitParamName, newValue);
+            actualChanges.put(PricePerUnitParamName + "_old", this.pricePerUnit);
+            this.pricePerUnit = newValue;
+        }
+        
+        if (command.isChangeInBigDecimalParameterNamed(MinimumQuantityParamName, this.minimumQuantity)) {
+        	final BigDecimal newValue = command.bigDecimalValueOfParameterNamed(MinimumQuantityParamName);
+            actualChanges.put(MinimumQuantityParamName, newValue);
+            actualChanges.put(MinimumQuantityParamName + "_old", this.minimumQuantity);
+            this.minimumQuantity = newValue;
         }
         return actualChanges;
 	}

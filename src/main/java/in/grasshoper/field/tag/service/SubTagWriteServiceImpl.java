@@ -48,6 +48,7 @@ public class SubTagWriteServiceImpl implements SubTagWriteService {
 					subtTag.getId()).build();
 
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",
@@ -79,6 +80,7 @@ public class SubTagWriteServiceImpl implements SubTagWriteService {
 					.withChanges(changes) //
 					.build();
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",
@@ -108,6 +110,7 @@ public class SubTagWriteServiceImpl implements SubTagWriteService {
 			.withResourceIdAsString(subTagId) //
 			.build();
 		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
 			final Throwable realCause = ex.getMostSpecificCause();
 			throw new PlatformDataIntegrityException(
 					"error.msg.unknown.data.integrity.issue",

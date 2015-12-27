@@ -1,6 +1,11 @@
 angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', '$translate','$location',
 	function(scope, $http,  $rootScope, Restangular, SessionMgr, $translate, location){
+		/*global init*/
+		$rootScope.locale= "en"
+
+
 		scope.domReady = true;
+		scope.isTestMode = false;
 
 		scope.authCredentials = {
 			username : 'masmatrics',
