@@ -20,7 +20,7 @@
 		</div>
 
 		<div data-ng-hide="isTestMode||(!domReady || currentSession.user != null)" class="container-fluid login-container">
-			<div class="jumbotron"><h1>{{'heading.login.welcome.to.dash.board' | translate}}</h1>
+			<div class="jumbotron"><h1>Welcome to Dashboard</h1>
 			<div style="padding-top: 4%;">
         	<div calss="row">
         		<div class="col-md-8"> </div>
@@ -62,8 +62,8 @@
 				    	<li class="dropdown">
 				          <a class="dropdown-toggle pointer" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admin <span class="caret"></span></a>
 				          <ul class="dropdown-menu">
-				            <li><a href="#">{{'anchor.main.users' | translate}}</a></li>
-				            <li><a href="#/admin/tags">{{'anchor.main.tags' | translate}}</a>
+				            <li><a href="#">Users</a></li>
+				            <li><a href="#/admin/tags">Tags</a>
 				          </ul>
 				        </li>
 				        <li class="dropdown">
@@ -101,7 +101,7 @@
 	    <script src="bower_components/restangular/dist/restangular.min.js"></script>
 	    <script src="bower_components/angular-translate/angular-translate.min.js"></script>
 	    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-	    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+	    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	    <script src="scripts/dashboard.js"></script>
 	    <script src="scripts/router.js"></script>
 	    <script src="scripts/controllers/controllers.js"></script>

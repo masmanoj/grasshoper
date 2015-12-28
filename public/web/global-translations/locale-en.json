@@ -19,7 +19,7 @@
 
     "---anchors----":"",
     "anchor.main":"Dashboard",
-    "anchor.main.users" : "Users",
+    "anchor.main.users":"Users",
     "anchor.main.tags" : "Tags",
     "anchor.main.products" : "Products",
     "anchor.main.create.products":"Create Product",
@@ -45,6 +45,8 @@
     "label.txt-create.product-product.quantity.unit":"Quantity unit",
     "label.chk-create.product-product.is.sold.out":"Is sold out",
     "label.chk-create.product-product.is.active":"Is active",
+
+    "label.sel-create.product-packing.styles":"Cutting Styles",
 
 
     

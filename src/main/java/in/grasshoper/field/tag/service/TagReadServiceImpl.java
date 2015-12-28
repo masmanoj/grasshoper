@@ -64,6 +64,13 @@ public class TagReadServiceImpl implements TagReadService {
 		final String sql = "select " + rowMapper.schema() + " where t.id = ? order by st.display_order" ;
 		return this.jdbcTemplate.query(sql, rowMapper, tagId);
 	}
+	
+	@Override
+	public Collection<SubTagData> retriveAllSubTagsForTag(final String tag) {
+		final SubTagRowMapper rowMapper = new SubTagRowMapper();
+		final String sql = "select " + rowMapper.schema() + " where t.tag = ? order by st.display_order" ;
+		return this.jdbcTemplate.query(sql, rowMapper, tag);
+	}
 
 	@Override
 	public SubTagData retriveOneSubTag(Long subTagId) {

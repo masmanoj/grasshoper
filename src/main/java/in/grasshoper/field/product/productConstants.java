@@ -12,4 +12,16 @@ public interface productConstants {
 	String IsActiveParamName = "isActive";
 	String PricePerUnitParamName = "pricePerUnit";
 	String MinimumQuantityParamName = "minimumQuantity";
+	String PackingStyleIdsParamName = "packingStyleIds";
+	
+	//product image const params
+	String ImageUrlParamName = "imageUrl";
+	String DisplayOrderParamName = "displayOrder";
+	String ImageLabelParamName = "label";
+	
+	
+	
+	
+	//tag
+	String ProductPackingStyleTagName = "PackagingStyles";
 }

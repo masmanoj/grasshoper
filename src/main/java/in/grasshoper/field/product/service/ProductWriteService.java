@@ -9,4 +9,12 @@ public interface ProductWriteService {
 
 	CommandProcessingResult updateProduct(Long productId, JsonCommand command);
 
+	CommandProcessingResult addProductImage(Long productId, JsonCommand command);
+
+	CommandProcessingResult updateProductImage(Long productId,
+			Long productImageId, JsonCommand command);
+
+	CommandProcessingResult deleteProductImage(Long productId,
+			Long productImageId);
+
 }

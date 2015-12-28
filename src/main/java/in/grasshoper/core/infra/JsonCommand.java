@@ -169,6 +169,14 @@ public final class JsonCommand {
         }
         return result;
     }
+    
+    private static Integer defaultToZeroIfNull(final Integer value) {
+        Integer result = value;
+        if (value == null) {
+            result = new Integer(0);
+        }
+        return result;
+    }
 
     public BigDecimal bigDecimalValueOfParameterNamed(final String parameterName) {
         return this.fromApiJsonHelper.extractBigDecimalWithLocaleNamed(parameterName, this.parsedCommand);
@@ -248,6 +256,10 @@ public final class JsonCommand {
 
     public Integer integerValueSansLocaleOfParameterNamed(final String parameterName) {
         return this.fromApiJsonHelper.extractIntegerSansLocaleNamed(parameterName, this.parsedCommand);
+    }
+    
+    public Integer integerValueSansLocaleOfParameterNamedZeroIfNull(final String parameterName) {
+        return defaultToZeroIfNull(this.fromApiJsonHelper.extractIntegerSansLocaleNamed(parameterName, this.parsedCommand));
     }
 
     public boolean isChangeInBooleanParameterNamed(final String parameterName, final Boolean existingValue) {

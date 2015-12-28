@@ -13,7 +13,15 @@ angular.module('dashboard', [
  	'dashboard.services',
   'ui.bootstrap'
 
-  ])
+  ]).config(['$translateProvider', function($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+            prefix: 'global-translations/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.fallbackLanguage('en');
+  }])
   .config(['RestangularProvider', '$httpProvider', function(RestangularProvider, $httpProvider) {
       RestangularProvider.setBaseUrl('https://localhost:8443/grasshoper-core/'); 
 	  RestangularProvider.setDefaultHeaders({ 'Accept': 'text/html,application/json;q=0.9,*/*;q=0.8'});
@@ -34,12 +42,4 @@ angular.module('dashboard', [
         newResponse.resultElement = angular.copy(response);
         return newResponse;
       });*/
-  }]).config(['$translateProvider', function($translateProvider) {
-    $translateProvider.useStaticFilesLoader({
-            prefix: 'global-translations/locale-',
-            suffix: '.json'
-        });
-
-        $translateProvider.preferredLanguage('en');
-        $translateProvider.fallbackLanguage('en');
   }]);

@@ -71,4 +71,33 @@ public class ProductApiResource {
 				new JsonParser().parse(reqBody), fromApiJsonHelper));
 	}
 	
+	@RequestMapping(value="/template", method = RequestMethod.GET)
+	@ResponseBody
+    public String getTemplate() {
+		ProductData result = this.productReadService.generateTemplate();
+		return apiJsonSerializerService.serialize(result);
+	}
+	@RequestMapping(value="/{productId}/image",method = RequestMethod.POST)
+	@ResponseBody
+    public CommandProcessingResult createProductImage(@PathVariable("productId") final Long productId,
+    		@RequestBody final  String reqBody){
+		return this.productWriteService.addProductImage(productId, JsonCommand.from(reqBody,
+				new JsonParser().parse(reqBody), fromApiJsonHelper));
+	}
+	
+	@RequestMapping(value="/{productId}/image/{imageId}", method = RequestMethod.PUT)
+	@ResponseBody
+    public CommandProcessingResult updateImage(@PathVariable("productId") final Long productId,
+    		@PathVariable("imageId") final Long imageId,
+    		@RequestBody final  String reqBody) {
+		return this.productWriteService.updateProductImage(productId, imageId, JsonCommand.from(reqBody,
+				new JsonParser().parse(reqBody), fromApiJsonHelper));
+	}
+	
+	@RequestMapping(value="/{productId}/image/{imageId}", method = RequestMethod.DELETE)
+	@ResponseBody
+    public CommandProcessingResult deleteImage(@PathVariable("productId") final Long productId,
+    		@PathVariable("imageId") final Long imageId) {
+		return this.productWriteService.deleteProductImage(productId, imageId);
+	}
 }

@@ -30,7 +30,7 @@ public class SubTag extends AbstractPersistable<Long>{
 	@Column(name = "label", length = 150, nullable = false)
 	private String label;
     @Column(name = "display_order")
-    private int displayOrder;
+    private Integer displayOrder;
     
     protected SubTag(){}
 
@@ -45,10 +45,7 @@ public class SubTag extends AbstractPersistable<Long>{
 	public static SubTag fromJson(final Tag tag, final JsonCommand command) {
 
         final String subTag = command.stringValueOfParameterNamed(SubTagParamName);
-        Integer displayOrder = command.integerValueSansLocaleOfParameterNamed(DisplayOrderParamName);
-        if (displayOrder == null) {
-        	displayOrder = new Integer(0);
-        }
+        Integer displayOrder = command.integerValueSansLocaleOfParameterNamedZeroIfNull(DisplayOrderParamName);
         final String label = command.stringValueOfParameterNamed(LabelParamName);
         
         return new SubTag(tag, subTag,label, displayOrder);

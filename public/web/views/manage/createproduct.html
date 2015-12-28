@@ -17,111 +17,178 @@
 			</h2>
 		</div>
 		<uib-tabset>
-		<form name="createProduct"  ng-submit="submit()" class="form-horizontal">
-			<fieldset>
-				<div class="row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-uniq.name' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type = "text" maxlength="15" ng-model="product.name" ng-disabled ="!isedit && !isUpdate" required/>
+    		<uib-tab heading="Product Details"><br>
+				<form name="createProduct"  ng-submit="submit()" class="form-horizontal">
+					<fieldset>
+						<div class="row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-uniq.name' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type = "text" maxlength="15" ng-model="product.name" ng-disabled ="!isedit && !isUpdate" required/>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.name' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type = "text" maxlength="150" ng-model="product.productUid" ng-disabled ="!isedit && !isUpdate" required/>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.main.description' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type = "text" maxlength="350" ng-model="product.desc0" ng-disabled ="!isedit && !isUpdate" required/>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.sub.description' |translate}}: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type = "text"  maxlength="350" ng-model="product.desc1" ng-disabled ="!isedit && !isUpdate" />
+							</div>
+							<div class = "col-md-6">
+							
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.line.description' |translate}}: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type = "text" maxlength="350" ng-model="product.desc2" ng-disabled ="!isedit && !isUpdate" />
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.quantity.available' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type="number" name ="qty" step="0.01" required ng-model="product.quantity" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+							</div>
+							<div class = "col-md-6">
+								<span class="error" ng-show="!createProduct.qty.$valid">Invalid!</span>
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.quantity.unit' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type = "text" maxlength="10" required  ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-model="product.quantityUnit"/>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.minimum.quantity' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type="number" name ="minqty" step="0.01" required ng-model="product.minimumQuantity" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+							</div>
+							<div class = "col-md-6">
+								<span class="error" ng-show="!createProduct.minqty.$valid">Invalid!</span>
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.price.per.unit' |translate}}<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class = "form-control" type="number" name ="pricePerUnit" step="0.01" required ng-model="product.pricePerUnit" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+								 {{templateData.currencyCode}}
+							</div>
+							<div class = "col-md-6">
+								<span class="error" ng-show="!createProduct.pricePerUnit.$valid">Invalid!</span>
+							</div>
+						</div>
+						<div class="row form-group">
+		                        <label class="control-label col-sm-3">{{'label.sel-create.product-packing.styles' | translate}}</label>
+		                        <div class="col-sm-3">
+		                            <select id="tags" ng-model="product.packingStyleIds" name="tags" class="form-control multiselectmin" multiple  ng-change="packingStyleLoader()" ng-disabled ="!isedit && !isUpdate" >
+		                                <option ng-repeat="tag in allPackingStyleTags" value="{{tag.id}}">
+		                                    {{tag.label}}
+		                                </option>
+		                            </select>
+		                        </div>
+		                        <div ng-show="selectedTags.length > 0" class="col-sm-6">
+		                            <div  class = "mas-tag-container">
+		                                <div class = "mas-tag-element" ng-repeat= "tag in selectedTags track by $index" ><span>{{tag.label}}</span>
+		                                	<span class= "mas-tag-remove" ng-click="removeThisFromTagList($index)" ng-hide ="!isedit && !isUpdate" >X</span>
+		                                </div> 
+		                            </div>
+		                        </div>
+		                    </div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.sold.out' |translate}}: </label>
+							<div class = "col-md-3">
+								<input class="pointer" title="{{'label.chk-create.product-product.is.sold.out' |translate}}" type = "checkbox" ng-model="product.isSoldOut" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" />
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.active' |translate}}: </label>
+							<div class = "col-md-3">
+								<input class="pointer" title="{{'label.chk-create.product-product.is.active' |translate}}" type = "checkbox" ng-model="product.isActive" ng-disabled ="!isedit && !isUpdate"/>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<div class = "col-md-3"> </div>
+							<div class = "col-md-3">
+								<button class="btn btn-warning" ng-click="cancel()" ng-show="isedit||isQuickUpdate||isUpdate">Cancel</button> 
+								<button class="btn btn-primary" id= "save" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" type="submit"> {{'label.button.submit' | translate}}</button>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+					</fieldset>
+					</form>
+				</uib-tab>
+				<uib-tab heading="Product Images" ng-show ="!isedit">
+				<div class="col-md-8">
+				<h4><strong>Product Images</strong> <div class="pull-right"> <button type="button" class="btn btn-primary" ng-click="addNew(product.productImages)">Add New <i class="btn fa fa-plus"></i></button></div></h4>
+					<table class="table table-stripped">
+					    <thead>
+					      <tr>
+					        <th>Image Label</th>
+					        <th>Image Url (relative)</th>
+					        <th>{{'heading.table.subtag.display.order'|translate}}</th>
+					        <th>Is Active<th>
+					        <th></th>
+					        <th></th>
+					        <th></th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr ng-repeat = "image in product.productImages">
+					        <td ng-hide="image.edit">{{image.label}}</td>
+					        <td ng-hide="image.edit">{{image.imageUrl}}</td>
+					        <td ng-hide="image.edit">{{image.displayOrder}}</td>
+					        <td ng-hide="image.edit">{{image.isActive}}</td>
+					        <td ng-hide="image.edit"><i class="fa fa-pencil pointer" ng-click= "image.edit = true;"></i></td>
+					        <td ng-hide="image.edit"><i class="fa fa-trash pointer" ng-click = "deleteImage($index)"></i></td>
+					        <td ng-hide="image.edit"><i class="fa fa-picture-o pointer" ng-click = "showImage(image)"></i></td>
+					        <td ng-show="image.edit">
+					        	<input class="form-control" type="text" name="subTag" ng-model="image.label" required>
+					        </td>
+					        <td ng-show="image.edit">
+					        	<input class="form-control" type="text" name="label" ng-model="image.imageUrl" required>
+					        </td>
+					        <td ng-show="image.edit">
+					        	<input class="form-control" type="number" name="displayOrder" ng-model="image.displayOrder" required>
+					        </td>
+					        <td ng-show="image.edit">
+					        	<input class="pointer" title="is Active" type = "checkbox" ng-model="image.isActive"/>
+					        </td>
+					        <td ng-show="image.edit"><button class="btn btn-primary" ng-click="saveImage($index)">Save</button></td>
+					        <td ng-show="image.edit"> <i class="btn fa fa-close" ng-click = "cancelOrRemove(product.productImages,$index)"></i></td>
+					        <td ng-show="image.edit"> </td>
+					      </tr>
+					    </tbody>
+					  </table>
 					</div>
-					<div class = "col-md-6">
+					<div class="col-md-4">
+						<img ng-src = "{{imageUrl}}" style="margin:20px; border: 1px dotted #aaa; height:300px; width:300px;">
 					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.name' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type = "text" maxlength="150" ng-model="product.productUid" ng-disabled ="!isedit && !isUpdate" required/>
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.main.description' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type = "text" maxlength="350" ng-model="product.desc0" ng-disabled ="!isedit && !isUpdate" required/>
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.sub.description' |translate}}: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type = "text"  maxlength="350" ng-model="product.desc1" ng-disabled ="!isedit && !isUpdate" />
-					</div>
-					<div class = "col-md-6">
-					
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.line.description' |translate}}: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type = "text" maxlength="350" ng-model="product.desc2" ng-disabled ="!isedit && !isUpdate" />
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.quantity.available' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type="number" name ="qty" step="0.01" required ng-model="product.quantity" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
-					</div>
-					<div class = "col-md-6">
-						<span class="error" ng-show="!createProduct.qty.$valid">Invalid!</span>
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.quantity.unit' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type = "text" maxlength="10" required  ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-model="product.quantityUnit"/>
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.minimum.quantity' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type="number" name ="minqty" step="0.01" required ng-model="product.minimumQuantity" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
-					</div>
-					<div class = "col-md-6">
-						<span class="error" ng-show="!createProduct.minqty.$valid">Invalid!</span>
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.price.per.unit' |translate}}<span class="required">*</span>: </label>
-					<div class = "col-md-3">
-						<input class = "form-control" type="number" name ="pricePerUnit" step="0.01" required ng-model="product.pricePerUnit" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
-					</div>
-					<div class = "col-md-6">
-						<span class="error" ng-show="!createProduct.pricePerUnit.$valid">Invalid!</span>
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.sold.out' |translate}}: </label>
-					<div class = "col-md-3">
-						<input class="pointer" title="{{'label.chk-create.product-product.is.sold.out' |translate}}" type = "checkbox" ng-model="product.isSoldOut" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" />
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-				<div class = "row form-group">
-					<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.active' |translate}}: </label>
-					<div class = "col-md-3">
-						<input class="pointer" title="{{'label.chk-create.product-product.is.active' |translate}}" type = "checkbox" ng-model="product.isActive" ng-disabled ="!isedit && !isUpdate"/>
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-				<div class = "row form-group">
-					<div class = "col-md-3"> </div>
-					<div class = "col-md-3">
-						<button class="btn btn-warning" ng-click="cancel()" ng-show="isedit||isQuickUpdate||isUpdate">Cancel</button> 
-						<button class="btn btn-primary" id= "save" ng-disabled ="!isedit && !isQuickUpdate && !isUpdate" type="submit"> {{'label.button.submit' | translate}}</button>
-					</div>
-					<div class = "col-md-6">
-					</div>
-				</div>
-			</fieldset>
-			</form>
+				</uib-tab>
 			</uib-tabset>
 	</section>
 </div>

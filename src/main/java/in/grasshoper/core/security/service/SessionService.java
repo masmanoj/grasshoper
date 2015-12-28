@@ -29,8 +29,8 @@ public class SessionService {
         if (existingSession != null) {
             String existingToken = existingSession.getToken();
 //            logger.info(sf.format(DateUtils.getCurrentDateTimeOfTenant().toDate()) + "  Deleting Old Session for User : " + user.getUsername() + " with token : " + existingToken);
-            appUserToSessionDataMap.remove(user);
-            tokentoSessionDataMap.remove(existingToken);
+          //  appUserToSessionDataMap.remove(user);
+           // tokentoSessionDataMap.remove(existingToken);
         }
 //        logger.info(sf.format(DateUtils.getCurrentDateTimeOfTenant().toDate()) + "  Creating new token for User : " + user.getUsername() + " with token : " + token);
         SessionData newSession = new SessionData(user, token, DateTime.now());

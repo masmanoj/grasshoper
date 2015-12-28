@@ -19,14 +19,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
@@ -58,6 +62,11 @@ public class Product extends AbstractPersistable<Long>{
 	@ManyToMany
 	@JoinTable(name = "g_product_packing_styles", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "style_id"))
 	private Set<SubTag> packingStyles;  
+	
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true)
+    private Set<ProductImage> productImages = null;
 	
 	protected Product(){}
 
@@ -172,4 +181,28 @@ public class Product extends AbstractPersistable<Long>{
         }
         return actualChanges;
 	}
+	public Set<SubTag> getPackingStyles(){
+		return this.packingStyles;
+	}
+	public void updatePackingStyles(Set<SubTag> packingStyles){
+		this.packingStyles = packingStyles;
+	}
+	public Set<ProductImage> getProductImages(){
+		return this.productImages;
+	}
+	public ProductImage getProductImageById(Long id){
+		for(ProductImage img : this.productImages){
+			if(img.getId().equals(id))
+				return img;
+		}
+		
+		return null;
+	}
+	public void addProductImages(final ProductImage productImage){
+		this.productImages.add(productImage);
+	}
+	public void removeProductImages(final ProductImage productImage){
+		this.productImages.remove(productImage);
+	}
+	
 }

@@ -10,4 +10,6 @@ public interface ProductReadService {
 
 	ProductData retriveOne(Long productId);
 
+	ProductData generateTemplate();
+
 }
