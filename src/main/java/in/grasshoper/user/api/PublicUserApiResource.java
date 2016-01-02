@@ -1,17 +1,11 @@
 package in.grasshoper.user.api;
 
-import in.grasshoper.core.infra.ApiSerializer;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.FromJsonHelper;
 import in.grasshoper.core.infra.JsonCommand;
-import in.grasshoper.user.data.UserData;
-import in.grasshoper.user.service.UserReadService;
 import in.grasshoper.user.service.UserWriteService;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,43 +16,49 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.JsonParser;
 
 @RestController  
-@RequestMapping("/user")
-public class UserApiResource {
+@RequestMapping("/userapi") 
+public class PublicUserApiResource {
 	
 	private final UserWriteService userWriteServce;
-	private final UserReadService userReadService;
 	private final FromJsonHelper fromApiJsonHelper;
-	final ApiSerializer<UserData> apiJsonSerializerService;
-	
 	
 	@Autowired
-	public UserApiResource(final UserWriteService userWriteServce,
-			 final UserReadService userReadService,
-			final FromJsonHelper fromApiJsonHelper,
-			ApiSerializer<UserData> apiJsonSerializerService) {
+	public PublicUserApiResource(UserWriteService userWriteServce,
+			 final FromJsonHelper fromApiJsonHelper) {
 		super();
 		this.userWriteServce = userWriteServce;
 		this.fromApiJsonHelper = fromApiJsonHelper;
-		this.userReadService = userReadService;
-		this.apiJsonSerializerService = apiJsonSerializerService;
 	}
-
-
-
-	@RequestMapping(method = RequestMethod.POST)
+	
+	
+	@RequestMapping(value="/signup", method = RequestMethod.POST)
 	@ResponseBody
     public CommandProcessingResult createUser(@RequestBody final  String reqBody) {
 		
 		//JsonObject  a = new JsonParser().parse(reqBody).getAsJsonObject();
-		return this.userWriteServce.create(JsonCommand.from(reqBody,
+		return this.userWriteServce.createPublicUser(JsonCommand.from(reqBody,
 				new JsonParser().parse(reqBody), fromApiJsonHelper));
     }
-	
-	@RequestMapping(method = RequestMethod.GET)  
-	@Transactional(readOnly = true)
-    public String retrieveUsers(@RequestParam("limit") Integer limit, @RequestParam("offset") Integer offset) {
-        final Collection<UserData> result = this.userReadService.retriveAll( limit, offset);
-        
-        return this.apiJsonSerializerService.serialize(result);
+	@RequestMapping(value="/activate", method = RequestMethod.GET,
+			produces = "text/html;charset=UTF-8")
+	@ResponseBody
+    public String activate(@RequestParam(value="e") String email,
+    		@RequestParam(value="uas") String otp) {
+		
+		 
+		 final String returnUrl = this.userWriteServce.activateUser(email, otp);
+		 final StringBuffer resultPage = new StringBuffer()
+		 .append("<html><head><title>User Activation</title></head><body>")
+		 .append("<h1>User Activation</h1><hr><br/><br/><br/><br/><br/><br/><br/>");
+		 
+		 if(null != returnUrl){
+			 resultPage.append("<h4>Activation Successfull, Please login <a href='")
+			 .append(returnUrl)
+			 .append("'>here</a></h4> </body></html>");
+		 }else{
+			 resultPage.append("<h4>Something went wrong, contact support</h4> </body></html>");
+		 }
+		 
+		 return resultPage.toString();
     }
 }

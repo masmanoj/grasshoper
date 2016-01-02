@@ -3,6 +3,7 @@ CREATE TABLE `g_tag` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag` varchar(150) NOT NULL,
   `label` varchar(150) NOT NULL,
+  `is_internal` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag` (`tag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -14,18 +15,11 @@ CREATE TABLE `g_sub_tag` (
   `sub_tag`  varchar(150) DEFAULT NULL,
   `label` varchar(150) DEFAULT NULL,
   `display_order` int(3) DEFAULT 0,
+  `is_internal` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unq_sub_tag` (`tag_id`, `sub_tag`),
   CONSTRAINT `tag_sub_tag` FOREIGN KEY (`tag_id`) REFERENCES `g_tag`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `g_tag` (`tag`, `label`)
-VALUES
-	('PackagingStyles', 'Cutting Styles');
-
-INSERT INTO `g_sub_tag` (`tag_id`, `sub_tag`, `label`, `display_order`)
-VALUES
-	((select id from g_tag where tag = 'PackagingStyles'), 'DonotCut','Do not Cut',0);
 
 
 -- g_product :  the products master table
@@ -90,3 +84,12 @@ CREATE TABLE `g_product_packing_styles` (
 	CONSTRAINT `pkg_style_product_id` FOREIGN KEY (`product_id`) REFERENCES `g_product` (`id`),
 	CONSTRAINT `pkg_style_style_id` FOREIGN KEY (`style_id`) REFERENCES `g_sub_tag` (`id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+ 
+ 
+ -- g_product_categories :   all available gategiries for product search.
+CREATE TABLE `g_product_categories` (
+	`product_id` bigint(20) NOT NULL,
+	`category_id` bigint(20) NOT NULL,
+	CONSTRAINT `prd_cat_product_id` FOREIGN KEY (`product_id`) REFERENCES `g_product` (`id`),
+	CONSTRAINT `prd_cat_category_id_id` FOREIGN KEY (`category_id`) REFERENCES `g_sub_tag` (`id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

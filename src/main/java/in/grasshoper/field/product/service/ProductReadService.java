@@ -12,4 +12,8 @@ public interface ProductReadService {
 
 	ProductData generateTemplate();
 
+	Collection<ProductData> retriveAllProductsSearch(String searchQry,
+			Boolean notSoldOut, Integer limit, Integer offset, String orderby,
+			String category);
+
 }

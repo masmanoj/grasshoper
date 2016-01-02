@@ -7,4 +7,8 @@ public interface UserWriteService {
 
 	CommandProcessingResult create(JsonCommand command);
 
+	CommandProcessingResult createPublicUser(JsonCommand command);
+
+	String activateUser(String email, String otp);
+
 }

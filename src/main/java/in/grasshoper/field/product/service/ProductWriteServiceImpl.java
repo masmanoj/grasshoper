@@ -1,5 +1,7 @@
 package in.grasshoper.field.product.service;
 
+import static in.grasshoper.field.product.productConstants.CategoryIdsParamName;
+import static in.grasshoper.field.product.productConstants.PackingStyleIdsParamName;
 import in.grasshoper.core.exception.PlatformDataIntegrityException;
 import in.grasshoper.core.exception.ResourceNotFoundException;
 import in.grasshoper.core.infra.CommandProcessingResult;
@@ -11,7 +13,6 @@ import in.grasshoper.field.product.domain.ProductImage;
 import in.grasshoper.field.product.domain.ProductRepository;
 import in.grasshoper.field.tag.domain.SubTag;
 import in.grasshoper.field.tag.domain.SubTagRepository;
-import static in.grasshoper.field.product.productConstants.PackingStyleIdsParamName;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -45,13 +46,15 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 	public CommandProcessingResult createProduct(final JsonCommand command) {
 		try {
 			final Set<SubTag> packingStyles = new HashSet<>();
+			final Set<SubTag> categories = new HashSet<>();
 			//get packing styles from command.
 			
 			// this.dataValidator.validateForCreate(command.getJsonCommand());
 	
 			getPackageStylesFromCommand(command, packingStyles);
+			getCategoriesFromCommand(command, categories);
 			
-			final Product product = Product.fromJson(command, packingStyles);
+			final Product product = Product.fromJson(command, packingStyles, categories);
 			this.productRepository.save(product);
 
 			return new CommandProcessingResultBuilder().withResourceIdAsString(
@@ -92,8 +95,16 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 				product.updatePackingStyles(packingStyles);
 				packagingStyleChanges = true;
 			}
+			final Set<SubTag> categories = new HashSet<>();
+			boolean categoriesChanges = false;
+			getCategoriesFromCommand(command, categories);
+			if(!product.getCategories().containsAll(categories)
+					|| !categories.containsAll(product.getCategories())){
+				product.updateCategories(categories);
+				categoriesChanges = true;
+			}
 			
-			if (!changes.isEmpty() || packagingStyleChanges) {
+			if (!changes.isEmpty() || packagingStyleChanges || categoriesChanges) {
 				this.productRepository.save(product);
 			}
 
@@ -128,6 +139,23 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			packingStyles.add(subTag);
 		}
 	}
+	private void getCategoriesFromCommand(final JsonCommand command, final Set<SubTag> categories ){
+		final String json = command.getJsonCommand();
+    	final JsonElement element = this.fromJsonHelper.parse(json);
+		final JsonArray categoryIdsJsonArray =  this.fromJsonHelper.extractJsonArrayNamed(CategoryIdsParamName, element);
+		for (int i = 0; i < categoryIdsJsonArray.size(); i++) {
+			final Long  subTagId = categoryIdsJsonArray.get(i)
+					.getAsLong();
+			final SubTag subTag = this.subTagRepository.findOne(subTagId);
+			if (subTag == null) {
+				throw new ResourceNotFoundException(
+						"error.entity.subtag.not.found", "Sub tag with id " + subTag
+								+ "not found", subTag);
+			}
+			
+			categories.add(subTag);
+		}
+	}
 	
 	
 	@Override
@@ -150,10 +178,12 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			
 			
 			if (productImage != null ) {
-				product.addProductImages(productImage);
-				this.productRepository.save(product);
+				product.addProductImage(productImage);
+				//product.getProductImages().add(productImage);
+				this.productRepository.saveAndFlush(product);
+				final ProductImage newProductImage = product.lastAddedProductImage();
 				return new CommandProcessingResultBuilder() //
-				.withResourceIdAsString(productImage.getId()) //
+				.withResourceIdAsString(newProductImage.getId()) //
 				.build();
 			}
 			return new CommandProcessingResultBuilder() //
@@ -190,7 +220,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 				final Map<String, Object> changes = img.update(command);
 				
 				if (!changes.isEmpty()) {
-					product.addProductImages(img);
+					product.addProductImage(img);
 					this.productRepository.save(product);
 				}
 				return new CommandProcessingResultBuilder() //

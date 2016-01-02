@@ -19,6 +19,11 @@ public interface TagReadService {
 
 	Collection<SubTagData> retriveAllSubTagsForTag(String tag);
 
+	SubTagData retriveOneInternalSubTagsForTagAndSubTagLabel(String tag,
+			String subTagLabel);
+
+	SubTagData retriveOneSubTag(String tag, String subTag);
+
 
 
 }

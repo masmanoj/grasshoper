@@ -13,6 +13,7 @@ public interface productConstants {
 	String PricePerUnitParamName = "pricePerUnit";
 	String MinimumQuantityParamName = "minimumQuantity";
 	String PackingStyleIdsParamName = "packingStyleIds";
+	String CategoryIdsParamName = "categoryIds";
 	
 	//product image const params
 	String ImageUrlParamName = "imageUrl";
@@ -24,4 +25,9 @@ public interface productConstants {
 	
 	//tag
 	String ProductPackingStyleTagName = "PackagingStyles";
+	String ProductCategoriesTagName = "ProductCategories";
+	String ProductSortOrderTagName = "ProductSortOrder";
+	String ProductSortOrderQueryTagName = "ProductSortOrderQry";
+	
+	
 }

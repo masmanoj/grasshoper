@@ -25,7 +25,7 @@ public class GrassHoperUserDetailService implements PlatformUserDetailsService{
 			throws UsernameNotFoundException, DataAccessException {
 		
     	final boolean isActive = true;
-    	final PublicUser user =  this.publicUserRepository.findAppUserByEmailAndIsActive(email, isActive);
+    	final PublicUser user =  this.publicUserRepository.findUserByEmailAndIsActive(email, isActive);
     	if (user == null) { throw new UsernameNotFoundException(email + ": not found"); }
     	
     	return user;

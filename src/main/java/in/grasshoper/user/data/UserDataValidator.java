@@ -5,11 +5,11 @@ import static in.grasshoper.user.UserConstants.EmailParamName;
 import static in.grasshoper.user.UserConstants.NameParamName;
 import static in.grasshoper.user.UserConstants.PasswordParamName;
 import static in.grasshoper.user.UserConstants.PhoneNumberParamName;
+import static in.grasshoper.user.UserConstants.ReturnUrlParamName;
 import static in.grasshoper.user.UserConstants.USER_RESOURCE;
 import in.grasshoper.core.data.ApiParameterError;
 import in.grasshoper.core.data.DataValidatorBuilder;
 import in.grasshoper.core.exception.InvalidJsonException;
-import in.grasshoper.core.exception.PlatformApiDataValidationException;
 import in.grasshoper.core.infra.FromJsonHelper;
 
 import java.lang.reflect.Type;
@@ -55,6 +55,10 @@ public class UserDataValidator {
         final String email = this.fromApiJsonHelper.extractStringNamed(EmailParamName, element);
         baseDataValidator.reset().parameter(EmailParamName).value(email).notNull().notExceedingLengthOf(100) ;
         //add validate email
+        
+        final String url = this.fromApiJsonHelper.extractStringNamed(ReturnUrlParamName, element);
+        baseDataValidator.reset().parameter(ReturnUrlParamName).value(url).notNull().notExceedingLengthOf(255) ;
+        
         
         final String passwd = this.fromApiJsonHelper.extractStringNamed(PasswordParamName, element);
         baseDataValidator.reset().parameter(PasswordParamName).value(passwd).notNull().notExceedingLengthOf(100) ;

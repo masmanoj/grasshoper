@@ -1,0 +1,39 @@
+<div class="content" ng-controller="UserListController">
+	<ol class="breadcrumb" style= "margin-bottom:0px; background-color:none;">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.users'|translate}}</li>
+	</ol>
+	<div class="page-header">
+	  <h2>Users <small></small>
+	  	 <div class="pull-right" style="margin-right:20px;">
+	  	 	<a class="btn btn-primary" href="#" >Create New</a>
+	  	 </div></h2>
+	</div>
+	<section>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+				<th>Name</th>
+				<th>User name/Email</th>
+				<th>Phone number</th>
+				<th>Roles</th>
+				<th>Is Active</th>
+				<th>Is Public User</th>
+				<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="pointer" ng-repeat="user in users" ng-click="viewUser(user)">
+				<td>{{user.name}}</td>
+				<td>{{user.email}}</td>
+				<td>{{user.phoneNum}}</td>
+				<td><div ng-repeat="role in user.roles" title="{{role.description}}">{{role.name}}</div></td>
+				<td><div ng-class ="{'active-indicator': user.isActive , 'inactive-indicator': !user.isActive}"> </div></td>
+				<td><div ng-class ="{'fa fa-lock green': !user.isPublicUser , 'fa fa-globe blue': user.isPublicUser}"> </div></td>
+				<td><i class="fa fa-play"></i></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+	<uib-pager total-items="totalItems" items-per-page = "itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pager>
+</div>

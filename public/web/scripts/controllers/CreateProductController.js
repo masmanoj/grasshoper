@@ -8,11 +8,14 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
 		scope.isUpdate = false;
 		scope.isQuickUpdate = false;
 		scope.selectedTags = [];
+		scope.selectedCategoryTags = [];
 		scope.allPackingStyleTags =[];
+		scope.allCategoryTags = [];
 
 		Restangular.one("product/template").get().then(function(templateData){
 			scope.templateData =  templateData.plain();
 			scope.allPackingStyleTags = scope.templateData.allPkgingStyles;
+			scope.allCategoryTags = scope.templateData.allCategories;
 		});
 		if(routeParams.productId){
 			var data  = Restangular.one("product/" +routeParams.productId).get()
@@ -25,10 +28,44 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
                     tempTags.push(tag.id+"");
                 });
                 scope.product.packingStyleIds = tempTags;
-                scope.imageUrl = scope.product.productImages[0].imageUrl
+                if(scope.product.productImages.length > 0)
+                	scope.imageUrl = scope.product.productImages[0].imageUrl;
+
+                scope.selectedCategoryTags = scope.product.categories;
+                console.log("scope.selectedCategoryTags ", scope.selectedCategoryTags );
+                var tempCatTags = [];
+                scope.product.categories.forEach(function(tag){
+                    tempCatTags.push(tag.id+"");
+                });
+                scope.product.categoryIds = tempCatTags;
 			});
-			
 		}
+
+		scope.categoriesLoader = function(){
+            scope.selectedCategoryTags = [];
+            for(var i =0; i< scope.product.categoryIds.length; i++ ){
+                for(var j= 0; j< scope.allCategoryTags.length;j++){
+                    if(scope.product.categoryIds[i] == scope.allCategoryTags[j].id){
+                        scope.selectedCategoryTags.push(scope.allCategoryTags[j]);
+                        break;
+                    }                    
+                }
+            }
+        };
+		scope.removeThisFromCategoryTagList = function(index){
+            var idToRemove = scope.selectedCategoryTags[index].id ;
+            var indexToremove = null;
+            for(var i = 0; i< scope.product.categoryIds.length; i++ ){
+                if(scope.product.categoryIds[i] == idToRemove){
+                    indexToremove = i;
+                    break;
+                }                    
+            }
+            if(indexToremove!=null){
+                scope.product.categoryIds.splice(indexToremove,1)
+                scope.selectedCategoryTags.splice(index,1);
+            }
+        }
 
 
 		scope.packingStyleLoader = function(){
@@ -41,10 +78,6 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
                     }                    
                 }
             }
-
-            /*if(scope.processMap.roleIds.length > 0 ){
-                scope.noRoleSelected = false; 
-            }*/
         };
 		scope.removeThisFromTagList = function(index){
             var idToRemove = scope.selectedTags[index].id ;
@@ -59,9 +92,6 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
                 scope.product.packingStyleIds.splice(indexToremove,1)
                 scope.selectedTags.splice(index,1);
             }
-           /* if(scope.product.packingStyleIds.length == 0 ){
-                scope.noTagSelected = true; 
-            } */
         }
 
 		scope.submit = function(){
@@ -118,6 +148,7 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
 			}else{
 				Restangular.all("product/" + scope.product.id + "/image/" ).post(scope.product.productImages[index])
 				.then(function(data){
+					console.log(data);
 					scope.product.productImages[index].id = data.resourceId;
 					scope.product.productImages[index].edit = false;
 				});

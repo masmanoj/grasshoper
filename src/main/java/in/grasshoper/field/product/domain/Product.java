@@ -15,7 +15,10 @@ import in.grasshoper.core.infra.JsonCommand;
 import in.grasshoper.field.tag.domain.SubTag;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -62,18 +65,20 @@ public class Product extends AbstractPersistable<Long>{
 	@ManyToMany
 	@JoinTable(name = "g_product_packing_styles", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "style_id"))
 	private Set<SubTag> packingStyles;  
-	
+	@ManyToMany
+	@JoinTable(name = "g_product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<SubTag> categories;  
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true)
-    private Set<ProductImage> productImages = null;
+    private List<ProductImage> productImages = null;
 	
 	protected Product(){}
 
 	private Product(final String productUid, final String name, final String desc0, final String desc1, 
 			final String desc2, final BigDecimal quantity, final String quantityUnit, final Boolean isSoldOut,
 			final Boolean isActive,final BigDecimal pricePerUnit, final BigDecimal minimumQuantity,
-			final Set<SubTag> packingStyles) {
+			final Set<SubTag> packingStyles, final Set<SubTag> categories) {
 		super();
 		this.productUid = productUid;
 		this.name = name;
@@ -87,10 +92,13 @@ public class Product extends AbstractPersistable<Long>{
 		this.packingStyles = packingStyles;
 		this.pricePerUnit = pricePerUnit;
 		this.minimumQuantity = minimumQuantity;
+		this.categories = categories;
+		this.productImages = new LinkedList<>();
 	}
 	
 	
-	public static Product fromJson(final JsonCommand command, final Set<SubTag> packingStyles) {
+	public static Product fromJson(final JsonCommand command, final Set<SubTag> packingStyles,
+			final Set<SubTag> categories) {
         final String name = command.stringValueOfParameterNamed(NameParamName);
         final String productUid = command.stringValueOfParameterNamed(ProductUidParamName);
         final String desc0 = command.stringValueOfParameterNamed(Desc0ParamName);
@@ -103,7 +111,7 @@ public class Product extends AbstractPersistable<Long>{
         final BigDecimal pricePerUnit = command.bigDecimalValueOfParameterNamedZeroIfNull(PricePerUnitParamName);
         final BigDecimal minimumQuantity = command.bigDecimalValueOfParameterNamedZeroIfNull(MinimumQuantityParamName);
         return new Product(productUid, name, desc0, desc1, desc2, quantity, quantityUnit, 
-        		isSoldOut, isActive, pricePerUnit, minimumQuantity, packingStyles);
+        		isSoldOut, isActive, pricePerUnit, minimumQuantity, packingStyles, categories);
     }
 	
 
@@ -187,7 +195,14 @@ public class Product extends AbstractPersistable<Long>{
 	public void updatePackingStyles(Set<SubTag> packingStyles){
 		this.packingStyles = packingStyles;
 	}
-	public Set<ProductImage> getProductImages(){
+	public Set<SubTag> getCategories(){
+		return this.categories;
+	}
+	public void updateCategories(Set<SubTag> categories){
+		this.categories = categories;
+	}
+	
+	public List<ProductImage> getProductImages(){
 		return this.productImages;
 	}
 	public ProductImage getProductImageById(Long id){
@@ -198,8 +213,14 @@ public class Product extends AbstractPersistable<Long>{
 		
 		return null;
 	}
-	public void addProductImages(final ProductImage productImage){
+	public void addProductImage(final ProductImage productImage){
 		this.productImages.add(productImage);
+	}
+	public ProductImage lastAddedProductImage(){
+		ProductImage lastProductImage = null;
+		Iterator<ProductImage> iterator = this.productImages.iterator();
+		while (iterator.hasNext()) { lastProductImage = iterator.next(); }
+		return lastProductImage;
 	}
 	public void removeProductImages(final ProductImage productImage){
 		this.productImages.remove(productImage);

@@ -31,15 +31,18 @@ public class SubTag extends AbstractPersistable<Long>{
 	private String label;
     @Column(name = "display_order")
     private Integer displayOrder;
+    @Column(name = "is_internal")
+	Boolean isInternal;
     
     protected SubTag(){}
 
-	private SubTag(Tag tag, String subTag, String label, int displayOrder) {
+	private SubTag(Tag tag, String subTag, String label, int displayOrder, Boolean isInternal) {
 		super();
 		this.tag = tag;
 		this.subTag = subTag;
 		this.label = label;
 		this.displayOrder = displayOrder;
+		this.isInternal = isInternal;
 	}
     
 	public static SubTag fromJson(final Tag tag, final JsonCommand command) {
@@ -47,8 +50,8 @@ public class SubTag extends AbstractPersistable<Long>{
         final String subTag = command.stringValueOfParameterNamed(SubTagParamName);
         Integer displayOrder = command.integerValueSansLocaleOfParameterNamedZeroIfNull(DisplayOrderParamName);
         final String label = command.stringValueOfParameterNamed(LabelParamName);
-        
-        return new SubTag(tag, subTag,label, displayOrder);
+        Boolean isInternal = false;
+        return new SubTag(tag, subTag,label, displayOrder, isInternal);
     }
 	
 	public Map<String, Object> update(final JsonCommand command) {

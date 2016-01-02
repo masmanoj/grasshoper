@@ -1,7 +1,6 @@
 package in.grasshoper.user.domain;
 
 import static in.grasshoper.user.UserConstants.EmailParamName;
-import static in.grasshoper.user.UserConstants.IsPublicUserParamName;
 import static in.grasshoper.user.UserConstants.NameParamName;
 import static in.grasshoper.user.UserConstants.PasswordParamName;
 import static in.grasshoper.user.UserConstants.PhoneNumberParamName;
@@ -57,23 +56,23 @@ public class User extends AbstractPersistable<Long> implements PublicUser{
     @JoinTable(name = "g_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 	
-	public static User fromJson( final JsonCommand command) {
+	public static User fromJson( final JsonCommand command, final Boolean isActive, final Boolean isPublicUser) {
 		final String name = command.stringValueOfParameterNamed(NameParamName);
 		final String email = command.stringValueOfParameterNamed(EmailParamName);
 		final String password  = command.stringValueOfParameterNamed(PasswordParamName);
 		String phoneNum = command.stringValueOfParameterNamed(PhoneNumberParamName);
-		final Boolean isPublicUser = command.booleanValueOfParameterNamed(IsPublicUserParamName);
-		return new User(name, email, phoneNum, password, isPublicUser);
+		
+		return new User(name, email, phoneNum, password, isPublicUser, isActive);
 	}
 
-	private User(String name, String email, String phoneNum, String password, Boolean isPublicUser) {
+	private User(String name, String email, String phoneNum, String password, Boolean isPublicUser, Boolean isActive) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.phoneNum = phoneNum;
 		this.password = password;
 		//this.imageUrl = imageUrl;
-		this.isActive = true;
+		this.isActive  = isActive;
 		if(isPublicUser == null)
 			this.isPublicUser = true;
 		else 
@@ -132,6 +131,10 @@ public class User extends AbstractPersistable<Long> implements PublicUser{
 	
 	public String getName(){
 		return this.name;
+	}
+	
+	public void activate(){
+		this.isActive = true;
 	}
         
 	

@@ -10,20 +10,20 @@
 			<h2> <span ng-hide="product.id">{{'heading.page.admin.products.create' |translate}} <small></small></span>
 				<span ng-show="product.id&&!isUpdate&&!isQuickUpdate">{{'heading.page.admin.products.view' |translate}} <small></small></span>
 				<span ng-show="product.id&&(isUpdate || isQuickUpdate)">{{'heading.page.admin.products.edit' |translate}} <small></small></span>
-				<div class="pull-right" style="margin-right:20px;">
-					<button  ng-show ="!isedit && !isUpdate && !isQuickUpdate" ng-click = "isQuickUpdate = true;" class="btn btn-primary">Quick Edit</button>
-			  	 	<button  ng-show ="!isedit && !isUpdate" class="btn btn-primary" ng-click = "isUpdate = true;" >Edit</button>
-			  	 </div>
 			</h2>
 		</div>
 		<uib-tabset>
     		<uib-tab heading="Product Details"><br>
+    		<div class="pull-right" style="margin-right:20px;">
+					<button  ng-show ="!isedit && !isUpdate && !isQuickUpdate" ng-click = "isQuickUpdate = true;" class="btn btn-primary">Quick Edit</button>
+			  	 	<button  ng-show ="!isedit && !isUpdate" class="btn btn-primary" ng-click = "isUpdate = true;" >Edit</button>
+			  	 </div>
 				<form name="createProduct"  ng-submit="submit()" class="form-horizontal">
 					<fieldset>
 						<div class="row form-group">
 							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-uniq.name' |translate}}<span class="required">*</span>: </label>
 							<div class = "col-md-3">
-								<input class = "form-control" type = "text" maxlength="15" ng-model="product.name" ng-disabled ="!isedit && !isUpdate" required/>
+								<input class = "form-control" type = "text" maxlength="15" ng-model="product.productUid" ng-disabled ="!isedit && !isUpdate" required/>
 							</div>
 							<div class = "col-md-6">
 							</div>
@@ -31,11 +31,28 @@
 						<div class = "row form-group">
 							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.name' |translate}}<span class="required">*</span>: </label>
 							<div class = "col-md-3">
-								<input class = "form-control" type = "text" maxlength="150" ng-model="product.productUid" ng-disabled ="!isedit && !isUpdate" required/>
+								<input class = "form-control" type = "text" maxlength="150" ng-model="product.name" ng-disabled ="!isedit && !isUpdate" required/>
 							</div>
 							<div class = "col-md-6">
 							</div>
 						</div>
+						<div class="row form-group">
+	                        <label class="control-label col-sm-3">{{'label.sel-create.product-categories' | translate}}</label>
+	                        <div class="col-sm-3">
+	                            <select id="tags" ng-model="product.categoryIds" name="tags" class="form-control multiselectmin" multiple  ng-change="categoriesLoader()" ng-disabled ="!isedit && !isUpdate" >
+	                                <option ng-repeat="tag in allCategoryTags" value="{{tag.id}}">
+	                                    {{tag.label}}
+	                                </option>
+	                            </select>
+	                        </div>
+	                        <div ng-show="selectedCategoryTags.length > 0" class="col-sm-6">
+	                            <div  class = "mas-tag-container">
+	                                <div class = "mas-tag-element" ng-repeat= "tag in selectedCategoryTags track by $index" ><span>{{tag.label}}</span>
+	                                	<span class= "mas-tag-remove" ng-click="removeThisFromCategoryTagList($index)" ng-hide ="!isedit && !isUpdate" >X</span>
+	                                </div> 
+	                            </div>
+	                        </div>
+		                </div>
 						<div class = "row form-group">
 							<label class = "control-label col-md-3 text-right">{{'label.txt-create.product-product.main.description' |translate}}<span class="required">*</span>: </label>
 							<div class = "col-md-3">
@@ -98,22 +115,22 @@
 							</div>
 						</div>
 						<div class="row form-group">
-		                        <label class="control-label col-sm-3">{{'label.sel-create.product-packing.styles' | translate}}</label>
-		                        <div class="col-sm-3">
-		                            <select id="tags" ng-model="product.packingStyleIds" name="tags" class="form-control multiselectmin" multiple  ng-change="packingStyleLoader()" ng-disabled ="!isedit && !isUpdate" >
-		                                <option ng-repeat="tag in allPackingStyleTags" value="{{tag.id}}">
-		                                    {{tag.label}}
-		                                </option>
-		                            </select>
-		                        </div>
-		                        <div ng-show="selectedTags.length > 0" class="col-sm-6">
-		                            <div  class = "mas-tag-container">
-		                                <div class = "mas-tag-element" ng-repeat= "tag in selectedTags track by $index" ><span>{{tag.label}}</span>
-		                                	<span class= "mas-tag-remove" ng-click="removeThisFromTagList($index)" ng-hide ="!isedit && !isUpdate" >X</span>
-		                                </div> 
-		                            </div>
-		                        </div>
-		                    </div>
+	                        <label class="control-label col-sm-3">{{'label.sel-create.product-packing.styles' | translate}}</label>
+	                        <div class="col-sm-3">
+	                            <select id="tags" ng-model="product.packingStyleIds" name="tags" class="form-control multiselectmin" multiple  ng-change="packingStyleLoader()" ng-disabled ="!isedit && !isUpdate" >
+	                                <option ng-repeat="tag in allPackingStyleTags" value="{{tag.id}}">
+	                                    {{tag.label}}
+	                                </option>
+	                            </select>
+	                        </div>
+	                        <div ng-show="selectedTags.length > 0" class="col-sm-6">
+	                            <div  class = "mas-tag-container">
+	                                <div class = "mas-tag-element" ng-repeat= "tag in selectedTags track by $index" ><span>{{tag.label}}</span>
+	                                	<span class= "mas-tag-remove" ng-click="removeThisFromTagList($index)" ng-hide ="!isedit && !isUpdate" >X</span>
+	                                </div> 
+	                            </div>
+	                        </div>
+		                </div>
 						<div class = "row form-group">
 							<label class = "control-label col-md-3 text-right">{{'label.chk-create.product-product.is.sold.out' |translate}}: </label>
 							<div class = "col-md-3">
@@ -143,7 +160,7 @@
 					</form>
 				</uib-tab>
 				<uib-tab heading="Product Images" ng-show ="!isedit">
-				<div class="col-md-8">
+				<div class="col-md-8" style="overflow:auto;">
 				<h4><strong>Product Images</strong> <div class="pull-right"> <button type="button" class="btn btn-primary" ng-click="addNew(product.productImages)">Add New <i class="btn fa fa-plus"></i></button></div></h4>
 					<table class="table table-stripped">
 					    <thead>
@@ -160,7 +177,7 @@
 					    <tbody>
 					      <tr ng-repeat = "image in product.productImages">
 					        <td ng-hide="image.edit">{{image.label}}</td>
-					        <td ng-hide="image.edit">{{image.imageUrl}}</td>
+					        <td ng-hide="image.edit" >{{image.imageUrl}}</td>
 					        <td ng-hide="image.edit">{{image.displayOrder}}</td>
 					        <td ng-hide="image.edit">{{image.isActive}}</td>
 					        <td ng-hide="image.edit"><i class="fa fa-pencil pointer" ng-click= "image.edit = true;"></i></td>

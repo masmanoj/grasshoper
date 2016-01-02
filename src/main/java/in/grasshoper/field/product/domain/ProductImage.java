@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,7 +21,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 @Table(name = "g_product_images")
 public class ProductImage extends AbstractPersistable<Long>{
-	@JoinColumn(name = "product_id", nullable = false)
+	@ManyToOne(optional = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
 	private Product product;
 	
 	@Column(name = "image_url", nullable = false, length = 250)

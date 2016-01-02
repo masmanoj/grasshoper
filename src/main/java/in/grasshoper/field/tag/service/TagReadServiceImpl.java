@@ -25,7 +25,7 @@ public class TagReadServiceImpl implements TagReadService {
 	@Override
 	public Collection<TagData> retriveAllTags(){
 		final TagRowMapper rowMapper = new TagRowMapper(null);
-		final String sql = "select " + rowMapper.schema() ;
+		final String sql = "select " + rowMapper.schema() +  " where is_internal= false " ;
 		return this.jdbcTemplate.query(sql, rowMapper);
 	}
 	
@@ -77,6 +77,20 @@ public class TagReadServiceImpl implements TagReadService {
 		final SubTagRowMapper rowMapper = new SubTagRowMapper();
 		final String sql = "select " + rowMapper.schema() + " where st.id = ?" ;
 		return this.jdbcTemplate.queryForObject(sql, rowMapper, subTagId);
+	}
+	
+	@Override
+	public SubTagData retriveOneSubTag(String tag, String subTag) {
+		final SubTagRowMapper rowMapper = new SubTagRowMapper();
+		final String sql = "select " + rowMapper.schema() + " where t.tag = ? and st.sub_tag = ? " ;
+		return this.jdbcTemplate.queryForObject(sql, rowMapper, tag, subTag);
+	}
+	
+	@Override
+	public SubTagData retriveOneInternalSubTagsForTagAndSubTagLabel(final String tag, final String subTagLabel) {
+		final SubTagRowMapper rowMapper = new SubTagRowMapper();
+		final String sql = "select " + rowMapper.schema() + " where t.tag = ? and st.label = ? " ;
+		return this.jdbcTemplate.queryForObject(sql, rowMapper, tag, subTagLabel);
 	}
 	
 	private static final class SubTagRowMapper implements RowMapper<SubTagData>{

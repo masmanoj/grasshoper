@@ -25,22 +25,26 @@ public class Tag extends AbstractPersistable<Long>{
 	private String tag;
 	@Column(name = "label", nullable = false, length = 100)
 	private String label;
+	@Column(name = "is_internal")
+	Boolean isInternal;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tag", orphanRemoval = true)
 	private Set<SubTag> subTags;
 	
 	protected Tag(){}
 	
-	private Tag(String tag, String label) {
+	private Tag(final String tag, final String label,  final Boolean isInternal) {
 		super();
 		this.tag = tag;
 		this.label = label;
+		this.isInternal = isInternal;
 	}
 
 	public static Tag fromJson(final JsonCommand command) {
         final String tag = command.stringValueOfParameterNamed(TagParamName);
         final String label = command.stringValueOfParameterNamed(LabelParamName);
-        return new Tag(tag, label);
+        final Boolean isInternal = false;
+        return new Tag(tag, label, isInternal);
     }
 	
 	public Map<String, Object> update(final JsonCommand command) {

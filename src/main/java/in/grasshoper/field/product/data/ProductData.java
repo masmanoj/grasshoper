@@ -20,11 +20,14 @@ public class ProductData {
 	private final Boolean isSoldOut;
 	private final Boolean isActive;
 	@SuppressWarnings("unused") private final Collection<SubTagData> packagingStyles; 
+	@SuppressWarnings("unused") private final Collection<SubTagData> categories;
 	@SuppressWarnings("unused") private final Collection<ProductImageData> productImages;
-	private final BigDecimal minimumQuantity;
+	@SuppressWarnings("unused") private final BigDecimal minimumQuantity;
 	
 	//template
 	@SuppressWarnings("unused") private final Collection<SubTagData> allPkgingStyles;
+	@SuppressWarnings("unused") private final Collection<SubTagData> allCategories;
+	@SuppressWarnings("unused") private final Collection<SubTagData> allSortOrders;
 	
 	private ProductData(Long id, String name, String productUid, String desc0,
 			String desc1, String desc2, BigDecimal quantity,
@@ -32,7 +35,10 @@ public class ProductData {
 			final BigDecimal pricePerUnit, final BigDecimal minimumQuantity, 
 			final Collection<SubTagData> packagingStyles,
 			final Collection<ProductImageData> productImages,
-			final Collection<SubTagData> allPkgingStyles) {
+			final Collection<SubTagData> allPkgingStyles,
+			final Collection<SubTagData> categories,
+			final Collection<SubTagData> allCategories,
+			final Collection<SubTagData> allSortOrders) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,29 +55,36 @@ public class ProductData {
 		this.packagingStyles = packagingStyles;
 		this.productImages = productImages;
 		this.allPkgingStyles = allPkgingStyles;
+		this.allCategories = allCategories;
+		this.categories = categories;
+		this.allSortOrders = allSortOrders;
 	}
 	public static ProductData createNew(final Long id, String name, String productUid, String desc0,
 			String desc1, String desc2, BigDecimal quantity,
 			String quantityUnit, Boolean isSoldOut, Boolean isActive,
-			final BigDecimal pricePerUnit, final BigDecimal minimumQuantity) {
-		final Collection<SubTagData> packagingStyles = null;
+			final BigDecimal pricePerUnit, final BigDecimal minimumQuantity,
+			final Collection<SubTagData> packagingStyles, 
+			final Collection<SubTagData> categories,
+			final Collection<ProductImageData> productImages) {
 		final Collection<SubTagData> allPkgingStyles = null;
-		final Collection<ProductImageData> productImages = null;
+		final Collection<SubTagData> allCategories = null;
+		final Collection<SubTagData> allsortOrders = null;
 		return new ProductData(id, name, productUid, desc0, desc1, desc2, quantity,
 				quantityUnit, isSoldOut, isActive, pricePerUnit, minimumQuantity, packagingStyles,
-				productImages, allPkgingStyles);
+				productImages, allPkgingStyles, categories, allCategories, allsortOrders);
 	}
 	
-	public static ProductData createNew(final ProductData productData, final Collection<SubTagData> packagingStyles,
+	/*public static ProductData createNew(final ProductData productData, final Collection<SubTagData> packagingStyles,
 			final Collection<ProductImageData> productImages) {
 		final Collection<SubTagData> allPkgingStyles = null;
 		return new ProductData(productData.id, productData.name, productData.productUid, productData.desc0, 
 				productData.desc1, productData.desc2, productData.quantity, productData.quantityUnit, 
 				productData.isSoldOut, productData.isActive, productData.pricePerUnit, productData.minimumQuantity,
 				packagingStyles, productImages, allPkgingStyles);
-	}
+	}*/
 	
-	public static ProductData tamplate(final Collection<SubTagData> allPkgingStyles){
+	public static ProductData tamplate(final Collection<SubTagData> allPkgingStyles, final Collection<SubTagData> allCategories,
+			final Collection<SubTagData> allsortOrders){
 		final Long id =null;
 		final String name =null;
 		final String productUid = null;
@@ -85,10 +98,11 @@ public class ProductData {
 		final BigDecimal pricePerUnit = null;
 		final BigDecimal minimumQuantity =null;
 		final Collection<SubTagData> packagingStyles = null;
+		final Collection<SubTagData> categories = null;
 		final Collection<ProductImageData> productImages = null;
 		return new ProductData(id, name, productUid, desc0, desc1, desc2, quantity,
 				quantityUnit, isSoldOut, isActive, pricePerUnit, minimumQuantity, packagingStyles,
-				productImages, allPkgingStyles);
+				productImages, allPkgingStyles, categories, allCategories, allsortOrders);
 	}
 	
 	public Long getId() {
