@@ -1,5 +1,6 @@
 package in.grasshoper.user.api;
 
+import in.grasshoper.core.GrassHoperMainConstants;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.FromJsonHelper;
 import in.grasshoper.core.infra.JsonCommand;
@@ -48,13 +49,16 @@ public class PublicUserApiResource {
 		 
 		 final String returnUrl = this.userWriteServce.activateUser(email, otp);
 		 final StringBuffer resultPage = new StringBuffer()
-		 .append("<html><head><title>User Activation</title></head><body>")
-		 .append("<h1>User Activation</h1><hr><br/><br/><br/><br/><br/><br/><br/>");
+		 .append("<html><head><title>").append(GrassHoperMainConstants.DefaultSiteName)
+		 .append("</title></head><body style='text-align: center;font-family: verdana;'><h1>")
+		 .append(GrassHoperMainConstants.DefaultSiteName)
+		 .append("</h1><hr><br/><br/><br/><br/><br/><br/><br/>");
 		 
 		 if(null != returnUrl){
-			 resultPage.append("<h4>Activation Successfull, Please login <a href='")
+			 resultPage.append("<h4>Email verified successfully<br><br/></h4>")
+			 .append("<a style='background-color:#73AD21;padding: 16px 100px;color: white;text-decoration: none;' href='")
 			 .append(returnUrl)
-			 .append("'>here</a></h4> </body></html>");
+			 .append("'>Login now</a> </body></html>");
 		 }else{
 			 resultPage.append("<h4>Something went wrong, contact support</h4> </body></html>");
 		 }

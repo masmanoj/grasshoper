@@ -48,11 +48,11 @@ public class OrderDataValidator {
 		final String name = this.fromApiJsonHelper.extractStringNamed(NameParamName, element);
         baseDataValidator.reset().parameter(NameParamName).value(name).notNull().notExceedingLengthOf(100) ;
         
-        final Long pickUpAddress = this.fromApiJsonHelper.extractLongNamed(pickupAddressIdParamName, element);
-        baseDataValidator.reset().parameter(pickupAddressIdParamName).value(pickUpAddress).notNull().longGreaterThanZero();
+        final Long pickUpAddress = this.fromApiJsonHelper.extractLongNamed(PickupAddressIdParamName, element);
+        baseDataValidator.reset().parameter(PickupAddressIdParamName).value(pickUpAddress).notNull().longGreaterThanZero();
         
-        final Long dropAddress = this.fromApiJsonHelper.extractLongNamed(dropAddressIdParamName, element);
-        baseDataValidator.reset().parameter(dropAddressIdParamName).value(dropAddress).notNull().longGreaterThanZero();
+        final Long dropAddress = this.fromApiJsonHelper.extractLongNamed(DropAddressIdParamName, element);
+        baseDataValidator.reset().parameter(DropAddressIdParamName).value(dropAddress).notNull().longGreaterThanZero();
         
         baseDataValidator.throwExceptionIfValidationWarningsExist(dataValidationErrors);
 	}

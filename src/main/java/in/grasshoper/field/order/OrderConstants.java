@@ -6,8 +6,16 @@ import java.util.Set;
 
 public interface OrderConstants {
 	String NameParamName = "name" ; 
-	String pickupAddressIdParamName = "pickupAddressId";
-	String dropAddressIdParamName = "dropAddressId";
+	String PickupAddressIdParamName = "pickupAddressId";
+	String DropAddressIdParamName = "dropAddressId";
+	String QuantityParamName = "quantity";
+	
+	String OrderCartListParamName = "orderCartList";
+	String CartProductUidParam = "productUid";
+	String CartProductQuantity = "quantity";
+	
+	
+	
 	
 	
 	
@@ -17,5 +25,5 @@ public interface OrderConstants {
 	
 	//supported params
 	Set<String>  CreateOrderParams = new HashSet<>(
-		Arrays.asList(NameParamName, pickupAddressIdParamName, dropAddressIdParamName));
+		Arrays.asList(NameParamName, PickupAddressIdParamName, DropAddressIdParamName));
 }

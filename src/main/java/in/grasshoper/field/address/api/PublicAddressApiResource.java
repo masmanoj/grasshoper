@@ -22,7 +22,7 @@ import com.google.gson.JsonParser;
 
 @RestController  
 @RequestMapping("/address")
-public class AddressApiResource {
+public class PublicAddressApiResource {
 	private final AddressWriteService addressWriteServce;
 	private final FromJsonHelper fromApiJsonHelper;
 	private final AddressReadService addressReadService;
@@ -30,7 +30,7 @@ public class AddressApiResource {
 	
 	
 	@Autowired
-	public AddressApiResource(final AddressWriteService addressWriteServce,
+	public PublicAddressApiResource(final AddressWriteService addressWriteServce,
 			final FromJsonHelper fromApiJsonHelper,
 			final AddressReadService addressReadService,
 			final ApiSerializer<AddressData> apiJsonSerializerService) {

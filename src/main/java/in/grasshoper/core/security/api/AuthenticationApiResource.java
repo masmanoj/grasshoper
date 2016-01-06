@@ -62,10 +62,14 @@ public class AuthenticationApiResource {
         final User principal = (User) authenticationCheck.getPrincipal();
         
         sessionService.createSession(principal, new String(base64EncodedAuthenticationKey));
-        
-        AuthenticatedUserData  authenticatedUserData = new AuthenticatedUserData(principal.getName(), principal.getId(), new String(base64EncodedAuthenticationKey),
+        AuthenticatedUserData  authenticatedUserData =  null;
+        if(principal.isPublicUser())
+        	authenticatedUserData = new AuthenticatedUserData(principal.getName(), new String(base64EncodedAuthenticationKey),
+            		principal.getUsername(), principal.doesPasswordHasToBeRenewed(), authenticationCheck.isAuthenticated());
+        else
+        	authenticatedUserData = new AuthenticatedUserData(principal.getName(), principal.getId(), new String(base64EncodedAuthenticationKey),
         		principal.getUsername(), principal.doesPasswordHasToBeRenewed(), authenticationCheck.isAuthenticated());
-        
+       
         
         return this.apiJsonSerializerService.serialize(authenticatedUserData);
 	 }

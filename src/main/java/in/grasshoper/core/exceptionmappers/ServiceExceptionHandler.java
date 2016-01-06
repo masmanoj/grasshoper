@@ -1,7 +1,10 @@
 package in.grasshoper.core.exceptionmappers;
 
+import in.grasshoper.core.exception.AbstractPlatformRuleException;
+import in.grasshoper.core.exception.PlatformApiDataValidationException;
 import in.grasshoper.core.exception.PlatformException;
 import in.grasshoper.core.exception.ResourceNotFoundException;
+import in.grasshoper.core.exception.UnsupportedParameterException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,12 +27,21 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(Throwable.class)
     @ResponseBody
-    ResponseEntity<Object> handleControllerException(HttpServletRequest req, Throwable ex) {
-		Map<String,String> errorResponse = new HashMap<>();
+    ResponseEntity<Object> handleControllerException(@SuppressWarnings("unused") HttpServletRequest req, Throwable ex) {
+		Map<String,Object> errorResponse = new HashMap<>();
         if(ex instanceof ResourceNotFoundException) {
         	populateErrorResponseMessage(errorResponse,(PlatformException) ex);
             return new ResponseEntity<Object>(errorResponse, HttpStatus.NOT_FOUND);
-        } else if(ex instanceof DataAccessException) {
+        } else if (ex instanceof AbstractPlatformRuleException){
+        	populateErrorResponseMessage(errorResponse,(AbstractPlatformRuleException) ex);
+        	return new ResponseEntity<Object>(errorResponse,HttpStatus.BAD_REQUEST);
+        }else if(ex instanceof PlatformApiDataValidationException){
+        	populateErrorResponseMessage(errorResponse,(PlatformApiDataValidationException) ex);
+        	return new ResponseEntity<Object>(errorResponse,HttpStatus.BAD_REQUEST);
+        }else if(ex instanceof UnsupportedParameterException){
+        	populateErrorResponseMessage(errorResponse,(UnsupportedParameterException) ex);
+        	return new ResponseEntity<Object>(errorResponse,HttpStatus.BAD_REQUEST);
+        }else if(ex instanceof DataAccessException) {
         	ex.printStackTrace();
         	return new ResponseEntity<Object>(errorResponse, HttpStatus.SERVICE_UNAVAILABLE);
         } else {
@@ -39,14 +51,15 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleNoHandlerFoundException(@SuppressWarnings("unused") NoHandlerFoundException ex, 
+    		@SuppressWarnings("unused") HttpHeaders headers, @SuppressWarnings("unused") HttpStatus status, WebRequest request) {
         Map<String,String> responseBody = new HashMap<>();
         responseBody.put("path",request.getContextPath());
         responseBody.put("message","The URL you have reached is not in service at this time (404).");
         return new ResponseEntity<Object>(responseBody,HttpStatus.NOT_FOUND);
     }
     
-    private void populateErrorResponseMessage(Map<String,String> errorResponse,
+    private void populateErrorResponseMessage(Map<String,Object> errorResponse,
     		final PlatformException exception) {
     	errorResponse.put("globalisationMessageCode", exception.getGlobalisationMessageCode());
     	errorResponse.put("defaultUserMessage", exception.getDefaultUserMessage());
@@ -54,5 +67,28 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     		errorResponse.put("defaultUserMessageArgs" + i,
     				exception.getDefaultUserMessageArgs()[i].toString());
     }
-
+    
+    private void populateErrorResponseMessage(Map<String,Object> errorResponse,
+    		final AbstractPlatformRuleException exception) {
+    	errorResponse.put("globalisationMessageCode", exception.getGlobalisationMessageCode());
+    	errorResponse.put("defaultUserMessage", exception.getDefaultUserMessage());
+    	for(int i=0; i < exception.getDefaultUserMessageArgs().length; i++)
+    		errorResponse.put("defaultUserMessageArgs" + i,
+    				exception.getDefaultUserMessageArgs()[i].toString());
+    }
+    
+    private void populateErrorResponseMessage(Map<String,Object> errorResponse,
+    		final PlatformApiDataValidationException exception) {
+    	errorResponse.put("globalisationMessageCode", exception.getGlobalisationMessageCode());
+    	errorResponse.put("defaultUserMessage", exception.getDefaultUserMessage());
+    	errorResponse.put("errors" , exception.getErrors());
+    }
+    private void populateErrorResponseMessage(Map<String,Object> errorResponse,
+    		final UnsupportedParameterException exception) {
+    	errorResponse.put("globalisationMessageCode", exception.getGlobalisationMessageCode());
+    	errorResponse.put("defaultUserMessage", exception.getDefaultUserMessage());
+    	errorResponse.put("defaultUserMessageArgs" , exception.getUnsupportedParameters());
+    }
+    
+    
 }

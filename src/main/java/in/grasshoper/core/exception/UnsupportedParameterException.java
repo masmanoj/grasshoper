@@ -13,13 +13,26 @@ import java.util.List;
  */
 public class UnsupportedParameterException extends RuntimeException {
 
+	private final String globalisationMessageCode;
+    private final String defaultUserMessage;
     private final List<String> unsupportedParameters;
 
     public UnsupportedParameterException(final List<String> unsupportedParameters) {
+    	this.globalisationMessageCode = "error.unsupported.params";
+    	this.defaultUserMessage = "Unsupported Params";
         this.unsupportedParameters = unsupportedParameters;
     }
 
     public List<String> getUnsupportedParameters() {
         return this.unsupportedParameters;
     }
+
+	public String getGlobalisationMessageCode() {
+		return this.globalisationMessageCode;
+	}
+
+	public String getDefaultUserMessage() {
+		return this.defaultUserMessage;
+	}
+    
 }

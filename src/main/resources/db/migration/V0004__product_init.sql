@@ -1,4 +1,4 @@
--- g_code   : defines available codes
+-- g_tag   : defines available codes
 CREATE TABLE `g_tag` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tag` varchar(150) NOT NULL,
@@ -93,3 +93,15 @@ CREATE TABLE `g_product_categories` (
 	CONSTRAINT `prd_cat_product_id` FOREIGN KEY (`product_id`) REFERENCES `g_product` (`id`),
 	CONSTRAINT `prd_cat_category_id_id` FOREIGN KEY (`category_id`) REFERENCES `g_sub_tag` (`id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+ -- g_order_cart: order product mapping
+ CREATE TABLE `g_order_cart` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL,
+  `product_id` bigint(20) NOT NULL,
+  `quantity` decimal(19,6) NOT NULL DEFAULT '0.000000',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UQ_m_inventory_request_cart` (`order_id`,`product_id`),
+  CONSTRAINT `cart_product_id` FOREIGN KEY (`product_id`) REFERENCES `g_product` (`id`),
+  CONSTRAINT `cart_order_id` FOREIGN KEY (`order_id`) REFERENCES `g_order` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -8,4 +8,6 @@ public interface PlatformSecurityContext {
 
 	boolean doesPasswordHasToBeRenewed(User currentUser);
 
+	void restrictPublicUser();
+
 }

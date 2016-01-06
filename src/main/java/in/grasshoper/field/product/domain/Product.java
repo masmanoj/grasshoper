@@ -226,4 +226,8 @@ public class Product extends AbstractPersistable<Long>{
 		this.productImages.remove(productImage);
 	}
 	
+	public BigDecimal getQuantity(){
+		return this.quantity;
+	}
+	
 }

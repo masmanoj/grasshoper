@@ -4,6 +4,7 @@ import in.grasshoper.core.infra.ApiSerializer;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.FromJsonHelper;
 import in.grasshoper.core.infra.JsonCommand;
+import in.grasshoper.core.security.service.PlatformSecurityContext;
 import in.grasshoper.user.data.UserData;
 import in.grasshoper.user.service.UserReadService;
 import in.grasshoper.user.service.UserWriteService;
@@ -28,19 +29,22 @@ public class UserApiResource {
 	private final UserWriteService userWriteServce;
 	private final UserReadService userReadService;
 	private final FromJsonHelper fromApiJsonHelper;
-	final ApiSerializer<UserData> apiJsonSerializerService;
+	private final ApiSerializer<UserData> apiJsonSerializerService;
+	private final PlatformSecurityContext context;
 	
 	
 	@Autowired
 	public UserApiResource(final UserWriteService userWriteServce,
 			 final UserReadService userReadService,
 			final FromJsonHelper fromApiJsonHelper,
-			ApiSerializer<UserData> apiJsonSerializerService) {
+			ApiSerializer<UserData> apiJsonSerializerService,
+			final PlatformSecurityContext context) {
 		super();
 		this.userWriteServce = userWriteServce;
 		this.fromApiJsonHelper = fromApiJsonHelper;
 		this.userReadService = userReadService;
 		this.apiJsonSerializerService = apiJsonSerializerService;
+		this.context = context;
 	}
 
 
@@ -48,7 +52,7 @@ public class UserApiResource {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
     public CommandProcessingResult createUser(@RequestBody final  String reqBody) {
-		
+		this.context.restrictPublicUser();
 		//JsonObject  a = new JsonParser().parse(reqBody).getAsJsonObject();
 		return this.userWriteServce.create(JsonCommand.from(reqBody,
 				new JsonParser().parse(reqBody), fromApiJsonHelper));
@@ -57,6 +61,7 @@ public class UserApiResource {
 	@RequestMapping(method = RequestMethod.GET)  
 	@Transactional(readOnly = true)
     public String retrieveUsers(@RequestParam("limit") Integer limit, @RequestParam("offset") Integer offset) {
+		this.context.restrictPublicUser();
         final Collection<UserData> result = this.userReadService.retriveAll( limit, offset);
         
         return this.apiJsonSerializerService.serialize(result);

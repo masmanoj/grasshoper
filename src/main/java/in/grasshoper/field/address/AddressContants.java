@@ -1,5 +1,11 @@
 package in.grasshoper.field.address;
 
+import in.grasshoper.core.GrassHoperMainConstants;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public interface AddressContants {
 	String NameParamName = "name";
@@ -16,4 +22,14 @@ public interface AddressContants {
 	String LongitudeParamName = "longitude";
 	String AddressTypeParamName = "addressType";
 	String OwnerUserIdParamName = "ownerUserId";
+	
+	
+	String ADDRESS_RESOURCE = "address";
+	
+	//supported params
+		Set<String>  CreateAddressParams = new HashSet<>(
+			Arrays.asList(NameParamName, AddressLine1ParamName, AddressLine2ParamName,
+					AddressLine3ParamName, AreaParamName, LandmarkParamName, CityParamName,
+					PinParamName, ContactNumberParamName, ExtraInfoParamName, LatitudeParamName,
+					LongitudeParamName, AddressTypeParamName, GrassHoperMainConstants.LocaleParamName));
 }

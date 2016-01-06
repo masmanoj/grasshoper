@@ -136,6 +136,8 @@ public class User extends AbstractPersistable<Long> implements PublicUser{
 	public void activate(){
 		this.isActive = true;
 	}
-        
+    public Boolean isPublicUser(){
+    	return this.isPublicUser;
+    }
 	
 }

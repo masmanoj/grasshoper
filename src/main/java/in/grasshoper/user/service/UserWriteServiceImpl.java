@@ -1,10 +1,13 @@
 package in.grasshoper.user.service;
 
 import static in.grasshoper.user.UserConstants.ReturnUrlParamName;
+import static in.grasshoper.core.GrassHoperMainConstants.DefaultAppUrl;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.FromJsonHelper;
 import in.grasshoper.core.infra.JsonCommand;
+import in.grasshoper.core.infra.email.service.EmailSenderService;
+import in.grasshoper.core.infra.email.template.EmailTemplates;
 import in.grasshoper.core.security.service.PlatformPasswordEncoder;
 import in.grasshoper.user.data.UserDataValidator;
 import in.grasshoper.user.domain.User;
@@ -13,6 +16,8 @@ import in.grasshoper.user.domain.UserOtpRepository;
 import in.grasshoper.user.domain.UserRepository;
 
 import java.text.SimpleDateFormat;
+
+import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +34,28 @@ public class UserWriteServiceImpl implements UserWriteService {
 	private final UserDataValidator userDataValidator;
 	private final UserOtpRepository userOtpRepository;
 	private final FromJsonHelper fromJsonHelper;
+	private final EmailSenderService emailSenderService;
 
 	@Autowired
 	public UserWriteServiceImpl(final UserRepository userRepository,
 			final PlatformPasswordEncoder applicationPasswordEncoder,
 			final UserDataValidator userDataValidator,
-			final UserOtpRepository userOtpRepository,final FromJsonHelper fromJsonHelper) {
+			final UserOtpRepository userOtpRepository,final FromJsonHelper fromJsonHelper,
+			final EmailSenderService emailSenderService) {
 		super();
 		this.userRepository = userRepository;
 		this.applicationPasswordEncoder = applicationPasswordEncoder;
 		this.userDataValidator = userDataValidator;
 		this.userOtpRepository = userOtpRepository;
 		this.fromJsonHelper = fromJsonHelper;
+		this.emailSenderService = emailSenderService;
 	}
 
 	private void generateKeyUsedForPasswordSalting(final User user) {
 		this.userRepository.save(user);
 	}
 	@Override
+	@Transactional
 	public CommandProcessingResult create(final JsonCommand command) {
 		
 		this.userDataValidator.validateCreate(command.getJsonCommand());
@@ -66,6 +75,7 @@ public class UserWriteServiceImpl implements UserWriteService {
 	
 	//public functions
 	@Override
+	@Transactional
 	public CommandProcessingResult createPublicUser(final JsonCommand command) {
 		
 		this.userDataValidator.validateCreate(command.getJsonCommand());
@@ -92,11 +102,13 @@ public class UserWriteServiceImpl implements UserWriteService {
 		
 		this.userOtpRepository.save(userOtp);
 		
-	//	final String finalOtp = userOtp.getOtp();
-	// ^^	send this via email
-
-		return new CommandProcessingResultBuilder().withResourceIdAsString(
-				user.getId()).build();
+		final String finalOtp = userOtp.getOtp();
+		final String verificationLink = DefaultAppUrl+"userapi/activate"
+				+"?e="+email+"&uas="+finalOtp;
+		String toEmails[] = new String[]{email};
+		//this.emailSenderService.sendEmail(toEmails, null, null, EmailTemplates.activateUserEmailSubject(), 
+			//	EmailTemplates.activateUserEmailTemplate(user.getName(), verificationLink));
+		return new CommandProcessingResultBuilder().withSuccessStatus().build();
 	}
 	@Override
 	public String activateUser(final String email, final String otp) {

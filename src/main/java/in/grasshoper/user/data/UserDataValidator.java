@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,8 +56,10 @@ public class UserDataValidator {
         final String name = this.fromApiJsonHelper.extractStringNamed(NameParamName, element);
         baseDataValidator.reset().parameter(NameParamName).value(name).notNull().notExceedingLengthOf(100) ;
         final String email = this.fromApiJsonHelper.extractStringNamed(EmailParamName, element);
-        baseDataValidator.reset().parameter(EmailParamName).value(email).notNull().notExceedingLengthOf(100) ;
+        baseDataValidator.reset().parameter(EmailParamName).value(email).notNull().notExceedingLengthOf(100).isValidEmail() ;
         //add validate email
+       
+        
         
         final String url = this.fromApiJsonHelper.extractStringNamed(ReturnUrlParamName, element);
         baseDataValidator.reset().parameter(ReturnUrlParamName).value(url).notNull().notExceedingLengthOf(255) ;

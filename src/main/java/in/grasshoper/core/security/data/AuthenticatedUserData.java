@@ -35,4 +35,16 @@ public class AuthenticatedUserData {
         this.shouldRenewPassword = shouldRenewPassword;
         this.email = email;
     }
+    
+    public AuthenticatedUserData(final String name,  
+    		final String base64EncodedAuthenticationKey, 
+    		final String email, final boolean shouldRenewPassword,
+    		final boolean authenticated) {
+        this.name = name;
+        this.userId = null;
+        this.sessionKey = base64EncodedAuthenticationKey;
+        this.authenticated = authenticated;
+        this.shouldRenewPassword = shouldRenewPassword;
+        this.email = email;
+    }
 }

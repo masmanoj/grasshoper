@@ -29,6 +29,24 @@ public class Config extends AbstractPersistable<Long>{
 		this.value = value;
 		this.isActive = isActive;
 		this.isInternal = isInternal;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getValue() {
+		return this.value;
+	}
+
+	public Boolean getIsActive() {
+		return this.isActive;
+	}
+
+	public Boolean getIsInternal() {
+		return this.isInternal;
 	};
+	
+	
 	
 }

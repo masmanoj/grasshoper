@@ -1,5 +1,8 @@
 package in.grasshoper.field.address.service;
 
+import javax.transaction.Transactional;
+
+import in.grasshoper.core.exception.PlatformDataIntegrityException;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.JsonCommand;
@@ -10,6 +13,7 @@ import in.grasshoper.field.address.domain.AddressRepository;
 import in.grasshoper.user.domain.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -30,16 +34,26 @@ public class AddressWriteServiceImpl implements AddressWriteService {
 	}
 	
 	@Override
+	@Transactional
 	public CommandProcessingResult createAddress(final JsonCommand command){
+	
 		this.dataValidator.validateForCreate(command.getJsonCommand());
-		
-		final User thisUser = this.context.authenticatedUser();
-		final Address address =  Address.fromJson(thisUser, command);
-
-		this.addressRepository.save(address);
-		
-		return new CommandProcessingResultBuilder().withResourceIdAsString(
-				address.getId()).build();
+		try {	
+			final User thisUser = this.context.authenticatedUser();
+			final Address address =  Address.fromJson(thisUser, command);
+	
+			this.addressRepository.save(address);
+			
+			return new CommandProcessingResultBuilder().withResourceIdAsString(
+				address.getId()).withSuccessStatus().build();
+		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
+			final Throwable realCause = ex.getMostSpecificCause();
+			throw new PlatformDataIntegrityException(
+					"error.msg.unknown.data.integrity.issue",
+					"Unknown data integrity issue with resource: "
+							+ realCause.getMessage());
+		}
 	}
 	
 }

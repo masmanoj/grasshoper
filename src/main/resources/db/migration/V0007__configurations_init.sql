@@ -10,10 +10,11 @@ CREATE TABLE `g_config`(
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into g_config(name,value,is_internal)
-	values('default-email-user-name','bot.masmatrics@gmail.com',1),
-	('default-email-passwd','m0a0s0m0a0t0r0i0c0s',1), 
-	('default-email-host-name','smtp.gmail.com',1),
-	('default-email-port','587',1);
+insert into g_config(name, value, is_active, is_internal)
+	values('default-email-user-name','bot.masmatrics@gmail.com',1,1),
+	('default-email-passwd','m0a0s0m0a0t0r0i0c0s',1,1), 
+	('default-email-host-name','smtp.gmail.com',1,1),
+	('default-email-port','587',1,1),
+	('default-email-from-name','Bot Admin',1,1);
 
 

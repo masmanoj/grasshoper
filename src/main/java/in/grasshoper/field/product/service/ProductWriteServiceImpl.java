@@ -82,7 +82,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			final Product product = this.productRepository.findOne(productId);
 			if (product == null) {
 				throw new ResourceNotFoundException(
-						"error.entity.tag.not.found", "Product with id " + productId
+						"error.entity.product.not.found", "Product with id " + productId
 								+ "not found", productId);
 			}
 			final Map<String, Object> changes = product.update(command);
@@ -170,7 +170,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			final Product product = this.productRepository.findOne(productId);
 			if (product == null) {
 				throw new ResourceNotFoundException(
-						"error.entity.tag.not.found", "Product with id " + productId
+						"error.entity.product.not.found", "Product with id " + productId
 								+ "not found", productId);
 			}
 			final ProductImage productImage =  ProductImage.fromJson(command, product);
@@ -179,7 +179,6 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			
 			if (productImage != null ) {
 				product.addProductImage(productImage);
-				//product.getProductImages().add(productImage);
 				this.productRepository.saveAndFlush(product);
 				final ProductImage newProductImage = product.lastAddedProductImage();
 				return new CommandProcessingResultBuilder() //
@@ -211,7 +210,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			final Product product = this.productRepository.findOne(productId);
 			if (product == null) {
 				throw new ResourceNotFoundException(
-						"error.entity.tag.not.found", "Product with id " + productId
+						"error.entity.tag.product.found", "Product with id " + productId
 								+ "not found", productId);
 			}
 			
@@ -252,7 +251,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			final Product product = this.productRepository.findOne(productId);
 			if (product == null) {
 				throw new ResourceNotFoundException(
-						"error.entity.tag.not.found", "Product with id " + productId
+						"error.entity.product.not.found", "Product with id " + productId
 								+ "not found", productId);
 			}
 			

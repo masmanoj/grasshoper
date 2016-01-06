@@ -1,7 +1,7 @@
 package in.grasshoper.field.order.domain;
 
 public enum OrderStatus {
-	Unassigned(100,"Unassigned");
+	Received(100,"Received");
 	
 	private final Integer statusCode;
 	private final String statusValue;

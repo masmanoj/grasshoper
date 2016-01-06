@@ -1,5 +1,6 @@
 package in.grasshoper.core.security.service;
 
+import in.grasshoper.core.exception.GeneralPlatformRuleException;
 import in.grasshoper.core.security.exception.PlatformUnknownDBException;
 import in.grasshoper.core.security.exception.ResetPasswordException;
 import in.grasshoper.core.security.exception.UnAuthenticatedUserException;
@@ -54,5 +55,12 @@ public class SpringSecurityPlatformSecurityContext implements
 	            throw new PlatformUnknownDBException();
 	     }
 
+	}
+	@Override
+	public void restrictPublicUser(){
+		if(this.authenticatedUser().isPublicUser()){
+			throw new GeneralPlatformRuleException("error.user.not.entitiled.to.execute.srv",
+					"The User is not entitled to execute this Service");
+		}
 	}
 }
