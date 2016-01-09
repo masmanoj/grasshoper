@@ -201,7 +201,8 @@ public class ProductReadServiceImpl implements ProductReadService {
 	/* public Api services */
 	@Override
 	public Collection<ProductData> retriveAllProductsSearch(final String searchQry, final Boolean notSoldOut,
-			final Integer limit, final Integer offset, final String orderby, final String category){
+			final Integer limit, final Integer offset, final String orderby, final String category,
+			String productUId){
 		final ProductRowMapper rowMapper = new ProductRowMapper(this, true);
 		final StringBuffer sql = new StringBuffer()
 				.append("select " + rowMapper.publicSchema())
@@ -214,11 +215,15 @@ public class ProductReadServiceImpl implements ProductReadService {
 			.append(" or p.desc2 like '%").append(searchQry).append("%' ) ");
 			isCategoryOn = false;
 		}
+		if(null != productUId && !productUId.isEmpty() && !productUId.contains("'")){
+			sql.append(" and p.product_uid = '" + productUId +"'");
+		}
+		
 		if(null != notSoldOut && notSoldOut){
 			sql.append(" and p.is_sold_out = false");
 		}
 		
-		if(isCategoryOn && StringUtils.isNotBlank(category)){
+		if(isCategoryOn && StringUtils.isNotBlank(category) && !category.contains("'")){
 			String catTkns[]  = category.split(",");
 			List<Long> catIds =  new ArrayList<>();
 			for(String eachCatgry : catTkns){

@@ -7,4 +7,6 @@ public interface AddressWriteService {
 
 	CommandProcessingResult createAddress(JsonCommand command);
 
+	CommandProcessingResult removeAddress(Long addressId);
+
 }

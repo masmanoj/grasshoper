@@ -14,6 +14,6 @@ public interface ProductReadService {
 
 	Collection<ProductData> retriveAllProductsSearch(String searchQry,
 			Boolean notSoldOut, Integer limit, Integer offset, String orderby,
-			String category);
+			String category, String productUId);
 
 }

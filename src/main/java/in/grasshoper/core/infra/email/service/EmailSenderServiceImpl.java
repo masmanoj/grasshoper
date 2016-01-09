@@ -7,6 +7,7 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 @Service
 public class EmailSenderServiceImpl implements EmailSenderService{
@@ -19,6 +20,7 @@ public class EmailSenderServiceImpl implements EmailSenderService{
 		this.configRepository = configRepository;
 	}
 	@Override
+	@Async
 	public void  sendEmail(String[] toEmails, String[] ccEmails, String[] bccEmails, String subject, String body){
 		String authUser = this.configRepository.findByNameExceptionIfNotFound("default-email-user-name").getValue(); 
 		String authUserPasswd = this.configRepository.findByNameExceptionIfNotFound("default-email-passwd").getValue();

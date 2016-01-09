@@ -89,6 +89,7 @@ CREATE TABLE `g_order`(
 	`pickup_address` bigint(20) DEFAULT NULL,
 	`drop_address`  bigint(20) NOT NULL,
 	`assigned_hoper` bigint(20) DEFAULT NULL,
+	`additional_note` varchar(300) DEFAULT NULL,
 	`status_code` int(5) NOT NULL,
 	`created_user_id` bigint(20) NOT NULL,
 	`created_time` datetime NOT NULL,
@@ -111,7 +112,8 @@ CREATE TABLE `g_order_history`(
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`order_id` bigint(20) NOT NULL,
 	`status` varchar(6) NOT NULL,
-	`description` varchar(255) NOT NULL,
+	`description` varchar(255) DEFAULT NULL,
+	`user_name` varchar(100) DEFAULT NULL,
 	`updated_time` datetime NOT NULL,
 	`lastmodifiedby_id` bigint(20) NOT NULL,
 

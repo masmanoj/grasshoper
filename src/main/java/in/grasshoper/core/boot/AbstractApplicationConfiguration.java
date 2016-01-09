@@ -15,13 +15,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.DispatcherServlet;
 
 
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableJpaRepositories("in.grasshoper.*")
+@EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
+@EnableAsync
 @ComponentScan(basePackages = { "in.grasshoper.*" })
 @ImportResource({ "classpath*:META-INF/spring/appContext.xml" })
 @EnableAutoConfiguration

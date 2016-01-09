@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
@@ -14,6 +15,7 @@ import org.joda.time.DateTime;
 import org.springframework.data.domain.Auditable;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * A custom copy of {@link AbstractAuditable} to override the column names used
@@ -28,12 +30,13 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  *            the type of the auditing type's identifier
  */
 @MappedSuperclass
+@EntityListeners({AuditingEntityListener.class})
 public abstract class AbstractAuditableCustom<U, PK extends Serializable> extends AbstractPersistable<PK> implements Auditable<U, PK> {
-
+	
     private static final long serialVersionUID = 141481953116476081L;
 
     @OneToOne
-    @JoinColumn(name = "createdby_id")
+    @JoinColumn(name = "created_user_id")
     private U createdBy;
 
     @Column(name = "created_time")

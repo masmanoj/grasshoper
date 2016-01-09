@@ -127,4 +127,7 @@ public class Address extends AbstractPersistable<Long>{
 		this.ownerUser = ownerUser;
 	}
 	
+	public User getOwnerUser(){
+		return this.ownerUser;
+	}
 }

@@ -126,34 +126,38 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 		final String json = command.getJsonCommand();
     	final JsonElement element = this.fromJsonHelper.parse(json);
 		final JsonArray packageStyleIdsJsonArray =  this.fromJsonHelper.extractJsonArrayNamed(PackingStyleIdsParamName, element);
-		for (int i = 0; i < packageStyleIdsJsonArray.size(); i++) {
-			final Long  subTagId = packageStyleIdsJsonArray.get(i)
-					.getAsLong();
-			final SubTag subTag = this.subTagRepository.findOne(subTagId);
-			if (subTag == null) {
-				throw new ResourceNotFoundException(
-						"error.entity.subtag.not.found", "Sub tag with id " + subTag
-								+ "not found", subTag);
+		if( null!= packageStyleIdsJsonArray){
+			for (int i = 0; i < packageStyleIdsJsonArray.size(); i++) {
+				final Long  subTagId = packageStyleIdsJsonArray.get(i)
+						.getAsLong();
+				final SubTag subTag = this.subTagRepository.findOne(subTagId);
+				if (subTag == null) {
+					throw new ResourceNotFoundException(
+							"error.entity.subtag.not.found", "Sub tag with id " + subTag
+									+ "not found", subTag);
+				}
+				
+				packingStyles.add(subTag);
 			}
-			
-			packingStyles.add(subTag);
 		}
 	}
 	private void getCategoriesFromCommand(final JsonCommand command, final Set<SubTag> categories ){
 		final String json = command.getJsonCommand();
     	final JsonElement element = this.fromJsonHelper.parse(json);
 		final JsonArray categoryIdsJsonArray =  this.fromJsonHelper.extractJsonArrayNamed(CategoryIdsParamName, element);
-		for (int i = 0; i < categoryIdsJsonArray.size(); i++) {
-			final Long  subTagId = categoryIdsJsonArray.get(i)
-					.getAsLong();
-			final SubTag subTag = this.subTagRepository.findOne(subTagId);
-			if (subTag == null) {
-				throw new ResourceNotFoundException(
-						"error.entity.subtag.not.found", "Sub tag with id " + subTag
-								+ "not found", subTag);
+		if(null!= categoryIdsJsonArray){
+			for (int i = 0; i < categoryIdsJsonArray.size(); i++) {
+				final Long  subTagId = categoryIdsJsonArray.get(i)
+						.getAsLong();
+				final SubTag subTag = this.subTagRepository.findOne(subTagId);
+				if (subTag == null) {
+					throw new ResourceNotFoundException(
+							"error.entity.subtag.not.found", "Sub tag with id " + subTag
+									+ "not found", subTag);
+				}
+				
+				categories.add(subTag);
 			}
-			
-			categories.add(subTag);
 		}
 	}
 	

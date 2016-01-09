@@ -1,7 +1,7 @@
 package in.grasshoper.user.service;
 
-import static in.grasshoper.user.UserConstants.ReturnUrlParamName;
 import static in.grasshoper.core.GrassHoperMainConstants.DefaultAppUrl;
+import static in.grasshoper.user.UserConstants.ReturnUrlParamName;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.FromJsonHelper;
@@ -106,8 +106,8 @@ public class UserWriteServiceImpl implements UserWriteService {
 		final String verificationLink = DefaultAppUrl+"userapi/activate"
 				+"?e="+email+"&uas="+finalOtp;
 		String toEmails[] = new String[]{email};
-		//this.emailSenderService.sendEmail(toEmails, null, null, EmailTemplates.activateUserEmailSubject(), 
-			//	EmailTemplates.activateUserEmailTemplate(user.getName(), verificationLink));
+		this.emailSenderService.sendEmail(toEmails, null, null, EmailTemplates.activateUserEmailSubject(), 
+				EmailTemplates.activateUserEmailTemplate(user.getName(), verificationLink));
 		return new CommandProcessingResultBuilder().withSuccessStatus().build();
 	}
 	@Override

@@ -1,8 +1,9 @@
 package in.grasshoper.field.order.domain;
 
-import static in.grasshoper.field.order.OrderConstants.QuantityParamName;
+import static in.grasshoper.field.order.OrderConstants.CartProductQuantityParamName;
 import in.grasshoper.core.infra.JsonCommand;
 import in.grasshoper.field.product.domain.Product;
+import in.grasshoper.field.tag.domain.SubTag;
 
 import java.math.BigDecimal;
 
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-@Table(name = "g_order")
+@Table(name = "g_order_cart")
 public class OrderCart extends AbstractPersistable<Long>{
 	@ManyToOne(optional = false)
     @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
@@ -25,26 +26,32 @@ public class OrderCart extends AbstractPersistable<Long>{
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
 	private Product product;
 	
+	@ManyToOne(optional = false)
+    @JoinColumn(name = "pkg_style_id", referencedColumnName = "id", nullable = false)
+	private SubTag pkgStyle;
+	
 	@Column(name = "quantity", nullable = false)
 	private BigDecimal quantity;
 	
 	protected OrderCart(){}
 
-	private OrderCart(Order order, Product product, BigDecimal quantity) {
+	private OrderCart(Order order, Product product, BigDecimal quantity,
+			SubTag pkgStyle) {
 		super();
 		this.order = order;
 		this.product = product;
 		this.quantity = quantity;
+		this.pkgStyle = pkgStyle;
 	}
 	
 	public static OrderCart fromJson(final JsonCommand command, final Product product,
-			final Order order) {
-		final BigDecimal quantity = command.bigDecimalValueOfParameterNamed(QuantityParamName);
-		return new OrderCart(order, product, quantity);
+			final Order order, final SubTag pkgStyle) {
+		final BigDecimal quantity = command.bigDecimalValueOfParameterNamed(CartProductQuantityParamName);
+		return new OrderCart(order, product, quantity, pkgStyle);
 	}
 	
 	public static OrderCart create( final Product product,
-			final Order order, final BigDecimal quantity) {
-		return new OrderCart(order, product, quantity);
+			final Order order, final BigDecimal quantity, final SubTag pkgStyle) {
+		return new OrderCart(order, product, quantity, pkgStyle);
 	}
 }

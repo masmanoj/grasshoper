@@ -39,9 +39,10 @@ public class PublicProductApiResource {
 	@ResponseBody
     public String getAll(@RequestParam(value="qry", required = false) String searchQry, @RequestParam(value="notSoldOut" , required = false) Boolean notSoldOut,
     		@RequestParam(value="l" , required = false) Integer limit, @RequestParam(value="o" , required = false) Integer offset,
-    		@RequestParam(value="sort" , required = false) String orderby,@RequestParam(value="types" , required = false) String category) {
+    		@RequestParam(value="sort" , required = false) String orderby,@RequestParam(value="types" , required = false) String category,
+    		@RequestParam(value="product", required = false) String productUId) {
 		Collection<ProductData> result = this.productReadService.retriveAllProductsSearch(searchQry,
-				notSoldOut, limit, offset, orderby, category);
+				notSoldOut, limit, offset, orderby, category, productUId);
 		return this.apiJsonSerializerService.serialize(result);
 	}
 }

@@ -42,11 +42,14 @@ public class PublicOrderApiResource {
 		this.srvExecuter = srvExecuter;
 	}
 	
-	@RequestMapping(value="/create", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
     public CommandProcessingResult createUser(@RequestBody final  String reqBody) {
 		
-		return this.srvExecuter.executePublicWriteService(GlobalServiceEnum.P_ODER_CREATE,JsonCommand.from(reqBody,
+		//return this.srvExecuter.executePublicWriteService(GlobalServiceEnum.P_ODER_CREATE,JsonCommand.from(reqBody,
+			//	new JsonParser().parse(reqBody), fromApiJsonHelper));
+		
+		return this.orderWriteServce.createOrder(JsonCommand.from(reqBody,
 				new JsonParser().parse(reqBody), fromApiJsonHelper));
     }
 

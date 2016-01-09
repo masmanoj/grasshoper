@@ -100,8 +100,10 @@ CREATE TABLE `g_product_categories` (
   `order_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL,
   `quantity` decimal(19,6) NOT NULL DEFAULT '0.000000',
+  `pkg_style_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQ_m_inventory_request_cart` (`order_id`,`product_id`),
   CONSTRAINT `cart_product_id` FOREIGN KEY (`product_id`) REFERENCES `g_product` (`id`),
-  CONSTRAINT `cart_order_id` FOREIGN KEY (`order_id`) REFERENCES `g_order` (`id`)
+  CONSTRAINT `cart_order_id` FOREIGN KEY (`order_id`) REFERENCES `g_order` (`id`),
+  CONSTRAINT `cart_pkg_style_id` FOREIGN KEY (`pkg_style_id`) REFERENCES `g_sub_tag` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
