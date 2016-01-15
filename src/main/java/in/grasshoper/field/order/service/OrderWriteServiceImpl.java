@@ -93,8 +93,8 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 						dropAddressId);
 			}
 			
-			final List<OrderCart> orderCart = new ArrayList<>();
-			final List<OrderHistory> orderhistory = new ArrayList<>();
+			final List<OrderCart> orderCart = new ArrayList<OrderCart>();
+			final List<OrderHistory> orderhistory = new ArrayList<OrderHistory>();
 			final Order order = Order.fromJson(command, this.context.authenticatedUser(), dropAddress, 
 					orderCart, orderhistory);
 			//init draft history

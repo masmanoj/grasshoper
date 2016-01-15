@@ -30,10 +30,10 @@ public interface OrderConstants {
 	
 	
 	//supported params
-	Set<String>  CreateOrderParams = new HashSet<>(
+	Set<String>  CreateOrderParams = new HashSet<String>(
 		Arrays.asList(NameParamName, PickupAddressIdParamName, DropAddressIdParamName, OrderCartListParamName,
 				AdditionalNoteParamName));
-	Set<String> OrderCartParams = new HashSet<>(
+	Set<String> OrderCartParams = new HashSet<String>(
 			Arrays.asList(CartProductUidParam, CartProductQuantityParamName, CartProductPkgStyleParamName,
 					GrassHoperMainConstants.LocaleParamName));
 }

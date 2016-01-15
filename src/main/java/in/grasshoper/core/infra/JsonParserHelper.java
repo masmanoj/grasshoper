@@ -299,7 +299,7 @@ public class JsonParserHelper {
                         final DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat).withLocale(clientApplicationLocale);
                         value = MonthDay.parse(valueAsString.toLowerCase(clientApplicationLocale), formatter);
                     } catch (final IllegalArgumentException e) {
-                        final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+                        final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
                         final ApiParameterError error = ApiParameterError.parameterError("validation.msg.invalid.month.day",
                                 "The parameter " + parameterName + " is invalid based on the monthDayFormat: '" + dateFormat
                                         + "' and locale: '" + clientApplicationLocale + "' provided:", parameterName, valueAsString,
@@ -357,7 +357,7 @@ public class JsonParserHelper {
 
         if (StringUtils.isBlank(dateFormat) || clientApplicationLocale == null) {
 
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             if (StringUtils.isBlank(dateFormat)) {
                 final String defaultMessage = new StringBuilder("The parameter '" + parameterName
                         + "' requires a 'dateFormat' parameter to be passed with it.").toString();
@@ -383,7 +383,7 @@ public class JsonParserHelper {
                 eventLocalDate = DateTimeFormat.forPattern(dateFormat).withLocale(clientApplicationLocale)
                         .parseLocalDate(dateAsString.toLowerCase(clientApplicationLocale));
             } catch (final IllegalArgumentException e) {
-                final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+                final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
                 final ApiParameterError error = ApiParameterError.parameterError("validation.msg.invalid.date.format", "The parameter "
                         + parameterName + " is invalid based on the dateFormat: '" + dateFormat + "' and locale: '"
                         + clientApplicationLocale + "' provided:", parameterName, dateAsString, dateFormat);
@@ -436,7 +436,7 @@ public class JsonParserHelper {
 
         if (clientApplicationLocale == null) {
 
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             final String defaultMessage = new StringBuilder("The parameter '" + parameterName
                     + "' requires a 'locale' parameter to be passed with it.").toString();
             final ApiParameterError error = ApiParameterError.parameterError("validation.msg.missing.locale.parameter", defaultMessage,
@@ -481,7 +481,7 @@ public class JsonParserHelper {
             return number;
         } catch (final ParseException e) {
 
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             final ApiParameterError error = ApiParameterError.parameterError("validation.msg.invalid.integer.format", "The parameter "
                     + parameterName + " has value: " + numericalValueFormatted + " which is invalid integer value for provided locale of ["
                     + clientApplicationLocale.toString() + "].", parameterName, numericalValueFormatted, clientApplicationLocale);
@@ -505,7 +505,7 @@ public class JsonParserHelper {
             return number;
         } catch (final NumberFormatException e) {
 
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             final ApiParameterError error = ApiParameterError.parameterError("validation.msg.invalid.integer", "The parameter "
                     + parameterName + " has value: " + numericalValueFormatted + " which is invalid integer.", parameterName,
                     numericalValueFormatted);
@@ -521,7 +521,7 @@ public class JsonParserHelper {
 
         if (clientApplicationLocale == null) {
 
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             final String defaultMessage = new StringBuilder("The parameter '" + parameterName
                     + "' requires a 'locale' parameter to be passed with it.").toString();
             final ApiParameterError error = ApiParameterError.parameterError("validation.msg.missing.locale.parameter", defaultMessage,
@@ -560,7 +560,7 @@ public class JsonParserHelper {
             return number;
         } catch (final ParseException e) {
 
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             final ApiParameterError error = ApiParameterError.parameterError("validation.msg.invalid.decimal.format", "The parameter "
                     + parameterName + " has value: " + numericalValueFormatted + " which is invalid decimal value for provided locale of ["
                     + clientApplicationLocale.toString() + "].", parameterName, numericalValueFormatted, clientApplicationLocale);
@@ -576,7 +576,7 @@ public class JsonParserHelper {
     public static Locale localeFromString(final String localeAsString) {
 
         if (StringUtils.isBlank(localeAsString)) {
-            final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+            final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
             final ApiParameterError error = ApiParameterError.parameterError("validation.msg.invalid.locale.format",
                     "The parameter locale is invalid. It cannot be blank.", "locale");
             dataValidationErrors.add(error);
@@ -611,7 +611,7 @@ public class JsonParserHelper {
 
     private static Locale localeFrom(final String languageCode, final String courntryCode, final String variantCode) {
 
-        final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+        final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
 
         final List<String> allowedLanguages = Arrays.asList(Locale.getISOLanguages());
         if (!allowedLanguages.contains(languageCode.toLowerCase())) {
