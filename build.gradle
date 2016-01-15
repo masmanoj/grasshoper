@@ -17,10 +17,10 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'io.spring.dependency-management' 
 apply plugin: 'war'
-apply plugin: 'maven'
+// apply plugin: 'maven'
 
-group = 'myGroup'
-version = '0.1-SNAPSHOT'
+// group = 'myGroup'
+// version = '0.1-SNAPSHOT'
 
 war {
     baseName = 'civic'
