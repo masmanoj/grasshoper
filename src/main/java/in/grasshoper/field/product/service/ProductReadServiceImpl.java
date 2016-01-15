@@ -225,7 +225,7 @@ public class ProductReadServiceImpl implements ProductReadService {
 		
 		if(isCategoryOn && StringUtils.isNotBlank(category) && !category.contains("'")){
 			String catTkns[]  = category.split(",");
-			List<Long> catIds =  new ArrayList<>();
+			List<Long> catIds =  new ArrayList<Long>();
 			for(String eachCatgry : catTkns){
 				if(StringUtils.isNotBlank(eachCatgry)){
 					SubTagData catogorySubTag = this.tagReadService.retriveOneSubTag(ProductCategoriesTagName, eachCatgry);

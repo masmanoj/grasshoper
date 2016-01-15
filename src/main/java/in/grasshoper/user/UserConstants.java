@@ -18,7 +18,7 @@ public interface UserConstants {
 	
 	
 	//supported params
-	Set<String>  CreateUserParams = new HashSet<>(
+	Set<String>  CreateUserParams = new HashSet<String>(
 			Arrays.asList(NameParamName, EmailParamName, PasswordParamName, PhoneNumberParamName, ReturnUrlParamName, "locale"));
 	
 }

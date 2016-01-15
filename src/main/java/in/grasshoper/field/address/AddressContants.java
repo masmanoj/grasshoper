@@ -27,7 +27,7 @@ public interface AddressContants {
 	String ADDRESS_RESOURCE = "address";
 	
 	//supported params
-		Set<String>  CreateAddressParams = new HashSet<>(
+		Set<String>  CreateAddressParams = new HashSet<String>(
 			Arrays.asList(NameParamName, AddressLine1ParamName, AddressLine2ParamName,
 					AddressLine3ParamName, AreaParamName, LandmarkParamName, CityParamName,
 					PinParamName, ContactNumberParamName, ExtraInfoParamName, LatitudeParamName,

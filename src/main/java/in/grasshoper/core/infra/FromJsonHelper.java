@@ -69,7 +69,7 @@ public class FromJsonHelper {
 
         final Map<String, Object> requestMap = this.gsonConverter.fromJson(json, typeOfMap);
 
-        final List<String> unsupportedParameterList = new ArrayList<>();
+        final List<String> unsupportedParameterList = new ArrayList<String>();
         for (final String providedParameter : requestMap.keySet()) {
             if (!supportedParams.contains(providedParameter)) {
                 unsupportedParameterList.add(providedParameter);
@@ -83,7 +83,7 @@ public class FromJsonHelper {
         if (object == null) { throw new InvalidParameterException(); }
 
         final Set<Entry<String, JsonElement>> entries = object.entrySet();
-        final List<String> unsupportedParameterList = new ArrayList<>();
+        final List<String> unsupportedParameterList = new ArrayList<String>();
 
         for (final Entry<String, JsonElement> providedParameter : entries) {
             if (!supportedParams.contains(providedParameter.getKey())) {

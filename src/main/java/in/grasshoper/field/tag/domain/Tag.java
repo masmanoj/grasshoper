@@ -49,7 +49,7 @@ public class Tag extends AbstractPersistable<Long>{
 	
 	public Map<String, Object> update(final JsonCommand command) {
 
-        final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
+        final Map<String, Object> actualChanges = new LinkedHashMap<String, Object>(1);
         if (command.isChangeInStringParameterNamed(TagParamName, this.tag)) {
         	final String newValue = command.stringValueOfParameterNamed(TagParamName);
             actualChanges.put(TagParamName, newValue);

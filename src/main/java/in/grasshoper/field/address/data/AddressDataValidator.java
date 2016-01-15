@@ -34,7 +34,7 @@ public class AddressDataValidator {
 		if (StringUtils.isBlank(json)) {
 			throw new InvalidJsonException();
 		}
-		final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+		final List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
 		final DataValidatorBuilder baseDataValidator = new DataValidatorBuilder(
 				dataValidationErrors).resource(ADDRESS_RESOURCE);
 		
