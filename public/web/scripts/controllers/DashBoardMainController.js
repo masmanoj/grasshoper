@@ -1,8 +1,8 @@
-angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', '$translate','$location',
-	function(scope, $http,  $rootScope, Restangular, SessionMgr, $translate, location){
+angular.module('dashboard.controllers').controller('DashBoardMainController', ['$scope',  '$rootScope', '$http', 'Restangular', 'SessionMgr', '$translate','$location',  '$interval',
+	function(scope, $http,  $rootScope, Restangular, SessionMgr, $translate, location,  $interval){
 		/*global init*/
 		$rootScope.locale= "en"
-
+		scope.newOrders = 0;
 
 		scope.domReady = true;
 		scope.isTestMode = false;
@@ -22,8 +22,12 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
                         	location.path( "/main" );
                         }
 			  		}
-				  	console.log(data);
-				  	console.log(scope.currentSession);
+				  	//console.log(data);
+				  	//console.log(scope.currentSession);
+				  	Restangular.one("order/ordernoti").get().then(function(data){
+						scope.newOrders = data;
+					});
+				  	scope.fetchOrderNoti();
 				});
 		};
 		scope.logout = function(){
@@ -33,6 +37,21 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
 			  		//scope.currentSession = null;
 					SessionMgr.get(data);
 				});
+			
+		}
+		var noti ;
+		scope.fetchOrderNoti = function(){
+			noti = $interval(function() {
+				if(scope.currentSession && scope.currentSession.user != null){
+					
+					Restangular.one("order/ordernoti").get().then(function(data){
+						scope.newOrders = data;
+					});
+				}else{
+					$interval.cancel(noti);
+					noti = undefined;
+				}
+          	}, 60000);
 			
 		}
 

@@ -7,4 +7,6 @@ public interface OrderWriteService {
 
 	CommandProcessingResult createOrder(JsonCommand command);
 
+	CommandProcessingResult updateStatus(Long orderId, JsonCommand command);
+
 }

@@ -129,7 +129,6 @@ public class DataValidatorBuilder {
         return this;
     }
 
-    /*** FIXME: Vishwas, why does this method have a parameter? Seems wrong ***/
     public DataValidatorBuilder trueOrFalseRequired(final boolean trueOfFalseFieldProvided) {
         if (!trueOfFalseFieldProvided && !this.ignoreNullValue) {
             final StringBuilder validationErrorCode = new StringBuilder("validation.msg.").append(this.resource).append(".")

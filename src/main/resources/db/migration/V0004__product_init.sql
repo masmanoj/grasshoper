@@ -101,6 +101,7 @@ CREATE TABLE `g_product_categories` (
   `product_id` bigint(20) NOT NULL,
   `quantity` decimal(19,6) NOT NULL DEFAULT '0.000000',
   `pkg_style_id` bigint(20) NOT NULL,
+  `item_total_amount` decimal(19,6) DEFAULT '0.000000',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQ_m_inventory_request_cart` (`order_id`,`product_id`),
   CONSTRAINT `cart_product_id` FOREIGN KEY (`product_id`) REFERENCES `g_product` (`id`),

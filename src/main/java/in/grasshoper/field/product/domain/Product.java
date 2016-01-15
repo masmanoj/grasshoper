@@ -229,5 +229,15 @@ public class Product extends AbstractPersistable<Long>{
 	public BigDecimal getQuantity(){
 		return this.quantity;
 	}
+	public void updateQuantity(BigDecimal quantity){
+		this.quantity = quantity;
+	}
 	
+	public BigDecimal getPricePerUnit(){
+		return pricePerUnit;
+	}
+	
+	public BigDecimal getMinQuantity(){
+		return this.minimumQuantity;
+	}
 }

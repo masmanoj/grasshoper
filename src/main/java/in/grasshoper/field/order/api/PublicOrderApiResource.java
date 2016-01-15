@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.JsonParser;
 
 @RestController  
-@RequestMapping("/order")
+@RequestMapping("/item-order")
 public class PublicOrderApiResource {
 	private final OrderWriteService orderWriteServce;
 	private final FromJsonHelper fromApiJsonHelper;
@@ -52,5 +52,8 @@ public class PublicOrderApiResource {
 		return this.orderWriteServce.createOrder(JsonCommand.from(reqBody,
 				new JsonParser().parse(reqBody), fromApiJsonHelper));
     }
+	//get all order status
+	
+	//single order status
 
 }

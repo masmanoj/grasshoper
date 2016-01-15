@@ -56,9 +56,8 @@
 				      </button>
 				      <a class="navbar-brand" href="#">Dashboard</a>
 				    </div>
-
 				    <ul class="nav navbar-nav navbar-right">
-				        <li ><a class="center-block" href="#" style=""><strong><i class="fa fa-flag"></i> Orders <span class="badge">0</span></strong></a></li>
+				        <li ><a ng-class="center-block" href="#" ><strong ng-class="{red : newOrders > 0}"><i class="fa fa-flag"></i> Orders <span ng-class="{badge : newOrders ==0 , 'badge redbg': newOrders > 0}">{{newOrders}}</span></strong></a></li>
 				    	<li class="dropdown">
 				          <a class="dropdown-toggle pointer" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admin <span class="caret"></span></a>
 				          <ul class="dropdown-menu">

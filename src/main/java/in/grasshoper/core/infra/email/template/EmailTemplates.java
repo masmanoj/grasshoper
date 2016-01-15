@@ -33,4 +33,29 @@ public class EmailTemplates {
 			
 		return tmpl.toString();
 	}
+	
+	public static String newOrderNotiSubject(){
+		return "New Order";
+	}
+	
+	public static String newOrderNotiEmailTemplate(){
+		StringBuffer tmpl = new StringBuffer()
+			.append("<font face='verdana'>Dear ").append("Admin")
+			.append(",<br/><br/><table border = '0' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'><tr>")
+			.append("<td align='center'><h3>You have a New Order ")
+			.append("</h3> </td></tr><tr><td> </td></tr>")
+			.append("<tr><td align='center' > ")
+			.append("</td></tr>")
+			.append("<tr><td> </td></tr>")
+			.append("<tr><td align='left'> ")
+			.append("The Order is waiting for your Action.<br>Kindly visit the Dash board and take necesaary actions.<br/> ")
+			.append("</td></tr>")
+			.append("</table><br/><br/>")
+			.append("Thanks and Regards, <br/><br/>")
+			.append("")
+			.append(DefaultSiteName).append("<br/><br/><br/>")
+			.append("Note: This is an auto-generated mail. Please do not reply.</font>");
+			
+		return tmpl.toString();
+	}
 }

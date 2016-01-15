@@ -85,21 +85,24 @@ CREATE TABLE `g_staff`(
 -- g_order : orders
 CREATE TABLE `g_order`(
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
-	`name` varchar(50)  NOT NULL,
+	`user_id` bigint(20) NOT NULL ,
+	`name` varchar(50)  DEFAULT NULL,
 	`pickup_address` bigint(20) DEFAULT NULL,
 	`drop_address`  bigint(20) NOT NULL,
 	`assigned_hoper` bigint(20) DEFAULT NULL,
 	`additional_note` varchar(300) DEFAULT NULL,
 	`status_code` int(5) NOT NULL,
+	`total_amount` decimal(19,6) DEFAULT '0.000000',
 	`created_user_id` bigint(20) NOT NULL,
 	`created_time` datetime NOT NULL,
 	`lastmodifiedby_id` bigint(20) NOT NULL,
 	`lastmodified_time` datetime NOT NULL,
 
   PRIMARY KEY (`id`),
+  CONSTRAINT `order_user_id` FOREIGN KEY (`user_id`) REFERENCES `g_user` (`id`),
   CONSTRAINT `order_address_pickup_id` FOREIGN KEY (`pickup_address`) REFERENCES `g_address` (`id`),
   CONSTRAINT `order_address_drop_id` FOREIGN KEY (`drop_address`) REFERENCES `g_address` (`id`),
-  CONSTRAINT `order_user_id` FOREIGN KEY (`created_user_id`) REFERENCES `g_user` (`id`),
+  CONSTRAINT `order_created_user_id` FOREIGN KEY (`created_user_id`) REFERENCES `g_user` (`id`),
   CONSTRAINT `order_staff_id` FOREIGN KEY (`assigned_hoper`) REFERENCES `g_staff` (`id`),
   CONSTRAINT `order_lastmodifiedby_id` FOREIGN KEY (`lastmodifiedby_id`) REFERENCES `g_user` (`id`)
 
@@ -113,12 +116,14 @@ CREATE TABLE `g_order_history`(
 	`order_id` bigint(20) NOT NULL,
 	`status` varchar(6) NOT NULL,
 	`description` varchar(255) DEFAULT NULL,
-	`user_name` varchar(100) DEFAULT NULL,
-	`updated_time` datetime NOT NULL,
+	`created_user_id` bigint(20) NOT NULL,
+	`created_time` datetime NOT NULL,
 	`lastmodifiedby_id` bigint(20) NOT NULL,
+	`lastmodified_time` datetime NOT NULL,
 
 	PRIMARY KEY (`id`),
 	CONSTRAINT `order_history_order_id` FOREIGN KEY (`order_id`) REFERENCES `g_order` (`id`),
+	CONSTRAINT `order_history_created_user_id` FOREIGN KEY (`created_user_id`) REFERENCES `g_user` (`id`),
 	CONSTRAINT `order_history_lastmodifiedby_id` FOREIGN KEY (`lastmodifiedby_id`) REFERENCES `g_user` (`id`)
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -11,6 +11,7 @@ public interface OrderConstants {
 	String AdditionalNoteParamName = "additionalNote";
 	String PickupAddressIdParamName = "pickupAddressId";
 	String DropAddressIdParamName = "dropAddressId";
+	String OrderStatusParamName = "orderStatus";
 	
 	//String QuantityParamName = "quantity";
 	

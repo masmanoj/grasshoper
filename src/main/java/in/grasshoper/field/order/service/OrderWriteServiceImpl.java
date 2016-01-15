@@ -1,10 +1,6 @@
 package in.grasshoper.field.order.service;
 
-import static in.grasshoper.field.order.OrderConstants.CartProductPkgStyleParamName;
-import static in.grasshoper.field.order.OrderConstants.CartProductQuantityParamName;
-import static in.grasshoper.field.order.OrderConstants.CartProductUidParam;
-import static in.grasshoper.field.order.OrderConstants.DropAddressIdParamName;
-import static in.grasshoper.field.order.OrderConstants.OrderCartListParamName;
+import static in.grasshoper.field.order.OrderConstants.*;
 import in.grasshoper.core.GrassHoperMainConstants;
 import in.grasshoper.core.exception.GeneralPlatformRuleException;
 import in.grasshoper.core.exception.PlatformDataIntegrityException;
@@ -19,15 +15,20 @@ import in.grasshoper.field.address.domain.AddressRepository;
 import in.grasshoper.field.order.data.OrderDataValidator;
 import in.grasshoper.field.order.domain.Order;
 import in.grasshoper.field.order.domain.OrderCart;
+import in.grasshoper.field.order.domain.OrderHistory;
 import in.grasshoper.field.order.domain.OrderRepository;
+import in.grasshoper.field.order.domain.OrderStatus;
 import in.grasshoper.field.product.domain.Product;
 import in.grasshoper.field.product.domain.ProductRepository;
 import in.grasshoper.field.tag.domain.SubTag;
 import in.grasshoper.field.tag.domain.SubTagRepository;
+import in.grasshoper.field.tag.domain.Tag;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -93,9 +94,17 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			}
 			
 			final List<OrderCart> orderCart = new ArrayList<>();
-			final Order order = Order.fromJson(command, dropAddress, orderCart);
+			final List<OrderHistory> orderhistory = new ArrayList<>();
+			final Order order = Order.fromJson(command, this.context.authenticatedUser(), dropAddress, 
+					orderCart, orderhistory);
+			//init draft history
+			OrderHistory hist = OrderHistory.create(order, OrderStatus.Received.getStatusCode(), OrderStatus.getstatusDesc(OrderStatus.Received));
+			orderhistory.add(hist);		
+					
 			//this.orderRepository.save(order);
-			getOrderCartFromCommand(element, orderCart, order);
+			BigDecimal totalPrice = getOrderCartFromCommand(element, orderCart, order);
+			order.updateAmount(totalPrice);
+			
 			//order.updateOrderCart(orderCart);
 			this.orderRepository.saveAndFlush(order);
 			
@@ -118,7 +127,8 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 		}
 	}
 	
-	private void getOrderCartFromCommand(final JsonElement element, final List<OrderCart> orderCarts, final Order order){
+	private BigDecimal getOrderCartFromCommand(final JsonElement element, final List<OrderCart> orderCarts, final Order order){
+		BigDecimal totalPrice = BigDecimal.ZERO;
 		final JsonArray orderCartArray =  this.fromJsonHelper.extractJsonArrayNamed(OrderCartListParamName, element);
 		for (int i = 0; i < orderCartArray.size(); i++) {
 			final JsonObject orderCartJson = orderCartArray.get(i).getAsJsonObject();
@@ -140,6 +150,12 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 						product.getQuantity());
 			}
 			
+			if(quantity.compareTo(product.getMinQuantity()) < 1){
+				throw new GeneralPlatformRuleException("error.quantity.must.be.above.minimum.quantity",
+						"Quantity must be above product minimum quantity "+product.getMinQuantity(),
+						product.getMinQuantity());
+			}
+			
 			final Long pkgStyleId = this.fromJsonHelper.extractLongNamed(CartProductPkgStyleParamName, orderCartJson);
 			final SubTag subTag = subTagRepository.findOne(pkgStyleId);
 			if (subTag == null) {
@@ -153,11 +169,58 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 					throw new GeneralPlatformRuleException("error.pkg.style.not.allowed.for.product", 
 							"Package style not allowed for this product");
 				}
-			
-			
-			final OrderCart cart = OrderCart.create(product, order, quantity, subTag);
+			BigDecimal price = quantity.multiply(product.getPricePerUnit());
+			totalPrice = totalPrice.add(price);
+			final OrderCart cart = OrderCart.create(product, order, quantity, subTag, price);
 			
 			orderCarts.add(cart);
+			
+			adjustProductQuantity(product, quantity);
+		}
+		
+		return totalPrice;
+	}
+	
+	private void adjustProductQuantity(final Product product, final BigDecimal quantity) {
+		product.updateQuantity(product.getQuantity().subtract(quantity));
+		this.productRepository.save(product);
+	}
+
+
+	@Override
+	@Transactional
+	public CommandProcessingResult updateStatus(final Long orderId, final JsonCommand command) {
+		try {
+			// this.dataValidator.validateForUpdate(command.getJsonCommand());
+			final Order order = this.orderRepository.findOne(orderId);
+			if (order == null) {
+				throw new ResourceNotFoundException(
+						"error.entity.order.not.found", "Order with id " + orderId
+								+ "not found", orderId);
+			}
+			final Map<String, Object> changes = order.update(command);
+
+			if (!changes.isEmpty()) {
+				Integer statusId =(Integer) changes.get(OrderStatusParamName);
+				
+				OrderHistory hist = OrderHistory.create(order, statusId,  OrderStatus.getstatusDesc(OrderStatus.fromInt(statusId)));
+				order.addOrderHistory(hist);	
+				
+				this.orderRepository.save(order);
+			}
+
+			return new CommandProcessingResultBuilder() //
+					.withResourceIdAsString(orderId) //
+					.withSuccessStatus()
+					.withChanges(changes) //
+					.build();
+		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
+			final Throwable realCause = ex.getMostSpecificCause();
+			throw new PlatformDataIntegrityException(
+					"error.msg.unknown.data.integrity.issue",
+					"Unknown data integrity issue with resource: "
+							+ realCause.getMessage());
 		}
 	}
 }
