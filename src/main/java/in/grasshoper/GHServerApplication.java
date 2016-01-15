@@ -1,3 +1,4 @@
+
 package in.grasshoper;
 
 import in.grasshoper.core.boot.AbstractApplicationConfiguration;
@@ -9,7 +10,7 @@ import java.io.InputStreamReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
+/*
 @SpringBootApplication
 public class GHServerApplication {
 	public static class Configuration extends AbstractApplicationConfiguration { }
@@ -30,3 +31,4 @@ public class GHServerApplication {
         ctx.close();
     }
 }
+*/
