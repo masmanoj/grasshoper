@@ -133,7 +133,7 @@ public class Order extends AbstractAuditableCustom<User, Long>{
 	
 	public Map<String, Object> update(final JsonCommand command) {
 
-        final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
+        final Map<String, Object> actualChanges = new LinkedHashMap<String, Object>(1);
         if (command.isChangeInIntegerParameterNamed(OrderStatusParamName, this.statusCode)) {
         	final Integer newValue = command.integerValueOfParameterNamed(OrderStatusParamName);
             actualChanges.put(OrderStatusParamName, newValue);

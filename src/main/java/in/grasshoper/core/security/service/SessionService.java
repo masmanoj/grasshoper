@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionService {
 
-    private Map<User, SessionData> appUserToSessionDataMap = new HashMap<>();
-    private Map<String, SessionData> tokentoSessionDataMap = new HashMap<>();
+    private Map<User, SessionData> appUserToSessionDataMap = new HashMap<User, SessionData>();
+    private Map<String, SessionData> tokentoSessionDataMap = new HashMap<String, SessionData>();
     private final static Logger logger = LoggerFactory.getLogger("analytics");
     SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     

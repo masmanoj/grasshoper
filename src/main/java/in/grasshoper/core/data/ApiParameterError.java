@@ -42,7 +42,7 @@ public class ApiParameterError {
     /**
      * Arguments related to the user error message.
      */
-    private List<ApiErrorMessageArg> args = new ArrayList<>();
+    private List<ApiErrorMessageArg> args = new ArrayList<ApiErrorMessageArg>();
 
     public static ApiParameterError generalError(final String globalisationMessageCode, final String defaultUserMessage,
             final Object... defaultUserMessageArgs) {
@@ -70,7 +70,7 @@ public class ApiParameterError {
         this.developerMessage = defaultUserMessage;
         this.defaultUserMessage = defaultUserMessage;
 
-        final List<ApiErrorMessageArg> messageArgs = new ArrayList<>();
+        final List<ApiErrorMessageArg> messageArgs = new ArrayList<ApiErrorMessageArg>();
         if (defaultUserMessageArgs != null) {
             for (final Object object : defaultUserMessageArgs) {
                 messageArgs.add(ApiErrorMessageArg.from(object));

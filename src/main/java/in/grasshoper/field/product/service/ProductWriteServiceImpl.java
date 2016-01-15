@@ -45,8 +45,8 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 	@Transactional
 	public CommandProcessingResult createProduct(final JsonCommand command) {
 		try {
-			final Set<SubTag> packingStyles = new HashSet<>();
-			final Set<SubTag> categories = new HashSet<>();
+			final Set<SubTag> packingStyles = new HashSet<SubTag>();
+			final Set<SubTag> categories = new HashSet<SubTag>();
 			//get packing styles from command.
 			
 			// this.dataValidator.validateForCreate(command.getJsonCommand());
@@ -87,7 +87,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			}
 			final Map<String, Object> changes = product.update(command);
 			
-			final Set<SubTag> packingStyles = new HashSet<>();
+			final Set<SubTag> packingStyles = new HashSet<SubTag>();
 			boolean packagingStyleChanges = false;
 			getPackageStylesFromCommand(command, packingStyles);
 			if(!product.getPackingStyles().containsAll(packingStyles)
@@ -95,7 +95,7 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 				product.updatePackingStyles(packingStyles);
 				packagingStyleChanges = true;
 			}
-			final Set<SubTag> categories = new HashSet<>();
+			final Set<SubTag> categories = new HashSet<SubTag>();
 			boolean categoriesChanges = false;
 			getCategoriesFromCommand(command, categories);
 			if(!product.getCategories().containsAll(categories)

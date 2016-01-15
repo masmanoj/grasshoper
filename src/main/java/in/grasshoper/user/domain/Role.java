@@ -41,7 +41,7 @@ public class Role extends AbstractPersistable<Long> {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "g_role_permission", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private final Set<Permission> permissions = new HashSet<>();
+    private final Set<Permission> permissions = new HashSet<Permission>();
 
     public static Role fromJson(final JsonCommand command, final Role parentRole) {
         final String name = command.stringValueOfParameterNamed("name");
@@ -61,7 +61,7 @@ public class Role extends AbstractPersistable<Long> {
 
     public Map<String, Object> update(final JsonCommand command) {
 
-        final Map<String, Object> actualChanges = new LinkedHashMap<>(7);
+        final Map<String, Object> actualChanges = new LinkedHashMap<String, Object>(7);
 
         final String nameParamName = "name";
         

@@ -93,7 +93,7 @@ public class Product extends AbstractPersistable<Long>{
 		this.pricePerUnit = pricePerUnit;
 		this.minimumQuantity = minimumQuantity;
 		this.categories = categories;
-		this.productImages = new LinkedList<>();
+		this.productImages = new LinkedList<ProductImage>();
 	}
 	
 	
@@ -117,7 +117,7 @@ public class Product extends AbstractPersistable<Long>{
 
 	public Map<String, Object> update(final JsonCommand command) {
 
-        final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
+        final Map<String, Object> actualChanges = new LinkedHashMap<String, Object>(1);
         if (command.isChangeInStringParameterNamed(NameParamName, this.name)) {
             final String newValue = command.stringValueOfParameterNamed(NameParamName);
             actualChanges.put(NameParamName, newValue);

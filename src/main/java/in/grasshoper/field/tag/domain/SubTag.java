@@ -56,7 +56,7 @@ public class SubTag extends AbstractPersistable<Long>{
 	
 	public Map<String, Object> update(final JsonCommand command) {
 
-        final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
+        final Map<String, Object> actualChanges = new LinkedHashMap<String, Object>(1);
         if (command.isChangeInStringParameterNamed(SubTagParamName, this.subTag)) {
         	final String newValue = command.stringValueOfParameterNamed(SubTagParamName);
             actualChanges.put(SubTagParamName, newValue);

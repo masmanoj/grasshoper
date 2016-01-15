@@ -28,7 +28,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(Throwable.class)
     @ResponseBody
     ResponseEntity<Object> handleControllerException(@SuppressWarnings("unused") HttpServletRequest req, Throwable ex) {
-		Map<String,Object> errorResponse = new HashMap<>();
+		Map<String,Object> errorResponse = new HashMap<String,Object>();
         if(ex instanceof ResourceNotFoundException) {
         	populateErrorResponseMessage(errorResponse,(PlatformException) ex);
             return new ResponseEntity<Object>(errorResponse, HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(@SuppressWarnings("unused") NoHandlerFoundException ex, 
     		@SuppressWarnings("unused") HttpHeaders headers, @SuppressWarnings("unused") HttpStatus status, WebRequest request) {
-        Map<String,String> responseBody = new HashMap<>();
+        Map<String,String> responseBody = new HashMap<String,String>();
         responseBody.put("path",request.getContextPath());
         responseBody.put("message","The URL you have reached is not in service at this time (404).");
         return new ResponseEntity<Object>(responseBody,HttpStatus.NOT_FOUND);
