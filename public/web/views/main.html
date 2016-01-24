@@ -4,12 +4,40 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-	    	<h3 class="panel-title"><i class="fa fa-flag"></i> {{'heading.panel.main.dashboard'|translate}}</h3>
+	    	<h3 class="panel-title" style="line-height:10px;"><i class="fa fa-flag"></i> {{'heading.panel.main.dashboard'|translate}}
+		    	<div class="pull-right" >
+		    	<!--a class="btn btn-primary" ng-click="pageChanged()">Refresh </a></div-->
+		    	<div style="clear:both"></div>
+	    	</h3>
 	  	</div>
 	  	<div class="panel-body">
-	    	<div class = "alert alert-info" >No new Orders</div>
+	    	<div ng-show= "newOrdersList.length == 0" class = "alert alert-info" >No new Orders</div>
+	    	<div ng-show= "newOrdersList.length > 0">
+		    	<table class="table table-hover">
+					<thead>
+						<tr>
+						<th>Order</th>
+						<th>User Email</th>
+						<th>User Phone</th>
+						<th>Order Status</th>
+						<th>Total Amount</th>
+						<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="pointer" ng-repeat="order in newOrdersList" ng-click="viewOrder(order)">
+						<td>{{order.orderName}}</td>
+						<td>{{order.user.email}}</td>
+						<td>{{order.user.phoneNum}}</td>
+						<td>{{order.statusMsg}}</td>
+						<td>{{order.totalamount}}</td>
+						<td><i class="fa fa-play"></i></td>
+						</tr>
+					</tbody>
+				</table>
+				<uib-pager total-items="totalItems" items-per-page = "itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pager>
+			</div>
 	  	</div>
 	</div>
 
 </div>
-<script src="scripts/controllers/HomeController.js"></script>

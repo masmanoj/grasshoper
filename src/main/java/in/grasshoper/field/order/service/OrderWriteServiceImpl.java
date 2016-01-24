@@ -1,6 +1,13 @@
 package in.grasshoper.field.order.service;
 
-import static in.grasshoper.field.order.OrderConstants.*;
+import static in.grasshoper.field.order.OrderConstants.CartProductPkgStyleParamName;
+import static in.grasshoper.field.order.OrderConstants.CartProductQuantityParamName;
+import static in.grasshoper.field.order.OrderConstants.CartProductUidParam;
+import static in.grasshoper.field.order.OrderConstants.DropAddressIdParamName;
+import static in.grasshoper.field.order.OrderConstants.EmailCheckParamName;
+import static in.grasshoper.field.order.OrderConstants.OrderCartListParamName;
+import static in.grasshoper.field.order.OrderConstants.OrderStatusParamName;
+import static in.grasshoper.field.order.OrderConstants.StatusNoteParamName;
 import in.grasshoper.core.GrassHoperMainConstants;
 import in.grasshoper.core.exception.GeneralPlatformRuleException;
 import in.grasshoper.core.exception.PlatformDataIntegrityException;
@@ -22,10 +29,8 @@ import in.grasshoper.field.product.domain.Product;
 import in.grasshoper.field.product.domain.ProductRepository;
 import in.grasshoper.field.tag.domain.SubTag;
 import in.grasshoper.field.tag.domain.SubTagRepository;
-import in.grasshoper.field.tag.domain.Tag;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -191,22 +196,27 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 	@Transactional
 	public CommandProcessingResult updateStatus(final Long orderId, final JsonCommand command) {
 		try {
-			// this.dataValidator.validateForUpdate(command.getJsonCommand());
+			this.dataValidator.validateForUpdateStatus(command.getJsonCommand());
 			final Order order = this.orderRepository.findOne(orderId);
 			if (order == null) {
 				throw new ResourceNotFoundException(
 						"error.entity.order.not.found", "Order with id " + orderId
-								+ "not found", orderId);
+								+ " not found", orderId);
 			}
-			final Map<String, Object> changes = order.update(command);
+			final Map<String, Object> changes = order.updateStatus(command);
 
 			if (!changes.isEmpty()) {
 				Integer statusId =(Integer) changes.get(OrderStatusParamName);
-				
-				OrderHistory hist = OrderHistory.create(order, statusId,  OrderStatus.getstatusDesc(OrderStatus.fromInt(statusId)));
+				String note = command.stringValueOfParameterNamed(StatusNoteParamName);
+				OrderHistory hist = OrderHistory.create(order, statusId,  OrderStatus.getstatusDesc(OrderStatus.fromInt(statusId)) +((note.isEmpty())?"" : ", "+note));
 				order.addOrderHistory(hist);	
 				
 				this.orderRepository.save(order);
+				
+				Boolean chkEmail = command.booleanValueOfParameterNamed(EmailCheckParamName);
+				if(chkEmail == true){
+					//send email here TODO:
+				}
 			}
 
 			return new CommandProcessingResultBuilder() //

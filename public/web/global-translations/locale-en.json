@@ -4,7 +4,7 @@
 
     "---headings----":"",
     "heading.login.welcome.to.dash.board":"Welcome to the Dashboard!",
-    "heading.panel.main.dashboard": "Dashboard",
+    "heading.panel.main.dashboard": "New Orders",
     "heading.page.admin.tags" : "Tags",
     "heading.page.subtags" : "Subtags",
     "heading.table.tag" : "Tag",
@@ -15,6 +15,7 @@
     "heading.page.admin.products.create":"Create New Product",
     "heading.page.admin.products.view":"View Product",
     "heading.page.admin.products.edit":"Edit Product",
+    "heading.page.admin.orders":"Orders",
     
 
     "---anchors----":"",
@@ -23,6 +24,9 @@
     "anchor.main.tags" : "Tags",
     "anchor.main.products" : "Products",
     "anchor.main.create.products":"Create Product",
+    "anchor.main.orders":"Orders",
+    "anchor.main.order.edit":"Edit Order",
+    "anchor.main.usersettings":"User Settings",
 
     "---mgs----":"",
     "msg.please.wait":"Please wait",
@@ -34,6 +38,7 @@
     "label.button.submit" : "Submit",
 
     "---label.input----":"",
+    "label.txt.common.searchonpage" : "Search On Page",
     "label.txt-create.product-uniq.name":"Unique Number",
     "label.txt-create.product-product.name":"Display Name",
     "label.txt-create.product-product.main.description":"Main description",

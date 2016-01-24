@@ -1,5 +1,10 @@
 package in.grasshoper.field.order.domain;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public enum OrderStatus {
 	Received(100,"Received"),
@@ -56,5 +61,24 @@ public enum OrderStatus {
 		default : return "Invalid Status";
 		}
 	}
+	
+	public static List<Map<String, Object>> getAllAsMap(){
+		List<Map<String, Object>> allStatus = new ArrayList<>();
+		Map<String,  Object> stsObj  = null;
+		for(OrderStatus status : OrderStatus.values()){
+			stsObj  =  new HashMap<>();
+			stsObj.put("statusCode", status.statusCode);
+			stsObj.put("statusMsg", status.statusValue);
+			allStatus.add(stsObj);
+		}
+		return allStatus;
+	}
     
+	public static List<Integer> getAllStatusCodes(){
+		List<Integer> statusCodes = new ArrayList<>();
+		for(OrderStatus status : OrderStatus.values()){
+			statusCodes.add( status.statusCode);
+		}
+		return statusCodes;
+	}
 }

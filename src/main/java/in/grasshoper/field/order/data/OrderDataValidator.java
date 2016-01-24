@@ -1,18 +1,25 @@
 package in.grasshoper.field.order.data;
 
-import static in.grasshoper.field.order.OrderConstants.*;
+import static in.grasshoper.field.order.OrderConstants.AdditionalNoteParamName;
+import static in.grasshoper.field.order.OrderConstants.CartProductPkgStyleParamName;
+import static in.grasshoper.field.order.OrderConstants.CartProductQuantityParamName;
 import static in.grasshoper.field.order.OrderConstants.CartProductUidParam;
 import static in.grasshoper.field.order.OrderConstants.CreateOrderParams;
 import static in.grasshoper.field.order.OrderConstants.DropAddressIdParamName;
+import static in.grasshoper.field.order.OrderConstants.EmailCheckParamName;
 import static in.grasshoper.field.order.OrderConstants.ORDER_RESOURCE;
 import static in.grasshoper.field.order.OrderConstants.OrderCartListParamName;
 import static in.grasshoper.field.order.OrderConstants.OrderCartParams;
+import static in.grasshoper.field.order.OrderConstants.OrderStatusParamName;
 import static in.grasshoper.field.order.OrderConstants.PickupAddressIdParamName;
+import static in.grasshoper.field.order.OrderConstants.StatusNoteParamName;
+import static in.grasshoper.field.order.OrderConstants.UpdateOrderStatusParams;
 import static in.grasshoper.user.UserConstants.NameParamName;
 import in.grasshoper.core.data.ApiParameterError;
 import in.grasshoper.core.data.DataValidatorBuilder;
 import in.grasshoper.core.exception.InvalidJsonException;
 import in.grasshoper.core.infra.FromJsonHelper;
+import in.grasshoper.field.order.domain.OrderStatus;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -20,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -97,4 +104,36 @@ public class OrderDataValidator {
         baseDataValidator.throwExceptionIfValidationWarningsExist(dataValidationErrors);
 	}
 
+	public void validateForUpdateStatus(final String json){
+		if (StringUtils.isBlank(json)) {
+			throw new InvalidJsonException();
+		}
+		final List<ApiParameterError> dataValidationErrors = new ArrayList<>();
+		final DataValidatorBuilder baseDataValidator = new DataValidatorBuilder(
+				dataValidationErrors).resource(ORDER_RESOURCE);
+		
+		final Type typeOfMap = new TypeToken<Map<String, Object>>() {}.getType();
+		
+		this.fromApiJsonHelper.checkForUnsupportedParameters(typeOfMap, json , UpdateOrderStatusParams);
+		
+		final JsonElement element = this.fromApiJsonHelper.parse(json);
+		
+		final Integer statusCode = this.fromApiJsonHelper.extractIntegerWithLocaleNamed(OrderStatusParamName, element);
+        baseDataValidator.reset().parameter(OrderStatusParamName).value(statusCode).notNull().integerGreaterThanZero();
+        
+        if(!OrderStatus.getAllStatusCodes().contains(statusCode)){
+        	baseDataValidator.reset().parameter(OrderStatusParamName).value(statusCode).failWithCode("error.msg.invalid.status", "Status Provided is invalid");
+        }
+        
+        final Boolean chkEmail = this.fromApiJsonHelper.extractBooleanNamed(EmailCheckParamName, element);
+        baseDataValidator.reset().parameter(EmailCheckParamName).value(chkEmail).notNull().trueOrFalseRequired(true);
+        
+        if(this.fromApiJsonHelper.parameterExists(StatusNoteParamName, element)){
+	        final String note = this.fromApiJsonHelper.extractStringNamed(StatusNoteParamName, element);
+	        baseDataValidator.reset().parameter(StatusNoteParamName).value(note).notNull().notExceedingLengthOf(200);
+        }
+        
+        baseDataValidator.throwExceptionIfValidationWarningsExist(dataValidationErrors);
+	}
+	    
 }

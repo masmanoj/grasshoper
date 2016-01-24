@@ -2,6 +2,7 @@ package in.grasshoper.user.service;
 
 import static in.grasshoper.core.GrassHoperMainConstants.DefaultAppUrl;
 import static in.grasshoper.user.UserConstants.ReturnUrlParamName;
+import in.grasshoper.core.exception.PlatformDataIntegrityException;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.FromJsonHelper;
@@ -21,6 +22,7 @@ import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
@@ -77,38 +79,52 @@ public class UserWriteServiceImpl implements UserWriteService {
 	@Override
 	@Transactional
 	public CommandProcessingResult createPublicUser(final JsonCommand command) {
-		
-		this.userDataValidator.validateCreate(command.getJsonCommand());
-
-		User user = User.fromJson(command, false, true);
-
-		generateKeyUsedForPasswordSalting(user);
-		final String encodePassword = this.applicationPasswordEncoder
-				.encode(user);
-		user.updatePassword(encodePassword);
-
-		this.userRepository.save(user);
-		
-		final JsonElement element = this.fromJsonHelper.parse(command.getJsonCommand());
-		final String returnUrl =  this.fromJsonHelper.extractStringNamed(ReturnUrlParamName, element);
-		
-		final String email =  user.getUsername();
-		final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		final String nowDate = sf.format(DateTime.now().toDate());
-		final String text = nowDate + email + nowDate + Math.random();
-
-		final String otp = new String(Base64.encode(text .getBytes()));
-		final UserOtp userOtp = UserOtp.createOtp(user, email, otp.substring(3, otp.length() -5), returnUrl);
-		
-		this.userOtpRepository.save(userOtp);
-		
-		final String finalOtp = userOtp.getOtp();
-		final String verificationLink = DefaultAppUrl+"userapi/activate"
-				+"?e="+email+"&uas="+finalOtp;
-		String toEmails[] = new String[]{email};
-		this.emailSenderService.sendEmail(toEmails, null, null, EmailTemplates.activateUserEmailSubject(), 
-				EmailTemplates.activateUserEmailTemplate(user.getName(), verificationLink));
-		return new CommandProcessingResultBuilder().withSuccessStatus().build();
+		try {
+			this.userDataValidator.validateCreate(command.getJsonCommand());
+	
+			User user = User.fromJson(command, false, true);
+	
+			generateKeyUsedForPasswordSalting(user);
+			final String encodePassword = this.applicationPasswordEncoder
+					.encode(user);
+			user.updatePassword(encodePassword);
+	
+			this.userRepository.save(user);
+			
+			final JsonElement element = this.fromJsonHelper.parse(command.getJsonCommand());
+			final String returnUrl =  this.fromJsonHelper.extractStringNamed(ReturnUrlParamName, element);
+			
+			final String email =  user.getUsername();
+			final SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			final String nowDate = sf.format(DateTime.now().toDate());
+			final String text = nowDate + email + nowDate + Math.random();
+	
+			final String otp = new String(Base64.encode(text .getBytes()));
+			final UserOtp userOtp = UserOtp.createOtp(user, email, otp.substring(3, otp.length() -5), returnUrl);
+			
+			this.userOtpRepository.save(userOtp);
+			
+			final String finalOtp = userOtp.getOtp();
+			final String verificationLink = DefaultAppUrl+"userapi/activate"
+					+"?e="+email+"&uas="+finalOtp;
+			String toEmails[] = new String[]{email};
+			this.emailSenderService.sendEmail(toEmails, null, null, EmailTemplates.activateUserEmailSubject(), 
+					EmailTemplates.activateUserEmailTemplate(user.getName(), verificationLink));
+			return new CommandProcessingResultBuilder().withSuccessStatus().build();
+		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
+			final Throwable realCause = ex.getCause();
+            if (realCause.getMessage().toLowerCase().contains("email")) {
+                throw new PlatformDataIntegrityException(
+    					"error.msg.email.already.exist",
+    					"The email provided already exitst in the system."
+    							+ realCause.getMessage());
+            }
+			throw new PlatformDataIntegrityException(
+					"error.msg.unknown.data.integrity.issue",
+					"Unknown data integrity issue with resource: "
+							+ realCause.getMessage());
+		}
 	}
 	@Override
 	public String activateUser(final String email, final String otp) {

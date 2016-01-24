@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 
@@ -49,8 +49,8 @@ public final class JsonCommand {
 	}
 	
 	public String stringValueOfParameterNamed(final String parameterName) {
-        return  this.fromApiJsonHelper.extractStringNamed(parameterName, this.parsedCommand);
-        //return StringUtils.defaultIfEmpty(value, "");
+        String value = this.fromApiJsonHelper.extractStringNamed(parameterName, this.parsedCommand);
+        return StringUtils.defaultIfEmpty(value, "");
     }
 	
 	

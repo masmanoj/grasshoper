@@ -210,10 +210,10 @@ public class GHProviderManager implements AuthenticationManager, MessageSourceAw
     @SuppressWarnings("deprecation")
     private void prepareException(AuthenticationException ex, Authentication auth) {
         eventPublisher.publishAuthenticationFailure(ex, auth);
-        ex.setAuthentication(auth);
-
+        //ex.setAuthentication(auth);
+        
         if (clearExtraInformation) {
-            ex.clearExtraInformation();
+           // ex.clearExtraInformation();
         }
     }
 

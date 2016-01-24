@@ -38,7 +38,7 @@ public class Order extends AbstractAuditableCustom<User, Long>{
 	private User user;
 	
 	@ManyToOne
-    @JoinColumn(name = "pickup_address", nullable = false)
+    @JoinColumn(name = "pickup_address", nullable = true)
 	private Address pickUpAddress;
 	
 	@ManyToOne
@@ -82,6 +82,7 @@ public class Order extends AbstractAuditableCustom<User, Long>{
 		this.additionalNote = additionalNote;
 		this.history = history;
 		this.user = user;
+		this.totalPrice = totalPrice;
 	}
 	
 	public static Order fromJson(final JsonCommand command, final User user, 
@@ -131,7 +132,7 @@ public class Order extends AbstractAuditableCustom<User, Long>{
 		this.history.add(hist);
 	}
 	
-	public Map<String, Object> update(final JsonCommand command) {
+	public Map<String, Object> updateStatus(final JsonCommand command) {
 
         final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
         if (command.isChangeInIntegerParameterNamed(OrderStatusParamName, this.statusCode)) {

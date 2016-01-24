@@ -1,0 +1,160 @@
+<div class="content" ng-controller="EditOrderController">
+	<ol class="breadcrumb">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li><a href="#/manage/orders" >{{'anchor.main.orders'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.order.edit'|translate}}</li> 
+	</ol>
+	<div class="page-header">
+		<h2> View/Update Order <small>Order can be viewed or updated here.</small></span>
+			<div class="pull-right" style="margin-right:20px;">
+		  	 	<span class="btn btn-primary pointer" >Print Order Invoice</span>
+		  	</div>
+		</h2>
+	</div>
+	<section style="overflow:scroll">  
+		<div class="row">
+    		<div class="col-md-1"></div>
+    		<div class="col-md-10">
+				<table class="table table-stripped">
+					<thead>
+						<tr>
+							<th>Order ID</th>
+							<th>User</th>
+							<th>Total Amount</th>
+							<th>Current Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{order.orderName}}</td>
+							<td>{{order.user.name}}<br>{{order.user.email}}<br>{{order.user.phoneNum}}</td>
+							<td>{{order.totalamount}} {{order.currencyCode}}</td>
+							<td><strong>{{order.statusMsg}}</strong></td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		<hr><br>
+		<uib-tabset>
+    		<uib-tab heading="Order Details">
+    			<div class="row">
+    				<div class="col-md-8"><br>
+    					<div class="alert alert-warning">
+	    						User Note : {{order.additionalNote}}
+	    				</div>
+	    				<h3>Order Items</h3><hr>
+	    				<table class="table table-stripped">
+	    					<thead>
+								<tr>
+									<th>Sl No.</th>
+									<th>Product Name</th>
+									<th>Quantity</th>
+									<th>Packing Style</th>
+									<th>Total Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="cart in order.orderCart track by $index">
+									<td>{{$index+1}}</td>
+									<td>{{cart.productName}}</td>
+									<td>{{cart.quantity}} {{cart.quantityUnit}}</td>
+									<td>{{cart.pkngStyleLabel}}</td>
+									<td>{{cart.itemTotalAmount}} {{order.currencyCode}}</td>
+								</tr>
+							</tbody>
+	    				</table>
+	    			</div>
+	    			<div class="col-md-4"><br>
+	    				<div class="alert alert-info">
+	    					<h3>Delivery Address</h3><hr>
+	    					<strong>{{order.dropAddress.name}}, </strong><br>
+	    					{{order.dropAddress.addressLine1}}, </strong><br>
+	    					{{order.dropAddress.addressLine2}}, </strong><br>
+	    					{{order.dropAddress.addressLine3}}, </strong><br>
+	    					<strong>Landmark : </strong>{{order.dropAddress.landmark}}, </strong><br>
+	    					<strong>Area : </strong>{{order.dropAddress.area}}, </strong><br>
+	    					<strong>City : </strong>{{order.dropAddress.city}}, </strong><br>
+	    					<strong>Pin : </strong>{{order.dropAddress.pin}}, </strong><br>
+	    					<strong>Contact Number : </strong>{{order.dropAddress.contactNumber}} </strong><br>
+
+	    				</div>
+	    			</div>
+	    		</div>
+    		</uib-tab>
+    		<uib-tab heading="Update Status"><br>
+    			<form name="createProduct"  ng-submit="submit()" class="form-horizontal">
+					<fieldset>
+						<div class="row form-group">
+							<label class = "control-label col-md-3 text-right">New Status<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								 <select id="orderStatus"
+                                    name="orderStatus"
+                                    ng-model="formData.statusCode"
+                                    class="form-control"
+                                    ng-options="status.statusCode as status.statusMsg for status in orderStatusOptions"
+                                    value="{{status.statusCode}}" required 
+                                    data-placeholder="{{'Select Status' | translate}}" >
+                                     <option value="">-- {{'Select Status' | translate}} --</option>
+                                </select>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class = "control-label col-md-3 text-right">Notes/Comments: </label>
+							<div class = "col-md-3">
+								<textarea id="orderNote" name="orderNote" rows="2" ng-model="formData.statusNote" class="form-control" style="min-width: 120px; max-width:300px; min-height: 35px; max-height:50px;"  maxlength ="200" ></textarea>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class = "control-label col-md-3 text-right">Email this update to user<span class="required">*</span>: </label>
+							<div class = "col-md-3">
+								<input class="pointer" title="Email this update to user" type = "checkbox" checked ng-model="formData.emailchk" />
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+						<div class = "row form-group">
+							<div class = "col-md-3"> </div>
+							<div class = "col-md-3">
+								<button class="btn btn-primary" id= "save" type="submit"> {{'label.button.submit' | translate}}</button>
+							</div>
+							<div class = "col-md-6">
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</uib-tab>
+			<uib-tab heading="Track History"><br>
+				<div class="row">
+    		<div class="col-md-2"></div>
+    		<div class="col-md-8">
+				<table class="table table-stripped">
+					<thead>
+						<tr>
+							<th>User</th>
+							<th>Status</th>
+							<th>Description</th>
+							<th>Time</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat = "history in order.orderHistory" >
+							<td>{{history.statusMsg}}</td>
+							<td>{{history.description}}</td>
+							<td>{{history.userName}} <br> {{history.userEmail}}</td>
+							<td>{{history.createTime}}</td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+				<div class="col-md-2"></div>
+			</div>
+			</uib-tab>
+		</uib-tabset>
+	</section>
+</div>

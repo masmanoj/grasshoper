@@ -11,7 +11,9 @@ public interface OrderConstants {
 	String AdditionalNoteParamName = "additionalNote";
 	String PickupAddressIdParamName = "pickupAddressId";
 	String DropAddressIdParamName = "dropAddressId";
-	String OrderStatusParamName = "orderStatus";
+	String OrderStatusParamName = "statusCode";
+	String StatusNoteParamName = "statusNote";
+	String EmailCheckParamName = "emailchk";
 	
 	//String QuantityParamName = "quantity";
 	
@@ -36,4 +38,7 @@ public interface OrderConstants {
 	Set<String> OrderCartParams = new HashSet<>(
 			Arrays.asList(CartProductUidParam, CartProductQuantityParamName, CartProductPkgStyleParamName,
 					GrassHoperMainConstants.LocaleParamName));
+	
+	Set<String>  UpdateOrderStatusParams = new HashSet<>(
+			Arrays.asList(OrderStatusParamName, StatusNoteParamName, EmailCheckParamName, GrassHoperMainConstants.LocaleParamName));
 }

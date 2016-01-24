@@ -1,0 +1,49 @@
+<div class="content" ng-controller="OrdersController">
+	<ol class="breadcrumb" style= "margin-bottom:0px; background-color:none;">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.orders'|translate}}</li>
+	</ol>
+	<div class="page-header">
+	  <div class="row">
+            <div class="col-sm-8">
+                <h2>{{'heading.page.admin.orders'|translate}} <small></small></h2>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-search"></span></div>
+                            <input ng-autofocus="true" ng-model="filterTxt" type="text" class="form-control"
+                                   placeholder="{{'label.txt.common.searchonpage' | translate}}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+	</div>
+	<section>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+				<th>Order</th>
+				<th>User Email</th>
+				<th>User Phone</th>
+				<th>Order Status</th>
+				<th>Total Amount</th>
+				<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="pointer" ng-repeat="order in ordersList | filter:filterTxt" ng-click="viewOrder(order)">
+				<td>{{order.orderName}}</td>
+				<td>{{order.user.email}}</td>
+				<td>{{order.user.phoneNum}}</td>
+				<td>{{order.statusMsg}}</td>
+				<td>{{order.totalamount}}</td>
+				<td><i class="fa fa-play"></i></td>
+				</tr>
+			</tbody>
+		</table>
+		<uib-pager total-items="totalItems" items-per-page = "itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pager>
+	</section>
+</div>

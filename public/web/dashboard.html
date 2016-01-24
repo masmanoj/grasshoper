@@ -3,10 +3,10 @@
 	<head>
 	    <title>Dashboard</title>
 	    <link rel="shortcut icon" href="images/fav.gif" />
+	    <link href="styles/fa/css/font-awesome-4.4.0.min.css" rel="stylesheet">
 	    <!-- Bootstrap -->
 	    <link href="styles/bootstrap.min.css" rel="stylesheet">
 		<link href="styles/custom.css" rel="stylesheet">
-		<link href="styles/fa/css/font-awesome-4.4.0.min.css" rel="stylesheet">
 		<link href='styles/fonts.css' rel='stylesheet' type='text/css'>
 	</head>
 	<body data-ng-controller="DashBoardMainController" style="font-family:'Raleway';">
@@ -14,7 +14,7 @@
 		<div id = "loaderDiv" style="position: absolute;  background:#4C6B4D; top:0; left:0; bottom:0; right:0; height:100%; width:100%; z-index:100;">
 		    <div style="width:100%; color:#fff; text-align: center;  height:100%; font-family:'Raleway';">
 		        <div class="text-center" style="margin:auto; margin-top:14%;">
-	            <span class="fa fa-cog fa-spin fa-3x"></span>
+	            <span class="fa fa-spinner fa-pulse fa-3x"></span>
 	          	<p style="font-size:16px; font-weight:300;">Please wait ... </p></div>
 	    	</div>
 		</div>
@@ -26,6 +26,7 @@
         		<div class="col-md-8"> </div>
         		<div class="jumbotron col-md-4" style="box-shadow: 0 0 15px #eee;">
         			<div class="alert alert-success">Login here to proceed..</div>
+        			<!--div class="red">{{authenticationSts}}</div-->
         			<form role="form" class="login-form" name="loginform" >
 	        			<div class="form-group">
                             <input ng-autofocus="true" type="text" data-ng-model="authCredentials.username" placeholder="User Name" class="form-control" required id="uid" ng-on-enter="authenticate()" autocomplete="off">
@@ -45,6 +46,13 @@
 		</div>
 
 		<div style="position: absolute; top:0; left:0; bottom:0; right:0; height:100%; width:100%;  " id="main" data-ng-hide="!isTestMode&&currentSession.user == null">
+
+			<div ng-show="blockUi" style="position: fixed; opacity:.3; background:#4C6B4D; top:0; left:0; bottom:0; right:0; height:100%; width:100%; z-index:100; cursor: wait;">
+			    <div style="width:100%; color:#fff; text-align: center;  height:100%; font-family:'Raleway';">
+			        <div class="text-center" style="margin:auto; margin-top:14%;">
+		            <span class="fa fa-spinner fa-pulse fa-3x"></span></div>
+		    	</div>
+			</div>
 			<nav class="navbar navbar-default " style= "margin-bottom:0px;">
   				<div class="container-fluid">
   					<div class="navbar-header">
@@ -57,7 +65,8 @@
 				      <a class="navbar-brand" href="#">Dashboard</a>
 				    </div>
 				    <ul class="nav navbar-nav navbar-right">
-				        <li ><a ng-class="center-block" href="#" ><strong ng-class="{red : newOrders > 0}"><i class="fa fa-flag"></i> Orders <span ng-class="{badge : newOrders ==0 , 'badge redbg': newOrders > 0}">{{newOrders}}</span></strong></a></li>
+				    	<li><button type="button" style = "margin-top: 15px;margin-right: -2px;" ng-class="{'fa fa-volume-up' : userRingerOn, 'fa fa-volume-off' : !userRingerOn}" ng-click="toggleUserRinger()"></button></li>
+				        <li><a ng-class="center-block" href="#" ng-click = "updateNewOrderCount()"><strong ng-class="{red : newOrders > 0}"><i class="fa fa-flag"></i> Orders <span ng-class="{badge : newOrders ==0 , 'badge redbg': newOrders > 0}">{{newOrders}}</span></strong></a></li>
 				    	<li class="dropdown">
 				          <a class="dropdown-toggle pointer" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Admin <span class="caret"></span></a>
 				          <ul class="dropdown-menu">
@@ -69,14 +78,14 @@
 				          <a class="dropdown-toggle pointer" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manage <span class="caret"></span></a>
 				          <ul class="dropdown-menu">
 				            <li><a href="#/manage/products">Products</a></li>
-				            <li><a href="#">Past Orders</a></li>
+				            <li><a href="#/manage/orders">Orders</a></li>
 				          </ul>
 				        </li>
 				        <li class="dropdown">
 				          <a class="dropdown-toggle pointer" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> {{currentSession.user.name}} <span class="caret"></span></a>
 				          <ul class="dropdown-menu">
 				            <li><a href="#"><i class="fa fa-question"></i> Help</a></li>
-				            <li><a href="#"><i class="fa fa-cog"></i> User Settings</a></li>
+				            <li><a href="#/user/usersettings"><i class="fa fa-cog"></i> User Settings</a></li>
 				            <li role="separator" class="divider"></li>
 				            <li><a ng-click="logout();"><i class="fa fa-sign-out"></i> Log out</a></li>
 				          </ul>
@@ -88,8 +97,7 @@
 				<div ng-view></div>
 			</div>
 		</div>
-
-		
+		<audio id="audio" src="sounds/bell-ringing-03.mp3" autostart="false" ></audio>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		
@@ -113,6 +121,9 @@
 	    <script src="scripts/controllers/ProductsController.js"></script>
 	    <script src="scripts/controllers/UserListController.js"></script>
 	    <script src="scripts/controllers/CreateProductController.js"></script>
+	    <script src="scripts/controllers/OrdersController.js"></script>
+	    <script src="scripts/controllers/EditOrderController.js"></script>
+	    <script src="scripts/controllers/UserSettingsController.js"></script>
 	    <script type="text/javascript">
 			$(document).ready(function(){
 				$('#loaderDiv').fadeOut();
