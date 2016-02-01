@@ -37,7 +37,7 @@ public class AddressReadServiceImpl implements AddressReadService {
 		final User thisUser = this.context.authenticatedUser();
 		final Long userId = thisUser.getId();
 		final AddressRowMapper rowMapper = new AddressRowMapper(true);
-		final String sql = "select " + rowMapper.schema() + " where a.owner_user_id = ?";
+		final String sql = "select " + rowMapper.schema() + " where a.owner_user_id = ? and isDeleted = false ";
 		return this.jdbcTemplate.query(sql, rowMapper, new Object[] {userId});
 	}
 	
@@ -82,5 +82,11 @@ public class AddressReadServiceImpl implements AddressReadService {
 					addressType, (this.hide) ? null : ownerUserId);
 		}
 		
+	}
+	@Override
+	public boolean isaddressLinkedwithOrder(final Long addressId){
+		String qry  = "select count(1) from g_order where drop_address = ? or pickup_address = ?";
+		 Integer count = this.jdbcTemplate.queryForObject(qry, Integer.class, new Object[] {addressId, addressId});
+		 return (count!=null && count > 0 );
 	}
 }

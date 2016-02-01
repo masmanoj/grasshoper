@@ -1,0 +1,51 @@
+<div class="content" ng-controller="EditUserController">
+	<ol class="breadcrumb">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li><a href="#/admin/users" >{{'anchor.main.users'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.user.edit'|translate}}</li> 
+	</ol>
+	<div class="page-header">
+		<h2> User <small>A User can be viewed or updated here.</small></span>
+		</h2>
+	</div>
+	<section style="overflow:scroll"> 
+	<div class= "alert alert-info">
+		<div class="row">
+			<div class= "col-md-3">Name<br><strong>{{user.name}}</strong></div>
+			<div class= "col-md-3">Email<br><strong>{{user.email}}</strong></div>
+			<div class= "col-md-3">Phone<br><strong>{{user.phoneNum}}</strong></div>
+			<div class= "col-md-3">isActive<br><strong><div ng-class ="{'active-indicator': user.isActive , 'inactive-indicator': !user.isActive}"> </div></strong></div>
+		</div>
+	</div>
+	</section>
+	<section>
+		<h3>Update password</h3>
+		<form name="updatePassword"  ng-submit="submitPassword()" class="form-horizontal">
+			<fieldset>
+				<div class="row form-group">
+					<label class = "control-label col-md-3 text-right">{{'New Password' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "password" maxlength="30" ng-model="updatePasswdFormData.password" required/>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<label class = "control-label col-md-3 text-right">{{'Repeat Password' |translate}}<span class="required">*</span>: </label>
+					<div class = "col-md-3">
+						<input class = "form-control" type = "password" maxlength="30" ng-model="updatePasswd.rePassword" required/>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+				<div class = "row form-group">
+					<div class = "col-md-3"> </div>
+					<div class = "col-md-3">
+						<button class="btn btn-primary" id= "save" ng-disabled ="updatePasswdFormData.password !== updatePasswd.rePassword" type="submit"> {{'label.button.submit' | translate}}</button>
+					</div>
+					<div class = "col-md-6">
+					</div>
+				</div>
+			</fieldset>
+	</section>
+</div>

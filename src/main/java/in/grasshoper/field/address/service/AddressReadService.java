@@ -8,4 +8,6 @@ public interface AddressReadService {
 
 	Collection<AddressData> retriveAllAddresOfLogedInUser();
 
+	boolean isaddressLinkedwithOrder(Long addressId);
+
 }

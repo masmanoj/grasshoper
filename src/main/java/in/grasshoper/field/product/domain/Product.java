@@ -240,4 +240,18 @@ public class Product extends AbstractPersistable<Long>{
 	public BigDecimal getMinQuantity(){
 		return this.minimumQuantity;
 	}
+	public String getQuantityUnit(){
+		return this.quantityUnit;
+	}
+
+	public Map<String, Object> updateQuantityFromCommand(JsonCommand command) {
+		final Map<String, Object> actualChanges = new LinkedHashMap<>(1);
+		if (command.isChangeInBigDecimalParameterNamed(QuantityParamName, this.quantity)) {
+        	final BigDecimal newValue = command.bigDecimalValueOfParameterNamed(QuantityParamName);
+            actualChanges.put(QuantityParamName, newValue);
+            actualChanges.put(QuantityParamName + "_old", this.quantity);
+            this.quantity = newValue;
+		}
+		return actualChanges;
+	}
 }

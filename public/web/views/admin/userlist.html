@@ -35,7 +35,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="pointer" ng-repeat="user in users | filter:filterTxt" >
+				<tr class="pointer" ng-repeat="user in users | filter:filterTxt"  ng-click = "viewUser(user)">
 				<td>{{user.name}}</td>
 				<td>{{user.email}}</td>
 				<td>{{user.phoneNum}}</td>

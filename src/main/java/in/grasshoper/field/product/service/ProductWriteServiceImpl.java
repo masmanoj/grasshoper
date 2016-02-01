@@ -2,18 +2,23 @@ package in.grasshoper.field.product.service;
 
 import static in.grasshoper.field.product.productConstants.CategoryIdsParamName;
 import static in.grasshoper.field.product.productConstants.PackingStyleIdsParamName;
+import static in.grasshoper.field.product.productConstants.QuantityParamName;
 import in.grasshoper.core.exception.PlatformDataIntegrityException;
 import in.grasshoper.core.exception.ResourceNotFoundException;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.FromJsonHelper;
 import in.grasshoper.core.infra.JsonCommand;
+import in.grasshoper.field.order.domain.Order;
 import in.grasshoper.field.product.domain.Product;
 import in.grasshoper.field.product.domain.ProductImage;
 import in.grasshoper.field.product.domain.ProductRepository;
 import in.grasshoper.field.tag.domain.SubTag;
 import in.grasshoper.field.tag.domain.SubTagRepository;
+import in.grasshoper.field.transaction.domain.TranTypeEnum;
+import in.grasshoper.field.transaction.service.ProductQuantityTransactionWriteService;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -32,13 +37,16 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 	private final ProductRepository productRepository;
 	private final FromJsonHelper fromJsonHelper;
 	private final SubTagRepository subTagRepository;
+	private final ProductQuantityTransactionWriteService quantityTranService;
 	@Autowired
 	public ProductWriteServiceImpl(final ProductRepository productRepository,
-			final FromJsonHelper fromJsonHelper, final SubTagRepository subTagRepository) {
+			final FromJsonHelper fromJsonHelper, final SubTagRepository subTagRepository,
+			final ProductQuantityTransactionWriteService quantityTranService) {
 		super();
 		this.productRepository = productRepository;
 		this.fromJsonHelper = fromJsonHelper;
 		this.subTagRepository = subTagRepository;
+		this.quantityTranService = quantityTranService;
 	}
 	
 	@Override
@@ -56,6 +64,8 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 			
 			final Product product = Product.fromJson(command, packingStyles, categories);
 			this.productRepository.save(product);
+			
+			creditProductQuantity(product, product.getQuantity());
 
 			return new CommandProcessingResultBuilder().withResourceIdAsString(
 					product.getId()).build();
@@ -279,5 +289,101 @@ public class ProductWriteServiceImpl implements ProductWriteService {
 							+ realCause.getMessage());
 		}
 		
+	}
+	@Override
+	@Transactional
+	public void debitProductQuantity(final Product product, final Order order, BigDecimal quantity ){
+		product.updateQuantity(product.getQuantity().subtract(quantity));
+		Long tranId = this.quantityTranService.createProductQuantityTransation(product, quantity, product.getQuantityUnit(),
+				TranTypeEnum.DEBIT.getTranCode(), order, false);
+		
+		if(tranId != null){
+			this.productRepository.save(product);
+		}
+		
+	}
+	@Override
+	@Transactional
+	public void reverseDebitProductQuantity(final Product product, final Order order, BigDecimal quantity ){
+		product.updateQuantity(product.getQuantity().subtract(quantity));
+		Long tranId = this.quantityTranService.createProductQuantityTransation(product, quantity, product.getQuantityUnit(),
+				TranTypeEnum.DEBIT.getTranCode(), order, true);
+		
+		if(tranId != null){
+			this.productRepository.save(product);
+		}
+	}
+	
+	@Override
+	@Transactional
+	public CommandProcessingResult updateProductQuantity(final Long productId,
+			final JsonCommand command) {
+		try {
+			// this.dataValidator.validateForUpdate(command.getJsonCommand());
+			
+			
+			
+			final Product product = this.productRepository.findOne(productId);
+			if (product == null) {
+				throw new ResourceNotFoundException(
+						"error.entity.product.not.found", "Product with id " + productId
+								+ " not found", productId);
+			}
+			final Map<String, Object> changes = product.updateQuantityFromCommand(command);
+			
+			
+			if (!changes.isEmpty()) {
+				creditProductQuantity(product, (BigDecimal)changes.get(QuantityParamName));
+			}
+
+			return new CommandProcessingResultBuilder() //
+					.withResourceIdAsString(productId) //
+					.withChanges(changes) //
+					.build();
+		} catch (DataIntegrityViolationException ex) {
+			ex.printStackTrace();
+			final Throwable realCause = ex.getMostSpecificCause();
+			throw new PlatformDataIntegrityException(
+					"error.msg.unknown.data.integrity.issue",
+					"Unknown data integrity issue with resource: "
+							+ realCause.getMessage());
+		}
+	}
+	private void creditProductQuantity(final Product product, BigDecimal quantity){
+		product.updateQuantity(quantity);
+		Long tranId = this.quantityTranService.createProductQuantityTransation(product, quantity, product.getQuantityUnit(),
+				TranTypeEnum.CREDIT.getTranCode(), null, false);
+		
+		if(tranId != null){
+			this.productRepository.save(product);
+		}
+	}
+	@Override
+	@Transactional
+	public CommandProcessingResult resetProductQuantity(final Long productId){
+		
+		final Product product = this.productRepository.findOne(productId);
+		if (product == null) {
+			throw new ResourceNotFoundException(
+					"error.entity.product.not.found", "Product with id " + productId
+							+ " not found", productId);
+		}
+		
+		Long tranId = this.quantityTranService.createProductQuantityTransation(product, product.getQuantity(), product.getQuantityUnit(),
+				TranTypeEnum.RESET
+				.getTranCode(), null, false);
+		
+		if(tranId != null){
+			product.updateQuantity(BigDecimal.ZERO);
+			this.productRepository.save(product);
+			return new CommandProcessingResultBuilder() //
+			.withResourceIdAsString(productId) //
+			.withSuccessStatus()//
+			.build();
+		}
+		return new CommandProcessingResultBuilder() //
+		.withResourceIdAsString(productId) //
+		.withFailureStatus()//
+		.build();
 	}
 }

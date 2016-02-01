@@ -5,7 +5,7 @@ import java.util.Collection;
 public class UserData {
 	@SuppressWarnings("unused") private final Long id;
 	@SuppressWarnings("unused") private final String name;
-	@SuppressWarnings("unused") private final String email;
+	private final String email;
 	@SuppressWarnings("unused") private final String phoneNum;
 	@SuppressWarnings("unused") private final String imageUrl;
 	@SuppressWarnings("unused") private final Boolean isActive;
@@ -36,5 +36,8 @@ public class UserData {
 				isPasswordChangeNeeded, isPublicUser, roles);
 	}
 	
+	public String getEmail(){
+		return this.email;
+	}
 	
 }

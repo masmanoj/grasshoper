@@ -1,8 +1,11 @@
 package in.grasshoper.user.service;
 
 import static in.grasshoper.core.GrassHoperMainConstants.DefaultAppUrl;
+import static in.grasshoper.user.UserConstants.OldPasswordParamName;
 import static in.grasshoper.user.UserConstants.ReturnUrlParamName;
+import in.grasshoper.core.exception.GeneralPlatformRuleException;
 import in.grasshoper.core.exception.PlatformDataIntegrityException;
+import in.grasshoper.core.exception.ResourceNotFoundException;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.FromJsonHelper;
@@ -10,6 +13,7 @@ import in.grasshoper.core.infra.JsonCommand;
 import in.grasshoper.core.infra.email.service.EmailSenderService;
 import in.grasshoper.core.infra.email.template.EmailTemplates;
 import in.grasshoper.core.security.service.PlatformPasswordEncoder;
+import in.grasshoper.core.security.service.PlatformSecurityContext;
 import in.grasshoper.user.data.UserDataValidator;
 import in.grasshoper.user.domain.User;
 import in.grasshoper.user.domain.UserOtp;
@@ -37,13 +41,14 @@ public class UserWriteServiceImpl implements UserWriteService {
 	private final UserOtpRepository userOtpRepository;
 	private final FromJsonHelper fromJsonHelper;
 	private final EmailSenderService emailSenderService;
+	private final PlatformSecurityContext context;
 
 	@Autowired
 	public UserWriteServiceImpl(final UserRepository userRepository,
 			final PlatformPasswordEncoder applicationPasswordEncoder,
 			final UserDataValidator userDataValidator,
 			final UserOtpRepository userOtpRepository,final FromJsonHelper fromJsonHelper,
-			final EmailSenderService emailSenderService) {
+			final EmailSenderService emailSenderService, final PlatformSecurityContext context) {
 		super();
 		this.userRepository = userRepository;
 		this.applicationPasswordEncoder = applicationPasswordEncoder;
@@ -51,6 +56,7 @@ public class UserWriteServiceImpl implements UserWriteService {
 		this.userOtpRepository = userOtpRepository;
 		this.fromJsonHelper = fromJsonHelper;
 		this.emailSenderService = emailSenderService;
+		this.context =  context;
 	}
 
 	private void generateKeyUsedForPasswordSalting(final User user) {
@@ -145,5 +151,36 @@ public class UserWriteServiceImpl implements UserWriteService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@Override
+	@Transactional
+	public CommandProcessingResult updatePassword(Long userId, final JsonCommand command) {
+		User user = this.userRepository.findOne(userId);
+		
+		if (user == null) {
+			throw new ResourceNotFoundException(
+					"error.entity.user.not.found", "User with id " + userId
+							+ " not found", userId);
+		}
+		
+		if(this.context.authenticatedUser().isPublicUser() || command.parameterExists(OldPasswordParamName)){
+			//validate old password
+			String oldPassword = command.stringValueOfParameterNamed(OldPasswordParamName);
+			if(!user.getPassword().equals(this.applicationPasswordEncoder
+					.encode(oldPassword, user))){
+				throw new GeneralPlatformRuleException("error.old.password.invalid", "Old Password is Incorrect");
+			}
+		}
+		user.updatePasswordFromCommand(command);
+		generateKeyUsedForPasswordSalting(user);
+		final String encodePassword = this.applicationPasswordEncoder
+				.encode(user);
+		user.updatePassword(encodePassword);
+
+		this.userRepository.saveAndFlush(user);
+
+		return new CommandProcessingResultBuilder().withResourceIdAsString(
+				user.getId()).build();
 	}
 }

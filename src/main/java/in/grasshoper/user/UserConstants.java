@@ -8,6 +8,7 @@ public interface UserConstants {
 	String NameParamName = "name";
 	String EmailParamName ="email";
 	String PasswordParamName = "password";
+	String OldPasswordParamName = "oldPassword";
 	//String ConfirmPasswordParamName = "cnfrmpassword";
 	String PhoneNumberParamName = "phone";
 	String IsPublicUserParamName = "ispublicuser";

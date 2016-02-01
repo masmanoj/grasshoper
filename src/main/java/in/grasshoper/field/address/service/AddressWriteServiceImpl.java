@@ -25,14 +25,16 @@ public class AddressWriteServiceImpl implements AddressWriteService {
 	private final  AddressRepository addressRepository;
 	private final AddressDataValidator dataValidator;
 	private final PlatformSecurityContext context;
+	private final AddressReadService addressReadService;
 	@Autowired
 	public AddressWriteServiceImpl(final AddressRepository addressRepository,
 			final AddressDataValidator dataValidator,
-			final PlatformSecurityContext context) {
+			final PlatformSecurityContext context, final AddressReadService addressReadService) {
 		super();
 		this.addressRepository = addressRepository;
 		this.dataValidator = dataValidator;
 		this.context = context;
+		this.addressReadService = addressReadService;
 	}
 	
 	@Override
@@ -78,7 +80,12 @@ public class AddressWriteServiceImpl implements AddressWriteService {
 						addressId);
 			}
 			
-			this.addressRepository.delete(address);
+			//check if this address is used in any order, then do soft delete
+			if(this.addressReadService.isaddressLinkedwithOrder(addressId)){
+				address.deleteAddress();
+				this.addressRepository.save(address);
+			}else
+				this.addressRepository.delete(address);
 			
 
 			return new CommandProcessingResultBuilder() //

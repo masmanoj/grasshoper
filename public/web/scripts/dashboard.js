@@ -7,6 +7,7 @@ angular.module('dashboard', [
 /*common dependencies*/
 	'ngRoute',
  	'restangular',
+  'ngAnimate',
  	'angularFileUpload',
   'pascalprecht.translate',
   'router',
@@ -57,7 +58,10 @@ angular.module('dashboard', [
               //console.log(what);
                 console.log(pendingRequests,'loading data (show indicator)');
                 var rootScope = runInjector.get('$rootScope');
-                if(!(rootScope.silentAjaxs &&  rootScope.silentAjaxs.indexOf(what) > -1 )) 
+                rootScope.silentAjaxs =[];
+                if(!(rootScope.silentAjaxs.indexOf("order/ordernoti") > -1))
+                  rootScope.silentAjaxs.push("order/ordernoti");
+                if(!(rootScope.silentAjaxs.indexOf(what) > -1 ) )
                   rootScope.blockUi = true;
             }
             pendingRequests++;

@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,5 +66,22 @@ public class UserApiResource {
         final Collection<UserData> result = this.userReadService.retriveAll( limit, offset);
         
         return this.apiJsonSerializerService.serialize(result);
+    }
+	
+	@RequestMapping(value="/{userId}", method = RequestMethod.GET)  
+	@Transactional(readOnly = true)
+    public String retrieveOne(@PathVariable("userId")final Long userId) {
+		this.context.restrictPublicUser();
+        final UserData result = this.userReadService.retriveOne( userId );
+        
+        return this.apiJsonSerializerService.serialize(result);
+    }
+	
+	@RequestMapping(value="/{userId}/passwd", method = RequestMethod.PUT)  
+	@Transactional(readOnly = true)
+    public CommandProcessingResult updatePasswd(@PathVariable("userId")final Long userId, @RequestBody final  String reqBody) {
+		this.context.restrictPublicUser();
+		return this.userWriteServce.updatePassword(userId, JsonCommand.from(reqBody,
+				new JsonParser().parse(reqBody), fromApiJsonHelper));
     }
 }

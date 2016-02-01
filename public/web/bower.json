@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "directory": "lib",
   "dependencies": {
-    "angular": "1.2.10",
-    "angular-resource": "1.2.10",
-    "angular-route": "1.2.10",
+    "angular": "1.4.9",
+    "angular-animate" : "1.4.9",
+    "angular-resource": "1.4.9",
+    "angular-route": "1.4.9",
     "angular-bootstrap": " 0.14.0",
     "angular-translate": "1.0.2",
     "angular-translate-loader-static-files": "0.1.4",

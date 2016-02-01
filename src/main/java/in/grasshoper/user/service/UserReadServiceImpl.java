@@ -41,7 +41,19 @@ public class UserReadServiceImpl implements UserReadService {
 		return this.jdbcTemplate.query(sql, this.userRowMapper);
 	}
 	
+	@Override
+	public UserData retriveOne(Long userId){
+		String sql = "select " + this.userRowMapper.schema() ;
+		sql += " where id = ? ";	
+		return this.jdbcTemplate.queryForObject(sql, this.userRowMapper, userId);
+	}
 	
+	@Override
+	public Collection<UserData> retriveAllActivePrivateUsers(){
+		String sql = "select " + this.userRowMapper.schema() ;
+		sql += " where  is_active = true and is_public_user = false";	
+		return this.jdbcTemplate.query(sql, this.userRowMapper);
+	}
 	
 	
 	protected static final class UserRowMapper implements RowMapper<UserData> {

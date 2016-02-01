@@ -21,8 +21,8 @@ angular.module('dashboard.controllers').controller('UserListController', ['$scop
 			});
   		};
   		scope.pageChanged();
-		/*scope.viewUser =  function(user){
-			location.path( "/product/edituser/"+user.id );
-		}*/
+		scope.viewUser =  function(user){
+			location.path( "/admin/users/editser/"+user.id );
+		}
 	}
 ]);

@@ -82,7 +82,7 @@ angular.module('dashboard.controllers').controller('DashBoardMainController', ['
 					$interval.cancel(noti);
 					noti = undefined;
 				}
-          	}, 60000);
+          	}, 12000);
 			
 		}
 

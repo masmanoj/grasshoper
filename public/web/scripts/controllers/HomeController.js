@@ -1,5 +1,5 @@
 
-angular.module('dashboard.controllers').controller('HomeController', ['$scope',  '$rootScope', '$http', 'Restangular' ,'$location',
+angular.module('dashboard.controllers').controller('HomeController', ['$scope',  '$rootScope', '$http', 'Restangular' ,'$location', 
 	function(scope, $http,  $rootScope, Restangular, location){
 
 		scope.newOrdersList = [];
@@ -8,9 +8,6 @@ angular.module('dashboard.controllers').controller('HomeController', ['$scope', 
 		scope.totalItems = scope.LIMIT;
 		scope.currentPage = 1;
 		scope.itemsPerPage = scope.LIMIT;
-
-		
-		
 
 		scope.pageChanged = function() {
 			//console.log(scope.currentPage);

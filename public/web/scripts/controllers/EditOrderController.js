@@ -1,5 +1,5 @@
-angular.module('dashboard.controllers').controller('EditOrderController', ['$scope',  '$rootScope', '$http', 'Restangular', '$routeParams','$location', '$route',
-	function(scope, $http,  $rootScope, Restangular, routeParams, location, route){
+angular.module('dashboard.controllers').controller('EditOrderController', ['$scope',  '$rootScope', '$http', 'Restangular', '$routeParams','$location', '$route', 'NotificationService', 
+	function(scope, $http,  $rootScope, Restangular, routeParams, location, route, NotificationService){
 		scope.order = {};
 		scope.orderStatusOptions = [];
 		scope.formData = {};
@@ -15,6 +15,7 @@ angular.module('dashboard.controllers').controller('EditOrderController', ['$sco
 			scope.formData.locale = $rootScope.locale;
 			Restangular.all("order/" + scope.orderId).customPUT(scope.formData)
 				.then(function(data){
+					NotificationService.showSuccess();
 					route.reload();
 			});
 		};

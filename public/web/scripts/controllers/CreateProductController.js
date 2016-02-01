@@ -1,5 +1,5 @@
-angular.module('dashboard.controllers').controller('CreateProductController', ['$scope',  '$rootScope', '$http', 'Restangular', '$routeParams','$location',
-	function(scope, $http,  $rootScope, Restangular, routeParams, location){
+angular.module('dashboard.controllers').controller('CreateProductController', ['$scope',  '$rootScope', '$http', 'Restangular', '$routeParams','$location', 'NotificationService', '$route',
+	function(scope, $http,  $rootScope, Restangular, routeParams, location ,NotificationService, route ){
 		scope.product = {};
 		scope.product.quantity =0;
 		scope.product.minimumQuantity = 0;
@@ -11,6 +11,9 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
 		scope.selectedCategoryTags = [];
 		scope.allPackingStyleTags =[];
 		scope.allCategoryTags = [];
+		scope.addQty = {locale : $rootScope.locale};
+		scope.addQty.quantity = 0;
+		scope.showAddQuantity = false;
 
 		Restangular.one("product/template").get().then(function(templateData){
 			scope.templateData =  templateData.plain();
@@ -100,11 +103,13 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
 			if(scope.isedit){
 				Restangular.all("product/").post(scope.product)
 					.then(function(data){
+						NotificationService.showSuccess();
 						location.path( "/manage/products");
 					});
 			}else{
 				Restangular.all("product/" + scope.product.id).customPUT(scope.product)
 				.then(function(data){
+					NotificationService.showSuccess();
 					location.path( "/manage/products");
 				});
 			}
@@ -133,6 +138,7 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
 	    scope.deleteImage = function(index){
 	    	Restangular.all("product/" + scope.product.id + "/image/" + scope.product.productImages[index].id).remove()
 	    	.then(function(data){
+	    		NotificationService.showSuccess();
 	    		scope.product.productImages.splice(index,1);
 	    	});
 	    }
@@ -143,18 +149,34 @@ angular.module('dashboard.controllers').controller('CreateProductController', ['
 		    	Restangular.all("product/" + scope.product.id + "/image/" + scope.product.productImages[index].id).customPUT(scope.product.productImages[index])
 				.then(function(data){
 					console.log(data);
+					NotificationService.showSuccess();
 					scope.product.productImages[index].edit = false;
 				});
 			}else{
 				Restangular.all("product/" + scope.product.id + "/image/" ).post(scope.product.productImages[index])
 				.then(function(data){
 					console.log(data);
+					NotificationService.showSuccess();
 					scope.product.productImages[index].id = data.resourceId;
 					scope.product.productImages[index].edit = false;
 				});
 			}
 	    }
+	    scope.resetQuantity = function(){
+	    	Restangular.all("product/" + scope.product.id+"/qty/reset").customPUT()
+				.then(function(data){
+					NotificationService.showSuccess();
+					route.reload();
+			});
+	    }
 
+	    scope.saveQty = function(){
+	    	Restangular.all("product/" + scope.product.id+"/qty/add").customPUT(scope.addQty)
+				.then(function(data){
+					NotificationService.showSuccess();
+					route.reload();
+			});
+	    }
 
 	}
 ]);

@@ -84,4 +84,5 @@ flyway {
     url = "jdbc:mysql://localhost:3306/gh"
     user = 'root'
     password = 'mysql'
+    validateOnMigrate = false
 }

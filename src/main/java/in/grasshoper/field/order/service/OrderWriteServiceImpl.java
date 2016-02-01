@@ -16,6 +16,8 @@ import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.CommandProcessingResultBuilder;
 import in.grasshoper.core.infra.FromJsonHelper;
 import in.grasshoper.core.infra.JsonCommand;
+import in.grasshoper.core.infra.email.service.EmailSenderService;
+import in.grasshoper.core.infra.email.template.EmailTemplates;
 import in.grasshoper.core.security.service.PlatformSecurityContext;
 import in.grasshoper.field.address.domain.Address;
 import in.grasshoper.field.address.domain.AddressRepository;
@@ -27,16 +29,21 @@ import in.grasshoper.field.order.domain.OrderRepository;
 import in.grasshoper.field.order.domain.OrderStatus;
 import in.grasshoper.field.product.domain.Product;
 import in.grasshoper.field.product.domain.ProductRepository;
+import in.grasshoper.field.product.service.ProductWriteService;
 import in.grasshoper.field.tag.domain.SubTag;
 import in.grasshoper.field.tag.domain.SubTagRepository;
+import in.grasshoper.user.data.UserData;
+import in.grasshoper.user.service.UserReadService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +61,9 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 	private final OrderDataValidator dataValidator;
 	private final SubTagRepository subTagRepository;
 	private final PlatformSecurityContext context;
+	private final EmailSenderService emailSenderService;
+	private final UserReadService userReadService;
+	private final ProductWriteService productWriteService;
 	
 	@Autowired
 	public OrderWriteServiceImpl(final OrderRepository orderRepository,
@@ -62,7 +72,10 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			final AddressRepository addressRepository,
 			final OrderDataValidator dataValidator,
 			final PlatformSecurityContext context,
-			final SubTagRepository subTagRepository) {
+			final SubTagRepository subTagRepository,
+			final EmailSenderService emailSenderService,
+			final UserReadService userReadService,
+			final ProductWriteService productWriteService) {
 		super();
 		this.orderRepository = orderRepository;
 		this.fromJsonHelper = fromJsonHelper;
@@ -71,6 +84,9 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 		this.dataValidator = dataValidator;
 		this.context = context;
 		this.subTagRepository = subTagRepository;
+		this.emailSenderService = emailSenderService;
+		this.userReadService = userReadService;
+		this.productWriteService = productWriteService;
 	}
 
 
@@ -113,10 +129,13 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			//order.updateOrderCart(orderCart);
 			this.orderRepository.saveAndFlush(order);
 			
+			
+			
 			String orderName  =  "ORD001"+order.getId();
 			order.setName(orderName);
 			
 			this.orderRepository.saveAndFlush(order);
+			sendNewOrderEmailNotification();
 			
 			return new CommandProcessingResultBuilder()
 				.withResourceIdAsString(order.getId())
@@ -130,6 +149,17 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 					"Unknown data integrity issue with resource: "
 							+ realCause.getMessage());
 		}
+	}
+	@Async
+	private void sendNewOrderEmailNotification(){
+		Collection<UserData> privateUsers = this.userReadService.retriveAllActivePrivateUsers();
+		String toEmails[] = new String[privateUsers.size()];
+		int i = 0;
+		for(UserData user : privateUsers ){
+			toEmails[i++] = user.getEmail();
+		}
+		this.emailSenderService.sendEmail(toEmails, null, null, EmailTemplates.newOrderNotiSubject(), 
+				EmailTemplates.newOrderNotiEmailTemplate());
 	}
 	
 	private BigDecimal getOrderCartFromCommand(final JsonElement element, final List<OrderCart> orderCarts, final Order order){
@@ -155,9 +185,9 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 						product.getQuantity());
 			}
 			
-			if(quantity.compareTo(product.getMinQuantity()) < 1){
-				throw new GeneralPlatformRuleException("error.quantity.must.be.above.minimum.quantity",
-						"Quantity must be above product minimum quantity "+product.getMinQuantity(),
+			if(quantity.compareTo(product.getMinQuantity()) < 0){
+				throw new GeneralPlatformRuleException("error.quantity.must.be.equal.to.or.above.minimum.quantity",
+						"Quantity must be equal to ot above product minimum quantity "+product.getMinQuantity(),
 						product.getMinQuantity());
 			}
 			
@@ -180,18 +210,12 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			
 			orderCarts.add(cart);
 			
-			adjustProductQuantity(product, quantity);
+			this.productWriteService.debitProductQuantity(product, order, quantity);
 		}
 		
 		return totalPrice;
 	}
 	
-	private void adjustProductQuantity(final Product product, final BigDecimal quantity) {
-		product.updateQuantity(product.getQuantity().subtract(quantity));
-		this.productRepository.save(product);
-	}
-
-
 	@Override
 	@Transactional
 	public CommandProcessingResult updateStatus(final Long orderId, final JsonCommand command) {

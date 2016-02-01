@@ -1,5 +1,6 @@
 package in.grasshoper.field.product.api;
 
+import in.grasshoper.core.exception.GeneralPlatformRuleException;
 import in.grasshoper.core.infra.ApiSerializer;
 import in.grasshoper.core.infra.CommandProcessingResult;
 import in.grasshoper.core.infra.FromJsonHelper;
@@ -114,5 +115,18 @@ public class ProductApiResource {
     		@PathVariable("imageId") final Long imageId) {
 		this.context.restrictPublicUser();
 		return this.productWriteService.deleteProductImage(productId, imageId);
+	}
+	
+	@RequestMapping(value="/{productId}/qty/{command}", method = RequestMethod.PUT)
+	@ResponseBody
+    public CommandProcessingResult updateQty(@PathVariable("productId") final Long productId,
+    		@PathVariable("command") final String command,
+    		@RequestBody final  String reqBody) {
+		this.context.restrictPublicUser();
+		if("reset".equals(command)) return this.productWriteService.resetProductQuantity(productId);
+		if("add".equals(command)) 
+			return this.productWriteService.updateProductQuantity(productId, JsonCommand.from(reqBody,
+				new JsonParser().parse(reqBody), fromApiJsonHelper));
+		throw new GeneralPlatformRuleException("error.msg.unknown.command", "Vnknown command : "+ command, command);
 	}
 }

@@ -11,4 +11,7 @@ public interface UserWriteService {
 
 	String activateUser(String email, String otp);
 
+
+	CommandProcessingResult updatePassword(Long userId, JsonCommand command);
+
 }

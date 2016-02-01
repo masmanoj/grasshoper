@@ -1,7 +1,7 @@
 package in.grasshoper.user.domain;
 
+import static in.grasshoper.field.product.productConstants.NameParamName;
 import static in.grasshoper.user.UserConstants.EmailParamName;
-import static in.grasshoper.user.UserConstants.NameParamName;
 import static in.grasshoper.user.UserConstants.PasswordParamName;
 import static in.grasshoper.user.UserConstants.PhoneNumberParamName;
 import in.grasshoper.core.infra.JsonCommand;
@@ -139,5 +139,10 @@ public class User extends AbstractPersistable<Long> implements PublicUser{
     public Boolean isPublicUser(){
     	return this.isPublicUser;
     }
+
+	public void updatePasswordFromCommand(JsonCommand command) {
+		final String password  = command.stringValueOfParameterNamed(PasswordParamName);
+        this.password = password;
+	}
 	
 }

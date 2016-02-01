@@ -5,7 +5,6 @@ angular.module('dashboard.controllers').controller('ProductsController', ['$scop
 		Restangular.all("product/").getList()
 		    .then(function(data) {
 			  	scope.products = data.plain();
-			  	console.log(scope.products);
 
 			});
 

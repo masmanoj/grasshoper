@@ -93,6 +93,7 @@
 				    </ul>
   				</div>
   			</nav>
+  			<div class= "noti-bar" ng-show="showNoti">{{notiMsg}}</div>
 			<div style="font-family:'Raleway'; padding-left:10px; padding-right:10px;">
 				<div ng-view></div>
 			</div>
@@ -102,6 +103,7 @@
 	    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		
 		<script src="bower_components/angular/angular.min.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.min.js"></script>
 	    <script src="bower_components/angularjs-file-upload/angular-file-upload.min.js"></script>
 		<script src="bower_components/angular-route/angular-route.min.js"></script>
 		<script src="bower_components/underscore/underscore-min.js"></script>
@@ -116,6 +118,7 @@
 	    <script src="scripts/controllers/DashBoardMainController.js"></script>
 	    <script src="scripts/services/services.js"></script>
 	    <script src="scripts/services/SessionMgr.js"></script>
+	    <script src="scripts/services/NotificationService.js"></script>
 	    <script src="scripts/controllers/HomeController.js"></script>
 	    <script src="scripts/controllers/TagsController.js"></script>
 	    <script src="scripts/controllers/ProductsController.js"></script>
@@ -124,6 +127,7 @@
 	    <script src="scripts/controllers/OrdersController.js"></script>
 	    <script src="scripts/controllers/EditOrderController.js"></script>
 	    <script src="scripts/controllers/UserSettingsController.js"></script>
+	    <script src="scripts/controllers/EditUserController.js"></script>
 	    <script type="text/javascript">
 			$(document).ready(function(){
 				$('#loaderDiv').fadeOut();
