@@ -179,13 +179,13 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			
 			orderCartJson.addProperty(GrassHoperMainConstants.LocaleParamName, GrassHoperMainConstants.DefaultLocale);
 			final BigDecimal quantity = this.fromJsonHelper.extractBigDecimalWithLocaleNamed(CartProductQuantityParamName, orderCartJson);
-			if(quantity.compareTo(product.getQuantity()) > 1){
+			if(quantity.compareTo(product.getQuantity()) > 0){
 				throw new GeneralPlatformRuleException("error.insufficient.quantity",
 						"Insufficient quantity, try quantity less than "+product.getQuantity(),
 						product.getQuantity());
 			}
 			
-			if(quantity.compareTo(product.getMinQuantity()) < 0){
+			if(quantity.compareTo(product.getMinQuantity()) < 1){
 				throw new GeneralPlatformRuleException("error.quantity.must.be.equal.to.or.above.minimum.quantity",
 						"Quantity must be equal to ot above product minimum quantity "+product.getMinQuantity(),
 						product.getMinQuantity());
