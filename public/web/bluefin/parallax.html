@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8, IE=9, IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>bluefinFish</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<a class="navbar-brand" href="#">Brand</a>-->
+                <div class="logo">
+                    <img width="50px" src="img/BlueFin_Logo.png" alt="logo makedart">
+                </div>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="col-md-5" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search for...">
+                        <span class="input-group-btn">
+					<a class="btn btn-default searchBtn fa fa-search" type="button" id="searchBtn"  target="_blank"></a>
+				</span>
+                    </div>
+                </div>
+
+				<div class="container">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="index.html">Home</a>
+                    </li>
+
+                    <li class="ectab"><a href="#">Sea Food</a>
+                    </li>
+
+
+                    <li><a href="#">Offers</a>
+                    </li>
+                    <li><a href="#">Reach Us</a>
+                    </li>
+
+                    <li><a href="#" id="myModalLoginBtn" data-toggle="modal" data-target="#myModalLogin">Register / Login</a></li>
+                    <li><a title="cart" class="viewCartBtn" data-toggle="modal" data-target="#myModalCart" id="viewCartBtn"><i class="fa fa-shopping-cart"></i>  Cart  <div id="_crt_items" class="item">0</div></a></li>
+
+                </ul>
+				
+				</div>
+
+
+            </div>
+        </div>
+    </nav>
+<header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('banner/banner5.jpg');"></div>
+                <div class="carousel-caption wow bounceInLeft animated">
+                    <ul id="scene">
+  <li class="layer" data-depth="4"><h1>caption</h1></li>
+  <li class="layer" data-depth="0.20"><h1>caption</h1></li>
+  <li class="layer" data-depth="0.40"><h1>caption</h1></li>
+  <li class="layer" data-depth="0.60"><h1>caption</h1></li>
+  <li class="layer" data-depth="0.80"><h1>caption</h1></li>
+  <li class="layer" data-depth="1.00"><h1>caption</h1></li>
+</ul>
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the second background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('banner/banner3.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2>Caption 2</h2>
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the third background image using inline CSS below. -->
+               <div class="fill" style="background-image:url('banner/banner2.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2>Caption 3</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+           <span class="icon-prev"></span> 
+			<!-- <img src="img/arrow.png" style="position: absolute;
+    top: 50%;
+    transform: rotate(180deg);
+    margin-top: -50px;left:20px;">-->
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+          <span class="icon-next"></span>  
+			<!--<img src="img/arrow.png" style="position: absolute;
+    top: 50%;
+    right:20px;
+    margin-top: -50px;"> -->
+        </a>
+
+    </header>
+   
+  
+    <!-- Modal Login-->
+    <div id="myModalLogin" class="modal fade" role="dialog">
+        <div class="modal-dialog" id=''>
+
+            <!-- Modal content-->
+            <div class="modal-content modal-md" id=''>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <br/>
+
+                </div>
+                <div class="modal-body" id=''>
+
+
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active">
+                            <a href="#login" role="tab" data-toggle="tab">
+              Login
+          </a>
+                        </li>
+                        <li>
+                            <a href="#signup" role="tab" data-toggle="tab"><i class='fa fa-team'></i> Sign Up</a>
+                        </li>
+                        <li>
+                            <a href="#restpwd" role="tab" data-toggle="tab"><i class='fa fa-person'></i> Reset password</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                       
+                        <form id="login" data-toggle="validator"  class="tab-pane fade active in"  >
+
+                            <br>
+
+                            <div class="form-group">
+                                <p>
+                                    <input id="" class="form-control" type="email" placeholder="Username" name="name" required/>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <input id="" class="form-control" type="password" placeholder="Password" name="password" required/>
+                                </p>
+                            </div>
+
+                            <br/>
+                            <a type="" id="_login-btn"   class='btn btn-success'>Login</a>
+
+                        </form>
+						
+                        
+                        <form class="tab-pane fade"  id="signup" data-toggle="validator" role="form" >
+                            <br>
+
+
+                            <div class="form-group">
+                                <p>
+                                    <input id="_name" class="form-control" type="text" placeholder="Name" name="name" required/>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <input id="_email" class="form-control" type="email" placeholder="Email Id" name="email" required/>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <input id="_pass" class="form-control" type="password" placeholder="Password" name="password" required/>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <input id="_repass" class="form-control" type="password" data-match="#_pass" data-match-error="Whoops, these don't match" placeholder="Re-enter password" name="repassword" required/>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <input id="_phone" class="form-control" type="text" placeholder="Phone" name="phone" required />
+                                </p>
+                            </div>
+
+
+
+
+
+                            <br/>
+                            <a type="submit"  class='btn btn-success' id="_signup">Sign Up</a>
+
+                        </form>
+                       
+                        <!--<div class="tab-pane fade" id="restpwd">
+			<br>
+               <div class="switch" id="switch">
+			   <p class=''>Enter Email Id/Username to reset password</p>
+						<p class='section'>
+							<input type="radio" name="switch" value="" checked="checked" id="0" checked1=""><a>Email Id</a>
+							<input type="radio" name="switch" value="" id="1" checked1="checked"><a>Username</a>
+						</p>
+               <p><input id="" class="form-control" type="text" placeholder="Email Id" name=""></p>
+			   <br/><button class='btn btn-success'>Reset</button>
+			   
+			   </div>
+            </div>-->
+                        <div class="tab-pane fade" id="changepass">
+                            <br>
+                            <div class="switch" id="switch">
+                                <p class=''>Enter Email Id/Username to reset password</p>
+                                <p class='section'>
+                                    <input type="radio" name="switch" value="" checked="checked" id="0" checked1=""><a>Email Id</a>
+                                    <input type="radio" name="switch" value="" id="1" checked1="checked"><a>Username</a>
+                                </p>
+                                <p>
+                                    <input id="" class="form-control" type="text" placeholder="Email Id" name="">
+                                </p>
+                                <br/>
+                                <button class='btn btn-success'>Reset</button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal myModalCart -->
+	
+	<!-- Modal myModalCart -->
+<div id="myModalCart" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" id='miniCart'>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-shopping-cart"></i> Cart</h4>
+		
+      </div>
+      <div class="modal-body" id='items'>
+	  
+<div class="alert alert-warning">No items in the cart</div>
+	   
+      </div>
+      <div class="modal-footer">
+        <a type="button" id="_checkout" class="btn btn-success"  href="checkout.html">Proceed to CheckOut</a>
+        <button type="button" id="_clearall" class="btn btn-default" data-dismiss="modal">Clear all</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <div class="loader text-center" id="loader">
+        <img src="img/BlueFin_Logo.png" width="120">
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.parallax.js"></script>
+    <script src="js/validator.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+    <script src="js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/ajaxRequest.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

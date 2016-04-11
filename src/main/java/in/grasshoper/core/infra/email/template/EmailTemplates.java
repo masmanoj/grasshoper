@@ -58,4 +58,34 @@ public class EmailTemplates {
 			
 		return tmpl.toString();
 	}
+	
+	public static String orderStatusUpdateSubject(){
+		return "Order Status Updated";
+	}
+	public static String orderStatusUpdateEmailTemplate(final String toName, final String status){
+		StringBuffer tmpl = new StringBuffer()
+			.append("<font face='verdana'>Dear ").append(toName)
+			
+			.append(",<br/><br/><table border = '0' cellpadding='0' cellspacing='0' bgcolor='#FFFFFF'><tr>")
+			.append("<td align='center'><h3>Your Order status is changed, please find below the updates: ")
+			.append("</h3> </td></tr><tr><td> </td></tr>")
+			.append("<tr><td align='center' > ")
+			.append("</td></tr>")
+			.append("<tr><td> </td></tr>")
+			.append("<tr><td align='left'> ")
+			.append(status)
+			.append("</td></tr>")
+			.append("<tr><td> </td></tr>")
+			.append("<tr><td>Order details</td></tr>")
+			.append("<tr><td> </td></tr>")
+			.append("</table><br/><br/>")
+			.append("Thanks and Regards, <br/><br/>")
+			.append("The ")
+			.append(DefaultSiteName).append(" Team<br/><br/><br/>")
+			.append("Note: This is an auto-generated mail. Please do not reply.</font>");
+			
+			
+			return tmpl.toString();
+	}
+	
 }

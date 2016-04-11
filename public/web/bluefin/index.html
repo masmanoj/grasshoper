@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8, IE=9, IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>bluefinFish</title>
+
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <!-- <link rel="stylesheet" href="css/style.min.css" type="text/css">-->
+    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
+
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+    <link rel="stylesheet" href="css/hover-min.css" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+
+
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="background:#0099ff;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<a class="navbar-brand" href="#">Brand</a>-->
+                <div class="logo">
+                    <img width="50px" src="img/BlueFin_Logo.png" alt="logo makedart">
+                </div>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="col-md-5 searchGroup" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search for...">
+                        <span class="input-group-btn">
+                           
+                    <a class="btn btn-default searchBtn" type="button" id="searchBtn"  target="_blank">Search</a>
+                    
+                </span>
+                    </div>
+                    <!---->
+                </div>
+
+                <div class="">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class=""><a href="index.html" class="translate" translate="nav.a1">nav.a1</a>
+                        </li>
+
+
+
+                        <!--
+                    <li><a href="#">Offers</a>
+                    </li>
+                    <li><a href="#">Reach Us</a>
+                    </li>-->
+
+                        <li><a href="#" id="myModalLoginBtn" data-toggle="modal" data-target="#myModalLogin" class="translate" translate="nav.a2">nav.a2</a></li>
+                        <li><a title="cart" class="viewCartBtn" data-toggle="modal" data-target="#myModalCart" id="viewCartBtn"><i class="fa fa-shopping-cart"></i>  Cart  <div id="_crt_items" class="item">0</div></a></li>
+
+                        <li><a href="#" id="changeLan"  data-toggle="tooltip" data-placement="bottom" title="change language"><i class="fa fa-globe"></i> <span>English</span></a></li>
+
+                    </ul>
+
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+    <header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+        </ol>
+
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background:url('banner/banner1.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="container ">
+
+                        <div class="col-md-6 ">
+
+                            <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+                        </div>
+
+                        <div class="col-md-6 caption">
+
+
+                            <div class="wow bounceInLeft animated">
+                                <h1 class="translate" translate="banner.heading1">Best quality fish at your door step</h1>
+
+                            </div>
+                            <div class="wow bounceInTop animated">
+                                <hr>
+                                <p class="translate" translate="banner.caption1">Best quality fish at your door step</p>
+                            </div>
+                            <a class="btn btn-success btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" data-animation="animated lightSpeedIn" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background:url('banner/banner2.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="container ">
+
+                        <div class="col-md-6 ">
+
+                            <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+                        </div>
+
+                        <div class="col-md-6 caption">
+
+
+                            <div class="wow bounceInLeft animated">
+                                <h1 class="translate" translate="banner.heading2">Best quality fish at your door step</h1>
+
+                            </div>
+                            <div class="wow bounceInTop animated">
+                                <hr>
+                                <p class="translate" translate="banner.caption2">Best quality fish at your door step</p>
+                            </div>
+                            <a class="btn btn-success btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" data-animation="animated lightSpeedIn" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background:url('banner/banner3.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="container ">
+
+                        <div class="col-md-6 ">
+
+                            <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+                        </div>
+
+                        <div class="col-md-6 caption">
+
+
+                            <div class="wow bounceInLeft animated">
+                                <h1 class="translate" translate="banner.heading3">Best quality fish at your door step</h1>
+
+                            </div>
+                            <div class="wow bounceInTop animated">
+                                <hr>
+                                <p class="translate" translate="banner.caption3">Best quality fish at your door step</p>
+                            </div>
+                            <a class="btn btn-success btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" data-animation="animated lightSpeedIn" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="item">
+
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background:url('banner/banner4.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="container ">
+
+                        <div class="col-md-6 ">
+
+                            <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+                        </div>
+
+                        <div class="col-md-6 caption">
+
+
+                            <div class="wow bounceInLeft animated">
+                                <h1 class="translate" translate="banner.heading4">Best quality fish at your door step</h1>
+
+                            </div>
+                            <div class="wow bounceInTop animated">
+                                <hr>
+                                <p class="translate" translate="banner.caption4">Best quality fish at your door step</p>
+                            </div>
+                            <a class="btn btn-success btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" data-animation="animated lightSpeedIn" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="item">
+
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background:url('banner/banner5.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="container ">
+
+                        <div class="col-md-6 ">
+
+                            <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+                        </div>
+
+                        <div class="col-md-6 caption">
+
+
+                            <div class="wow bounceInLeft animated">
+                                <h1 class="translate" translate="banner.heading5">Best quality fish at your door step</h1>
+
+                            </div>
+                            <div class="wow bounceInTop animated">
+                                <hr>
+                                <p class="translate" translate="banner.caption5">Best quality fish at your door step</p>
+                            </div>
+                            <a class="btn btn-success btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" data-animation="animated lightSpeedIn" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="item ">
+                <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+               
+                <div class="fill" style="background:url('banner/banner2.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="wow bounceInLeft animated">
+                        <h1 class="translate" translate="banner.heading2">Best quality fish at your door step</h1><img src="img/hr.png" width="320"></div>
+                    <div class="wow bounceInTop animated">
+                        <p class="translate" translate="banner.caption2">Best quality fish at your door step</p>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-warning btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+                        <a class="btn btn-warning btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" href="#buyOnline"><i class="fa fa-shopping-cart"></i></a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="item ">
+                <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+             
+                <div class="fill" style="background:url('banner/banner3.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="wow bounceInLeft animated" style="">
+                        <h1 class="translate" translate="banner.heading3">Best quality fish at your door step</h1></div>
+                    <div class="wow bounceInTop animated" style="">
+                        <p class="translate" translate="banner.caption3">Best quality fish at your door step</p>
+                    </div>
+                    <a class="btn btn-warning btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+                </div>
+            </div>
+            <div class="item ">
+                <div class="logoBrand wow flipInX animated"><img src="img/BlueFin_Logo.png" /></div>
+               
+                <div class="fill" style="background:url('banner/banner5.jpg') fixed;"></div>
+                <div class="carousel-caption ">
+                    <div class="wow bounceInLeft animated">
+                        <h1 class="translate" translate="banner.heading4">Best quality fish at your door step</h1></div>
+                    <div class="wow bounceInTop animated">
+                        <p class="translate" translate="banner.caption4">Best quality fish at your door step</p>
+                    </div>
+                    <a class="btn btn-warning btn-lg scrollDown page-scroll wow bounceIn animated hvr-wobble-vertical" href="#buyOnline"><i class="fa fa-shopping-cart"></i>  Shop Now</a>
+                </div>
+            </div>
+            -->
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+            <!-- <img src="img/arrow.png" style="position: absolute;
+    top: 50%;
+    transform: rotate(180deg);
+    margin-top: -50px;left:20px;">-->
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+            <!--<img src="img/arrow.png" style="position: absolute;
+    top: 50%;
+    right:20px;
+    margin-top: -50px;"> -->
+        </a>
+
+    </header>
+
+    <!-- <section class='bg-' id="_section">
+        <div class='container-fluid'>
+            <h2 class='text-center wow ' data-wow-delay="0.2s" data-depth="1.00" >LET'S SEE, HOW WE ARE UNIQUE?</h2>
+
+            <div class='row'>
+
+
+                <div class="col-sm-4 unique wow fadeInDown center" data-wow-delay="0.2s" data-depth="0.20">
+
+                    <div class="uiniqueItem">
+                        <img src="img/freshFish.jpg">
+                        <h3 class="wow flipInX" data-wow-delay="1s">Fresh Fish</h3>
+                        <p><b>Direct sea to outlet</b>
+                            <br>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-sm-4 unique wow fadeInDown" data-wow-delay="0.5s">
+                    <div class="uiniqueItem ">
+                        <img src="img/uniqueStorage.jpg">
+                        <h3 class="wow flipInX" data-wow-delay="2s">Unique Storage</h3>
+                        <p><b>Customized Storage</b>
+                            <br> </p>
+
+                    </div>
+                </div>
+                <div class="col-sm-4 unique wow fadeInDown" data-wow-delay="1s" data-depth="1.00">
+                    <div class="uiniqueItem">
+                        <img src="img/deliveryService.jpg">
+                        <h3 class="wow flipInX" data-wow-delay="3s">Delivery Service</h3>
+                        <p><b>One phone call delivery service</b>
+                            <br>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>-->
+
+
+    <section class=' page-scroll' id="buyOnline">
+        <h2 class='text-center translate' translate="section.heading1">section.heading1</h2>
+        <hr>
+
+        <div class='panelFilterTop container'>
+
+            <div class='row col-md-12'>
+                <div class='col-md-10 '>
+                    <div class='panelDisplayOrder '>
+                        <div class='filters' id="filters">
+
+                        </div>
+                    </div>
+                </div>
+                <!--col-md-9-->
+                <div class='col-md-2 col-sm-12'>
+
+
+                    <div class="input-group" style="">
+
+                        <select id="sortBy" class="form-control">
+
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <canvas id="fishtank" width="1400" height="1000">           </canvas>
+
+
+
+
+        <div id="displayContainer" class='container wow zoomIn animated'></div>
+        <!-- col-md-9-->
+
+
+
+    </section>
+
+
+
+    <section class="footer">
+
+        <div class="container">
+            <div class="col-md-3">
+                <h3>Introduction</h3>
+                <ul>
+                    <li>About Us </li>
+                    <li>Careers </li>
+                    <li>Products </li>
+                    <li>Registration</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li>Contact Us</li>
+                    <li>FAQ </li>
+                    <li>Feedback </li>
+                </ul>
+
+            </div>
+            <div class="col-md-3">
+                <h3>Information</h3>
+                <ul>
+                    <li>Terms & Conditions</li>
+                </ul>
+
+            </div>
+            <div class="col-md-3">
+                <h3>My Account</h3>
+                <ul>
+                    <li>My Account</li>
+                    <li>Order History</li>
+                </ul>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- Modal Login-->
+    <div id="modelMsg" class="modal fade" role="dialog">
+        <div class="modal-dialog" id=''>
+
+            <!-- Modal content-->
+            <div class="modal-content" id=''>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Message</h4>
+
+                </div>
+                <div class="modal-body">
+
+
+
+                    <div class="alert alert-default" id='msgBody'>
+
+                    </div>
+
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal Login-->
+    <!-- Modal Login-->
+    <div id="myModalLogin" class="modal fade" role="dialog">
+        <div class="modal-dialog" id=''>
+
+            <!-- Modal content-->
+            <div class="modal-content modal-md" id=''>
+                <div class="modal-header">
+                    <strong>Login</strong>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <br/>
+
+                </div>
+                <div class="modal-body row" id=''>
+                    <div class="alert alert-warning hide" id='alertLogin'></div>
+
+
+
+                    <!-- Nav tabs 
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active">
+                            <a href="#loginForm" role="tab" data-toggle="tab">
+              Login
+          </a>
+                        </li>
+                        <li>
+                            <a href="#signupForm" role="tab" data-toggle="tab"><i class='fa fa-team'></i> Sign Up</a>
+                        </li>
+                        <!-- <li>
+                            <a href="#restpwd" role="tab" data-toggle="tab"><i class='fa fa-person'></i> Reset password</a>
+                        </li>-->
+
+                    </ul>
+                    <div class="col-md-6" style="border-right: 1px solid #eee;">
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+
+                            <form id="loginForm" method="submit" data-toggle="validator" class="tab-pane fade active in">
+
+                                <br>
+
+                                <div class="form-group">
+                                    <p>
+                                        <input id="" class="form-control" type="email" placeholder="Username" name="name" required/>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <p>
+                                        <input id="" class="form-control" type="password" placeholder="Password" name="password" required/>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <br/>
+                                <a id="_loginBtn" class='btn btn-success' value="Login" name="Login">Login</a>
+                                <!--<input type="submit" id="_login-btn" class='btn btn-success' value="Login" name="Login"/>-->
+
+                                <div class="form-group">
+                                    <hr>
+                                    <p>
+                                        New to Bluefin? <strong><a href="#signupForm" role="tab" data-toggle="tab" >Sign Up</a></strong>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                            </form>
+
+
+                            <form class="tab-pane fade" id="signupForm" data-toggle="validator" role="form">
+                                <br>
+
+
+                                <div class="form-group">
+                                    <p>
+                                        <input id="_name" class="form-control" type="text" placeholder="Name" name="name" required/>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <p>
+                                        <input id="_email" class="form-control" type="email" placeholder="Email Id" name="email" required/>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <p>
+                                        <input id="_pass" class="form-control" type="password" placeholder="Password" name="password" required/>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <p>
+                                        <input id="_repass" class="form-control" type="password" data-match="#_pass" data-match-error="Whoops, these don't match" placeholder="Re-enter password" name="repassword" required/>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <p>
+                                        <input id="_phone" class="form-control" type="text" placeholder="Phone" name="phone" required />
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+
+
+
+
+                                <br/>
+                                <a class='btn btn-success' id="_signupBtn" name="Sign Up" value="Sign Up">Sign Up</a>
+
+
+
+
+
+                                <div class="form-group">
+                                    <hr>
+                                    <p>
+                                        Already a Member? <strong><a href="#loginForm" role="tab" data-toggle="tab" >Login</a></strong>
+                                    </p>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <br>
+
+                        <span class="fa fa-shopping-cart"></span><span><strong class="link link-info">  Manage Your Orders</strong><br>
+                        Easily Track Orders, Create Returns<</span><hr>
+
+                        <i class="fa fa-bell"></i><strong>  Make Informed Decisions</strong><br>
+                        Get Relevant Alerts And Recommendations<hr>
+
+                        <i class="fa fa-heart"></i><strong>  Engage Socially</strong><br>
+                        With Wishlists, Reviews, Ratings<br><br>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal myModalCart -->
+
+    <!-- Modal myModalCart -->
+    <div id="myModalCart" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" id='miniCart'>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-shopping-cart"></i> Cart</h4>
+
+                </div>
+                <div class="modal-body" id=''>
+                    <div class="table-responsive" id=''>
+                        <table class="table" id='items'>
+
+
+
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a type="button" id="_checkout" class="btn btn-success" href="checkout.html">Proceed to CheckOut</a>
+                    <button type="button" id="_clearall" class="btn btn-default" data-dismiss="modal">Clear all</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="loader text-center" id="loader">
+        <div class="preLoader">
+            <img src="img/BlueFin_Logo.png" width="120">
+            <div class="cs-loader">
+                <div class="cs-loader-inner">
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.parallax.js"></script>
+    <script src="js/validator.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+    <script src="js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/lan.js"></script>
+    <script src="js/ajaxRequest.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/fishAnimate.js"></script>
+    <script>
+        $('.carousel').carousel({
+            interval: 5000 //changes the speed
+        })
+    </script>
+</body>
+
+</html>

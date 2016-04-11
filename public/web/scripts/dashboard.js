@@ -13,15 +13,16 @@ angular.module('dashboard', [
   'router',
  	'dashboard.controllers',
  	'dashboard.services',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'nvd3'
 
   ]).run(function($injector){
-    console.log(" d888b  d8888b.  .d8b.  .d8888. .d8888. db   db  .d88b.  d8888b. d88888b d8888b. "); 
+   /* console.log(" d888b  d8888b.  .d8b.  .d8888. .d8888. db   db  .d88b.  d8888b. d88888b d8888b. "); 
       console.log("88' Y8b 88  `8D d8' `8b 88'  YP 88'  YP 88   88 .8P  Y8. 88  `8D 88'     88  `8D ");
       console.log("88      88oobY' 88ooo88 `8bo.   `8bo.   88ooo88 88    88 88oodD' 88ooooo 88oobY' ");
       console.log("88  ooo 88`8b   88~~~88   `Y8b.   `Y8b. 88~~~88 88    88 88~~~   88~~~~~ 88`8b   ");
       console.log("88. ~8~ 88 `88. 88   88 db   8D db   8D 88   88 `8b  d8' 88      88.     88 `88. ");
-      console.log(" Y888P  88   YD YP   YP `8888Y' `8888Y' YP   YP  `Y88P'  88      Y88888P 88   YD "); 
+      console.log(" Y888P  88   YD YP   YP `8888Y' `8888Y' YP   YP  `Y88P'  88      Y88888P 88   YD "); */
     runInjector = $injector;
   })
 
@@ -56,7 +57,7 @@ angular.module('dashboard', [
        RestangularProvider.addRequestInterceptor(function (element, operation, what, url) {
             if (pendingRequests == 0) {
               //console.log(what);
-                console.log(pendingRequests,'loading data (show indicator)');
+                //console.log(pendingRequests,'loading data (show indicator)');
                 var rootScope = runInjector.get('$rootScope');
                 rootScope.silentAjaxs =[];
                 if(!(rootScope.silentAjaxs.indexOf("order/ordernoti") > -1))

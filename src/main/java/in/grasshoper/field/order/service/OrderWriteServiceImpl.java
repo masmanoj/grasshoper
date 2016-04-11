@@ -185,7 +185,7 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 						product.getQuantity());
 			}
 			
-			if(quantity.compareTo(product.getMinQuantity()) < 1){
+			if(quantity.compareTo(product.getMinQuantity()) < 0){
 				throw new GeneralPlatformRuleException("error.quantity.must.be.equal.to.or.above.minimum.quantity",
 						"Quantity must be equal to ot above product minimum quantity "+product.getMinQuantity(),
 						product.getMinQuantity());
@@ -210,6 +210,8 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			
 			orderCarts.add(cart);
 			
+			this.orderRepository.save(order);
+			
 			this.productWriteService.debitProductQuantity(product, order, quantity);
 		}
 		
@@ -232,7 +234,8 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 			if (!changes.isEmpty()) {
 				Integer statusId =(Integer) changes.get(OrderStatusParamName);
 				String note = command.stringValueOfParameterNamed(StatusNoteParamName);
-				OrderHistory hist = OrderHistory.create(order, statusId,  OrderStatus.getstatusDesc(OrderStatus.fromInt(statusId)) +((note.isEmpty())?"" : ", "+note));
+				String statusDesc = OrderStatus.getstatusDesc(OrderStatus.fromInt(statusId)) +((note.isEmpty())?"" : ", "+note);
+				OrderHistory hist = OrderHistory.create(order, statusId,  statusDesc);
 				order.addOrderHistory(hist);	
 				
 				this.orderRepository.save(order);

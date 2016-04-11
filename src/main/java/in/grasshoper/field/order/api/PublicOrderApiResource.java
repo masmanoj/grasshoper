@@ -44,7 +44,7 @@ public class PublicOrderApiResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-    public CommandProcessingResult createUser(@RequestBody final  String reqBody) {
+    public CommandProcessingResult create(@RequestBody final  String reqBody) {
 		
 		//return this.srvExecuter.executePublicWriteService(GlobalServiceEnum.P_ODER_CREATE,JsonCommand.from(reqBody,
 			//	new JsonParser().parse(reqBody), fromApiJsonHelper));

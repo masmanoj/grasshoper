@@ -1,5 +1,5 @@
-angular.module('dashboard.controllers').controller('EditUserController', ['$scope',  '$rootScope', '$http', 'Restangular', '$routeParams','$location', '$route',
-	function(scope, $http,  $rootScope, Restangular, routeParams, location, route){
+angular.module('dashboard.controllers').controller('EditUserController', ['$scope',  '$rootScope', '$http', 'Restangular', '$routeParams','$location', '$route', 'NotificationService',
+	function(scope, $http,  $rootScope, Restangular, routeParams, location, route, NotificationService){
 		scope.user = {};
 		scope.updatePasswdFormData ={};
 		scope.updatePasswd = {};
@@ -12,7 +12,8 @@ angular.module('dashboard.controllers').controller('EditUserController', ['$scop
 		scope.submitPassword = function(){
 			Restangular.all("user/" + scope.userId+"/passwd").customPUT(scope.updatePasswdFormData)
 				.then(function(data){
-					route.reload();
+					NotificationService.showSuccess();
+					location.path( "/admin/users");
 			});
 		};
 

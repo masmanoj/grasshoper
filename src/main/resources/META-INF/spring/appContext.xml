@@ -19,9 +19,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-	<sec:global-method-security
+	<!--  sec:global-method-security
 		pre-post-annotations="enabled" 
-		authentication-manager-ref="authenticationManager" />
+		authentication-manager-ref="authenticationManager" /-->
 	
 	<bean id="auditorAware"
 		class="in.grasshoper.core.domain.AuditorAwareImpl"></bean>

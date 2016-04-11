@@ -22,13 +22,12 @@ import in.grasshoper.user.domain.UserRepository;
 
 import java.text.SimpleDateFormat;
 
-import javax.transaction.Transactional;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.JsonElement;
 
@@ -154,7 +153,7 @@ public class UserWriteServiceImpl implements UserWriteService {
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	public CommandProcessingResult updatePassword(Long userId, final JsonCommand command) {
 		User user = this.userRepository.findOne(userId);
 		

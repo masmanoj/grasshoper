@@ -5,6 +5,6 @@ public interface GrassHoperMainConstants {
 	String LocaleParamName = "locale";
 	String DefaultLocale = "en";
 	String CurrencyCode = "QAR";
-	String DefaultSiteName = "Grasshoper";
+	String DefaultSiteName = "Blue Fin Fish";
 	String DefaultAppUrl = isDev ? "https://localhost:8443/grasshoper-core/" : "https://grasshoper-ghbluefin.rhcloud.com/grasshoper-core/";
 }

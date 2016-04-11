@@ -16,6 +16,7 @@
     "heading.page.admin.products.view":"View Product",
     "heading.page.admin.products.edit":"Edit Product",
     "heading.page.admin.orders":"Orders",
+    "heading.main.sales.report": "Report",
     
 
     "---anchors----":"",
@@ -28,6 +29,7 @@
     "anchor.main.order.edit":"Edit Order",
     "anchor.main.usersettings":"User Settings",
     "anchor.main.user.edit":"Edit User",
+    "anchor.main.sales.report":"Report",
 
     "---mgs----":"",
     "msg.please.wait":"Please wait",

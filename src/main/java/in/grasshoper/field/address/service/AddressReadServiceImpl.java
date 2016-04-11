@@ -37,7 +37,7 @@ public class AddressReadServiceImpl implements AddressReadService {
 		final User thisUser = this.context.authenticatedUser();
 		final Long userId = thisUser.getId();
 		final AddressRowMapper rowMapper = new AddressRowMapper(true);
-		final String sql = "select " + rowMapper.schema() + " where a.owner_user_id = ? and isDeleted = false ";
+		final String sql = "select " + rowMapper.schema() + " where a.owner_user_id = ? and is_deleted = false ";
 		return this.jdbcTemplate.query(sql, rowMapper, new Object[] {userId});
 	}
 	

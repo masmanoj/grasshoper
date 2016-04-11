@@ -1,0 +1,49 @@
+<div class="content" ng-controller="ReportsController">
+	<ol class="breadcrumb" style= "margin-bottom:0px; background-color:none;">
+	  <li><a href="#/main">{{'anchor.main'|translate}}</a></li>
+	  <li class="active">{{'anchor.main.sales.report'|translate}}</li>
+	</ol>
+	<div class="page-header">
+	  <div class="row">
+            <div class="col-sm-8">
+                <h2>{{'heading.main.sales.report'|translate}}: {{reportName}}<small></small></h2>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-search"></span></div>
+                            <input ng-autofocus="true" ng-model="filterTxt" type="text" class="form-control"
+                                   placeholder="{{'label.txt.common.searchonpage' | translate}}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+	</div>
+	<section>
+		<div class="row">
+			<div class="col-md-2">
+				<input type="text" class="form-control" ng-model="search.fromDate" placeholder="From Date" ></input>
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" ng-model="search.toDate" placeholder="To Date"></input>
+			</div>
+		</div>
+		<table class="table table-hover">
+			<thead>
+				<tr class="pointer" >
+					<th ng-repeat="header in reportData.header">{{header}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="data in reportData.dataList | filter:filterTxt">
+					<td ng-repeat="(key, value) in data">
+				  		{{ value }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<uib-pager total-items="totalItems" items-per-page = "itemsPerPage" ng-model="currentPage" ng-change="loadReport()"></uib-pager>
+	</section>
+</div>
