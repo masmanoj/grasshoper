@@ -4,7 +4,7 @@
   "directory": "lib",
   "dependencies": {
     "angular": "1.4.9",
-    "angular-animate" : "1.4.9",
+    "angular-animate": "1.4.9",
     "angular-resource": "1.4.9",
     "angular-route": "1.4.9",
     "angular-bootstrap": " 0.14.0",
@@ -13,9 +13,10 @@
     "jquery": "1.11.0",
     "underscore": "1.8.3",
     "angularjs-file-upload": "2.0.4",
-    "restangular":"1.4.0",
-    "bootstrap":"",
+    "restangular": "1.4.0",
+    "bootstrap": "",
     "requirejs": "2.1.20",
-    "angular-nvd3" :""
+    "angular-nvd3": "",
+    "ngprogress": "~1.1.3"
   }
 }

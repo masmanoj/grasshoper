@@ -2,6 +2,7 @@
 
 'use strict';
 var runInjector = null;
+var progressbar = null;
 angular.module('dashboard', [
 
 /*common dependencies*/
@@ -14,9 +15,10 @@ angular.module('dashboard', [
  	'dashboard.controllers',
  	'dashboard.services',
   'ui.bootstrap',
-  'nvd3'
+  'nvd3',
+  'ngProgress'
 
-  ]).run(function($injector){
+  ]).run(function($injector, ngProgressFactory){
    /* console.log(" d888b  d8888b.  .d8b.  .d8888. .d8888. db   db  .d88b.  d8888b. d88888b d8888b. "); 
       console.log("88' Y8b 88  `8D d8' `8b 88'  YP 88'  YP 88   88 .8P  Y8. 88  `8D 88'     88  `8D ");
       console.log("88      88oobY' 88ooo88 `8bo.   `8bo.   88ooo88 88    88 88oodD' 88ooooo 88oobY' ");
@@ -24,6 +26,12 @@ angular.module('dashboard', [
       console.log("88. ~8~ 88 `88. 88   88 db   8D db   8D 88   88 `8b  d8' 88      88.     88 `88. ");
       console.log(" Y888P  88   YD YP   YP `8888Y' `8888Y' YP   YP  `Y88P'  88      Y88888P 88   YD "); */
     runInjector = $injector;
+
+    progressbar = ngProgressFactory.createInstance();
+    progressbar.setHeight('1px');
+    progressbar.setColor('#79d858');
+    
+            
   })
 
   .config(['$translateProvider', function($translateProvider) {
@@ -56,14 +64,19 @@ angular.module('dashboard', [
        var pendingRequests = 0;
        RestangularProvider.addRequestInterceptor(function (element, operation, what, url) {
             if (pendingRequests == 0) {
-              //console.log(what);
+                progressbar.setColor('#79d858');
+                
+              console.log(operation, operation.indexOf('post')> -1, operation.indexOf('put')> -1);
                 //console.log(pendingRequests,'loading data (show indicator)');
                 var rootScope = runInjector.get('$rootScope');
                 rootScope.silentAjaxs =[];
                 if(!(rootScope.silentAjaxs.indexOf("order/ordernoti") > -1))
                   rootScope.silentAjaxs.push("order/ordernoti");
-                if(!(rootScope.silentAjaxs.indexOf(what) > -1 ) )
-                  rootScope.blockUi = true;
+                if(!(rootScope.silentAjaxs.indexOf(what) > -1 ) ){
+                  progressbar.start();
+                  if(operation.indexOf('post') > -1 || operation.indexOf('put') > -1)
+                    rootScope.blockUi = true;
+                }
             }
             pendingRequests++;
             return element;
@@ -71,6 +84,7 @@ angular.module('dashboard', [
         RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
             pendingRequests--;
             if (pendingRequests == 0) {
+                progressbar.complete();
                // console.log('loaded data (hide indicator)');
                 var rootScope = runInjector .get('$rootScope');
                 rootScope.blockUi = false;
@@ -81,6 +95,8 @@ angular.module('dashboard', [
         RestangularProvider.setErrorInterceptor(function(response, deferred) {
             pendingRequests--;
             if (pendingRequests == 0) {
+                progressbar.setColor('firebrick');
+                progressbar.complete();
                 var rootScope = runInjector .get('$rootScope');
                 rootScope.blockUi = false;
                 //console.log('loaded data (hide indicator) Error',response);
