@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="lib/underscore/underscore-min.js"></script>
+    <script src="lib/restangular/dist/restangular.min.js"></script>
+    <script src="lib/angular-translate/angular-translate.min.js"></script>
+    <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script> 
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+
+    <style type="text/css">
+        
+    </style>
+  </head>
+  <body ng-app="bluefin" >
+
+    <ion-pane class="loader" style="background-color: #4686F0;"  ng-hide = "loadingComplete&&loginCheckFinished" >
+      <ion-content>  
+        <ion-spinner icon="ripple"></ion-spinner>
+        <div class="row">
+          <div class="col" ><h2 style="color: #fff;">BLUEFIN</h2></div>
+        </div>
+      </ion-content>
+    </ion-pane>
+
+
+    <ion-pane ng-show = "loadingComplete"  ng-controller="MainController" id="mainPanel" style="display:none;">
+      <div  class="bar bar-header bar-positive" _on-drag-right="openMenu()">
+        <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+        <div class="h1 title">Bluefin</div>
+        <button class="button button-icon icon ion-ios-cart" ng-click="openCart($event)">{{cart.cartItems.length}}</button>
+      </div>
+
+      <ion-side-menus>
+      <!-- Left menu -->
+        <ion-side-menu side="left">
+          <ion-content>
+            
+             <div class="list" style="margin-top:  40px; ">
+                <a class="item item-icon-left" href="#">
+                  <i class="icon ion-paper-airplane"></i>
+                   About us
+                </a>
+                <a class="item item-icon-left" href="#">
+                  <i class="icon ion-ios-help-empty"></i>
+                  Help
+                </a>
+                <a class="item item-icon-left" href="#">
+                  <i class="icon ion-log-in"></i>
+                  Sign in
+                </a>
+            </div>
+          </ion-content>
+        </ion-side-menu>
+        <ion-side-menu-content style="margin-top:  40px">
+          <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
+      </ion-side-menus>
+      
+      
+    </ion-pane>
+
+    <!--ion-pane  ng-show = "loadingComplete"  ng-controller="HomeController">
+      <div class="bar bar-header bar-positive">
+        <button class="button button-icon icon ion-navicon"></button>
+        <div class="h1 title">Bluefin</div>
+        <button class="button button-icon icon ion-ios-search"></button>
+      </div>
+      <ion-content>
+      </ion-content>
+    </ion-pane-->
+
+    <!-- 
+
+
+
+
+  <ion-content>
+    <div class="row">
+      <div class="col"><div class="h3 title">Login</div></div>
+    </div>
+    <div class="list">
+      <label class="item item-input item-floating-label">
+        <span class="input-label">User Name</span>
+        <input type="email" placeholder="User Name" ng-model = "authCredentials.username">
+      </label>
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Password</span>
+        <input type="password" placeholder="Password" ng-model = "authCredentials.password">
+      </label>
+    </div>
+
+    <button class="button button-block button-energized" ng-click="authenticate()">
+      Login
+    </button>
+  </ion-content>
+    -->
+
+
+    <script id="templates/home.html" type="text/ng-template">
+      <ion-view view-title="Home"  ng-controller = "HomeController">
+        <div class="bar bar-header bar-light">
+          <button class="button button-icon icon ion-funnel" ng-click="toggleShowCategories()"></button>
+          <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="Search">
+          </label>
+          <button class="button  icon-left button-stable" style="float:right;"> Search </button>
+          <button class="button button-icon icon ion-levels"   ng-click="toggleShowSort()"></button>
+        </div>
+        <div class ="drop-list" ng-show = "showCategories" >
+          <ion-list on-drag-up="showCategories=false">
+              <div class="item item-divider">
+                Categories  <button class="button  icon-left ion-funnel button-royal" style="float:right;"> Filter </button>
+              </div>
+              <ion-checkbox ng-model="category.selected" ng-repeat = "category in stageData.allCategories">{{category.label}}</ion-checkbox>
+          </ion-list>
+        </div>
+        <div class ="drop-list item-remove-animate" ng-show = "showSort" >
+          <ion-list  on-drag-up="showSort = false">
+              <div class="item item-divider">
+                Sort 
+              </div>
+              <ion-radio ng-model="choice" ng-value="sort.id" ng-repeat = "sort in stageData.allSortOrders">{{sort.label}}</ion-radio>
+          </ion-list>
+        </div>
+        <ion-content>
+          <ion-list>
+          <br><br>
+            <div class="list card  product-item item-remove-animate" ng-repeat = "product in products">
+              <!--div class="item item-image">
+                <img ng-src={{product.productImages[0].imageUrl}} />
+              </div-->
+              <div class="item item-body">
+                <img ng-src={{product.productImages[0].imageUrl}}  width="300px" height="200px">
+                <h2>
+                  {{product.name}} <span class="badge badge-assertive">{{product.currencyCode}} {{product.pricePerUnit}} per {{product.quantityUnit}}</span>
+                </h2>
+                <p ng-hide ="product.isSoldOut || product.quantity <1">
+                  <a href="#" class="subdued button royal right">View</a>
+                  <a ng-click="openAddToCartModel()" class="subdued button icon-left ion-ios-cart-outline assertive" style="float:right;"> Add to Cart &nbsp;</a>
+                </p>
+                <p ng-show="product.isSoldOut || product.quantity <1">
+                  <i class="icon ion-sad-outline placeholder-icon"></i>This Item is Sold out
+                </p>
+              </div>
+            </div>
+          </ion-list>
+
+          <ion-infinite-scroll
+              ng-if="moreDataCanBeLoaded"
+              on-infinite="loadProducts()"
+              distance="2%">
+            </ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+    </script>
+    <script id="cart.html" type="text/ng-template">
+      <ion-popover-view style="height:automatic; max-height: 400px; width:320px;margin-top:5px;">
+       <span class="badge badge-dark fleft" style = " margin-top: 277px;margin-left: 297px;" ng-click="closeCart();"> 
+          <i class=" ion-close energized "> </i> 
+        </span>
+        <ion-header-bar>
+
+          <h1 class="title">
+          <span class="ion-cash assertive fleft "> {{currencyCode}} {{cart.totalAmount}} </span> Cart
+          <a class="button button-balanced ion-bag fright padding" style="margin-top: 3px;" ng-click="closeCart();"> Checkout </a> 
+          </h1>
+        </ion-header-bar>
+        <ion-content>
+          <div class="list">
+            <div class="item item-button-right" ng-repeat = "cartItem in cart.cartItems track by $index">
+            {{cartItem.itemName}} <br> 
+            {{cartItem.quantity}} {{cartItem.qtyUnit}} &nbsp;&nbsp;&nbsp;<span class="ion-cash assertive "> {{currencyCode}} {{cartItem.amount}} </span> 
+            <a class="button button-icon ion-ios-minus-outline fleft assertive" ng-click = "removeFromCart($index)"></a>
+            </div>
+          </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+
+    <script id="add-tocart-modal.html" type="text/ng-template">
+      <ion-modal-view>
+          <ion-header-bar class="bar-dark">
+              <h1 class="title">Add to Cart</h1>
+              <button class="button button-icon" ng-click="closeAddToCartModal()">
+                  <i class="icon ion-android-close"></i>
+              </button>
+          </ion-header-bar>
+          <ion-content>
+              <form ng-submit="addToCart()">
+                  <div class="list list-inset">
+                      <label class="item item-input">
+                          <input ng-model="task.title" type="text" placeholder="quantity">
+                      </label>
+                      <label class="item item-input">
+                          <textarea ng-model="task.content" rows="5" placeholder="Task content"></textarea>
+                      </label>
+                      <ul class="list">
+                          <li class="item item-toggle">
+                              <label class="toggle toggle-balanced">
+                                  <input type="checkbox" ng-model="task.completed">
+                                 <div class="track">
+                                      <div class="handle"></div>
+                                  </div>
+                              </label>
+                          </li>
+                      </ul>
+                      <button type="submit" class="button button-block button-positive">Create Task</button>
+                  </div>
+              </form>
+          </ion-content>
+      </ion-modal-view>
+    </script>
+  </body>
+</html>

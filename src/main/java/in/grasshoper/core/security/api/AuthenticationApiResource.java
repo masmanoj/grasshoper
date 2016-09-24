@@ -44,10 +44,13 @@ public class AuthenticationApiResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	 public String authenticate(@RequestBody final String apiRequestBodyAsJson) {
+	 public String authenticate(@RequestBody final String apiRequestBodyAsJson,
+			 @RequestHeader("Referer") String referer) {
 		final JsonObject requestJson = new JsonParser().parse(apiRequestBodyAsJson).getAsJsonObject(); 
         final String username = requestJson.get("username").getAsString();
         final String password = requestJson.get("password").getAsString();
+        
+        System.out.println("referer : " +referer);
         
         final Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
         

@@ -1,0 +1,75 @@
+/* Empty. Add your own CSS if you like */
+
+
+.loader .scroll-content {
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin-top: -50px; /* the height of the centered content */
+  text-align: center;
+}
+.loader .scroll {
+  display: table-cell;
+  vertical-align: middle;
+}
+.loader .spinner svg {
+  width: 150px;
+  height: 150px;
+  stroke: #fff;
+  fill: #4686F0;
+}
+
+.product-item.ng-enter {
+    -webkit-animation: fadeInUp .5s;
+    animation: fadeInUp .5s;
+}
+
+.product-item.ng-enter-stagger {
+  -webkit-animation-delay:200ms;
+  animation-delay:200ms;
+
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}
+
+/*(.cat-item.ng-show-add {
+    -webkit-animation: fadeInUp .5s;
+    animation: fadeInUp .5s;
+}
+
+.cat-item.ng-show-stagger {
+  -webkit-animation-delay:200ms;
+  animation-delay:200ms;
+
+ 
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}*/
+
+
+
+.drop-list{
+    opacity: 1;
+    line-height: 2;
+    margin-top:  40px
+}
+
+.drop-list.ng-hide-add, .drop-list.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+
+.drop-list.ng-hide {
+  line-height: 0;
+  margin-top:  0px;
+  height:0px;
+}
+
+.fleft {
+	float: left !important;
+}
+.fright {
+	float: right !important;
+}
+
+
